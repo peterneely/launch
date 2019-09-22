@@ -1,0 +1,94 @@
+@import '../colors.scss';
+
+.tiles {
+  display: grid;
+  grid-gap: 12px;
+  grid-template-columns: repeat(8, 1fr);
+  margin: 48px 64px 64px;
+}
+
+.tile {
+  align-items: center;
+  background-color: $tile-background;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.title-icon-container {
+  display: flex;
+  height: 100%;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.tile-icon {
+  max-height: 100px;
+  max-width: 100%;
+}
+
+.tile-link {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 120px;
+  padding: 20px 10px 10px;
+  text-decoration: none;
+  width: 100%;
+}
+
+.tile-name {
+  color: lighten($background, 20%);
+  font-size: small;
+  font-weight: bold;
+
+  &:visited {
+    color: unset;
+  }
+}
+
+@media screen and (max-width: 2300px) {
+  .tiles {
+    margin: 36px 48px 48px;
+  }
+}
+
+@media screen and (max-width: 2100px) {
+  .tiles {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+@media screen and (max-width: 1700px) {
+  .tiles {
+    grid-template-columns: repeat(6, 1fr);
+    margin: 24px 36px 36px;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .tiles {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .tiles {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .tiles {
+    grid-template-columns: repeat(3, 1fr);
+    margin: 16px 24px 24px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .tiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

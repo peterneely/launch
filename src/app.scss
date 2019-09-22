@@ -1,0 +1,10 @@
+@import './colors.scss';
+
+html {
+  background-color: $background;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+}
