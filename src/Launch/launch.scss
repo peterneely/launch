@@ -2,23 +2,33 @@
 
 .tiles {
   display: grid;
-  grid-gap: 12px;
   grid-template-columns: repeat(8, 1fr);
   margin: 48px 64px 64px;
 }
 
 .tile {
+  border: 7px solid $background;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: $tile-hover-border;
+  }
+}
+
+.tile-content {
   align-items: center;
   background-color: $tile-background;
   border-radius: 4px;
   display: flex;
   justify-content: center;
   overflow: hidden;
+  padding-top: 20px;
 }
 
 .title-icon-container {
   display: flex;
-  height: 100%;
+  height: 100px;
   max-width: 100%;
   align-items: center;
   justify-content: center;
@@ -33,8 +43,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 120px;
-  padding: 20px 10px 10px;
+  padding: 0 10px 10px;
   text-decoration: none;
   width: 100%;
 }
@@ -43,6 +52,10 @@
   color: lighten($background, 20%);
   font-size: small;
   font-weight: bold;
+  overflow: hidden;
+  padding-top: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   &:visited {
     color: unset;
@@ -85,10 +98,20 @@
     grid-template-columns: repeat(3, 1fr);
     margin: 16px 24px 24px;
   }
+
+  .tile-name {
+    max-width: 175px;
+  }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 680px) {
   .tiles {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .tile-name {
+    max-width: 150px;
   }
 }

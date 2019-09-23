@@ -4,12 +4,14 @@ import PropTypes from "prop-types";
 export const Tile = ({ icon, link, name }) => {
   return (
     <div className="tile">
-      <a className="tile-link" href={link}>
-        <div className="title-icon-container">
-          <img className="tile-icon" src={icon} alt="" />
-        </div>
-        <div className="tile-name">{name}</div>
-      </a>
+      <div className="tile-content">
+        <a className="tile-link" href={link}>
+          <div className="title-icon-container">
+            <img className="tile-icon" src={icon} alt="" />
+          </div>
+          <div className="tile-name">{name}</div>
+        </a>
+      </div>
     </div>
   );
 };

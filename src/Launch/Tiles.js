@@ -6,8 +6,8 @@ import './launch.scss';
 export const Tiles = () => {
   return (
     <main className="tiles">
-      {links.map(({ icon, link, name }) => (
-        <Tile icon={icon} key={name} link={link} name={name} />
+      {links.map(({ icon, link, name }, index) => (
+        <Tile icon={icon} key={index} link={link} name={name} />
       ))}
     </main>
   );
