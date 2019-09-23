@@ -9,10 +9,14 @@
 .tile {
   border: 7px solid $background;
   border-radius: 6px;
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease;
 
   &:hover {
     border-color: $tile-hover-border;
+
+    .tile-content {
+      border-radius: unset;
+    }
   }
 }
 
