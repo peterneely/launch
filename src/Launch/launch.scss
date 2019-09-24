@@ -7,17 +7,19 @@
 }
 
 .tile {
-  border: 7px solid $background;
   border-radius: 6px;
-  transition: border-color 0.3s ease;
+  padding: 7px;
+  transition: background-color 0.3s ease;
 
   &:hover {
-    border-color: $tile-hover-border;
-
-    .tile-content {
-      border-radius: unset;
-    }
+    background-color: $tile-hover-border;
   }
+}
+
+.tile-content-border {
+  background-color: $background;
+  border-radius: 4px;
+  // padding: 4px;
 }
 
 .tile-content {
