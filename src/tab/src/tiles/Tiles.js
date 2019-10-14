@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Tile } from './Tile';
-import { links } from './links';
-import './launch.scss';
+import { getLinks } from '../links';
+import './tiles.scss';
 
 export class Tiles extends Component {
   constructor(props) {
@@ -10,14 +10,8 @@ export class Tiles extends Component {
   }
 
   componentDidMount() {
-    window.chrome.runtime.sendMessage({ message: 'GET_BOOKMARKS' }, ({ bookmarks } = {}) => {
-      if (bookmarks) {
-        const tiles = bookmarks.map(({ title, url }) => {
-          const { icon } = links.find(({ link }) => link === url) || {};
-          return { icon, link: url, name: title };
-        })
-        this.setState({ tiles });
-      }
+    getLinks().then(links => {
+      this.setState({ tiles: links });
     });
   }
 
