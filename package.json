@@ -8,10 +8,12 @@
     "prebuild": "npm run clean",
     "build:contentscript-background": "NODE_ENV=production webpack --config webpack.config.js",
     "build:popup": "npm run build --prefix src/popup && cd src/popup/build && cpy * /static/* ../../../dist/popup --parents",
+    "build:tab": "npm run build --prefix src/tab && cd src/tab/build && cpy * /static/* ../../../dist/tab --parents",
     "build": "npm-run-all build:*",
     "prewatch": "npm run clean",
     "watch:contentscript-background": "NODE_ENV=development webpack --config webpack.config.js -w",
     "watch:popup": "npm run watch:build --prefix src/popup",
+    "watch:tab": "npm run watch:build --prefix src/tab",
     "watch": "npm-run-all --parallel watch:*",
     "zip": "bestzip extension.zip dist/*"
   },
