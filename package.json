@@ -1,8 +1,8 @@
 {
-  "name": "chrome-extension-with-react-and-typescript-starter-pack",
+  "name": "launch",
   "version": "1.0.0",
-  "description": "Chrome Extension with React and Typescript Starter Pack",
-  "homepage": "https://github.com/thmsgbrt/Chrome-Extension-with-React-and-Typescript-Starter-Pack#readme",
+  "description": "Launch websites from tiles. Forked from https://github.com/thmsgbrt/Chrome-Extension-with-React-and-Typescript-Starter-Pack",
+  "homepage": "https://github.com/peterneely/launch",
   "scripts": {
     "clean": "rm -rf dist && cpy manifest.json dist && cpy src/assets/* dist/assets",
     "prebuild": "npm run clean",
@@ -18,11 +18,11 @@
     "zip": "bestzip extension.zip dist/*"
   },
   "bugs": {
-    "url": "https://github.com/thmsgbrt/Chrome-Extension-with-React-and-Typescript-Starter-Pack/issues"
+    "url": "https://github.com/peterneely/launch/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thmsgbrt/Chrome-Extension-with-React-and-Typescript-Starter-Pack"
+    "url": "https://github.com/peterneely/launch"
   },
   "keywords": [
     "chrome",
@@ -30,7 +30,7 @@
     "typescript",
     "react"
   ],
-  "author": "Guibert Thomas",
+  "author": "Peter Neely (thanks to Guibert Thomas)",
   "license": "ISC",
   "devDependencies": {
     "@types/chrome": "0.0.86",
