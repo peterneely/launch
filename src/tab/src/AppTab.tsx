@@ -4,12 +4,6 @@ import './appTab.scss';
 
 export class AppTab extends Component {
   render() {
-    return (
-      <div className="tab">
-        <Tiles />
-      </div>
-    );
+    return <Tiles />;
   }
-  
-  
 }
