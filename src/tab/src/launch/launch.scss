@@ -1,0 +1,122 @@
+@import '../colors.scss';
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  margin: 48px 64px 64px;
+}
+
+.tile {
+  border-radius: 6px;
+  padding: 7px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $tile-hover-border;
+  }
+}
+
+.tile-content-border {
+  background-color: $background;
+  border-radius: 4px;
+  // padding: 4px;
+}
+
+.tile-content {
+  align-items: center;
+  background-color: $tile-background;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.title-icon-container {
+  display: flex;
+  height: 100px;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.tile-icon {
+  max-height: 100px;
+  max-width: 100%;
+}
+
+.tile-link {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px 10px;
+  text-decoration: none;
+  width: 100%;
+}
+
+.tile-name {
+  color: lighten($background, 20%);
+  font-size: small;
+  font-weight: bold;
+  overflow: hidden;
+  padding-top: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:visited {
+    color: unset;
+  }
+}
+
+@media screen and (max-width: 2300px) {
+  .tiles {
+    margin: 36px 48px 48px;
+  }
+}
+
+@media screen and (max-width: 2100px) {
+  .tiles {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+@media screen and (max-width: 1700px) {
+  .tiles {
+    grid-template-columns: repeat(6, 1fr);
+    margin: 24px 36px 36px;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .tiles {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .tiles {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .tiles {
+    grid-template-columns: repeat(3, 1fr);
+    margin: 16px 24px 24px;
+  }
+
+  .tile-name {
+    max-width: 175px;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .tiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .tile-name {
+    max-width: 150px;
+  }
+}
