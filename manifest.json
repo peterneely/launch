@@ -6,7 +6,6 @@
   "description": "Chrome Extension with React and Typescript Starter Pack",
   "permissions": ["bookmarks", "tabs", "activeTab", "storage"],
   "browser_action": {
-    "default_popup": "popup/index.html",
     "default_title": "React Chrome Extension Starter"
   },
   "chrome_url_overrides": {
