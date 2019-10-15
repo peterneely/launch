@@ -1,0 +1,14 @@
+.links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 10px;
+}
+
+.link-column {
+  padding: 4px;
+  white-space: nowrap;
+
+  &.mod-icon {
+    min-width: 300px;
+  }
+}
