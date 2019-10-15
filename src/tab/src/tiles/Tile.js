@@ -1,23 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Tile = ({ icon, link, name }) => {
+export const Tile = ({ title, url, icon }) => {
   return (
     <div className="tile">
-      <div className="tile-border">
-        <a className="tile-link" href={link}>
-          <div className="title-icon-container">
-            {icon && <img className="tile-icon" src={icon} alt="" />}
-          </div>
-          <div className="tile-name">{name}</div>
-        </a>
+      <div className="tile-border tile-border-outer">
+        <div className="tile-border tile-border-inner">
+          <a className="tile-link" href={url}>
+            <div className="title-icon-container">
+              {icon && <img className="tile-icon" src={icon} alt="" />}
+            </div>
+            <div className="tile-title">{title}</div>
+          </a>
+        </div>
       </div>
     </div>
   );
 };
 
 Tile.propTypes = {
-  icon: PropTypes.string.isRequired, // URL to icon
-  link: PropTypes.string.isRequired, // URL to launch
-  name: PropTypes.string.isRequired, // name of tile
+  title: PropTypes.string.isRequired, // tile title
+  url: PropTypes.string.isRequired, // tile URL to launch
+  icon: PropTypes.string.isRequired, // tile icon
 };

@@ -1,6 +1,6 @@
 import { getChromeLinks } from './chrome';
-import { staticLinks } from './static';
+import { sortedLinks } from './static';
 
 const useBrowserLinks = true;
 
-export const getLinks = () => useBrowserLinks ? getChromeLinks() : Promise.resolve(staticLinks);
+export const getLinks = () => useBrowserLinks ? getChromeLinks() : Promise.resolve(sortedLinks);

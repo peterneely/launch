@@ -1,5 +1,10 @@
-@import './colors.scss';
+@import './variables.scss';
 
 html {
-  background-color: $background;
+  background-color: $color-background-loading;
+  transition: $transition;
+
+  &.mod-loaded {
+    background-color: $color-background;
+  }
 }

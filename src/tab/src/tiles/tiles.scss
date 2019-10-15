@@ -1,29 +1,49 @@
-@import '../colors.scss';
-
-$tileWidth: 260px;
+@import '../variables.scss';
 
 .tiles {
+  background-color: $color-background-loading;
   display: grid;
   grid-template-columns: repeat(auto-fill, $tileWidth);
   justify-content: center;
-  margin: 24px 24px 36px;
+  opacity: 0;
+  padding: 24px 24px 36px;
+  transition: $transition;
+
+  &.mod-loaded {
+    background-color: $color-background;
+    opacity: 1;
+  }
 }
 
 .tile {
   border-radius: 8px;
-  transition: all 0.2s ease;
   width: 100%;
 
   &:hover {
-    background-color: $tile-background;
+    .tile-border-outer {
+      background-color: $color-tile-background;
+    }
+
+    .tile-border-inner {
+      background-color: $color-background;
+    }
   }
 }
 
 .tile-border {
-  background-color: $background;
   border-radius: 6px;
-  margin: 4px;
+  position: relative;
+  transition: $transition;
+  z-index: 2;
+}
+
+.tile-border-outer {
+  padding: 4px;
+}
+
+.tile-border-inner {
   padding: 6px;
+  z-index: 4;
 }
 
 .title-icon-container {
@@ -40,17 +60,19 @@ $tileWidth: 260px;
 }
 
 .tile-link {
-  background-color: $tile-background;
+  background-color: $color-tile-background;
   border-radius: 4px;
   display: flex;
   flex-direction: column;
   padding: 10px;
+  position: relative;
   text-align: center;
   text-decoration: none;
+  z-index: 6;
 }
 
-.tile-name {
-  color: lighten($background, 20%);
+.tile-title {
+  color: $color-tile-title;
   font-size: small;
   font-weight: bold;
   overflow: hidden;
