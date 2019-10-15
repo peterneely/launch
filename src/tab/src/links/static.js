@@ -464,7 +464,7 @@ const links = [
 ];
 
 export const getDomain = url => {
-  const matches = url.match(/^https?\:\/\/([^\/:?#]+)(?:[\/:?#]|$)/i);
+  const matches = url.match(/^https?:\/\/([^/:?#]+)(?:[/:?#]|$)/i);
   return matches ? matches[1] : url;
 };
 

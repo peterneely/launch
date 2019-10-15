@@ -31,6 +31,7 @@
   "author": "Peter Neely (thanks to Guibert Thomas)",
   "license": "ISC",
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "@types/chrome": "0.0.86",
     "@types/node": "^12.6.8",
     "awesome-typescript-loader": "^5.2.1",
