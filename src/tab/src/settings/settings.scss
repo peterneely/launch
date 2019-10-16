@@ -1,9 +1,5 @@
 @import '../variables.scss';
 
-.button-save {
-  width: 150px;
-}
-
 .button-toggle-container {
   position: absolute;
   top: 10px;
@@ -24,11 +20,6 @@
   &.mod-disabled {
     filter: $blur;
   }
-}
-
-.link-configs-container {
-  display: flex;
-  overflow: auto;
 }
 
 .link-configs {
@@ -54,12 +45,25 @@
   max-height: 80vh;
   max-width: 80vw;
   min-height: 80vh;
-  // min-width: 80vw;
+  min-width: 40vw;
   padding: 20px;
   position: fixed;
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 1010;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.modal-footer {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
 }
 
 .modal-overlay {
