@@ -26,17 +26,17 @@
   }
 }
 
-.links-container {
+.link-configs-container {
   display: flex;
   overflow: auto;
 }
 
-.links {
+.link-configs {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
 
-.link-column {
+.link-config {
   padding: 4px;
   white-space: nowrap;
 

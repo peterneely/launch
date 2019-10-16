@@ -2,19 +2,19 @@ import React, { Component, Fragment } from 'react';
 import { Fade } from './layout/Fade';
 import { Settings } from './settings/Settings';
 import { Tiles } from './tiles/Tiles';
-import { getLinks } from './links';
+import { getLinkConfigs } from './links';
 import './appTab.scss';
 
 export class AppTab extends Component {
   constructor(props) {
     super(props);
-    this.state = { links: [] };
+    this.state = { linkConfigs: [] };
   }
 
   componentDidMount() {
-    getLinks().then(links => {
+    getLinkConfigs().then(linkConfigs => {
       this.setBackgroundColor();
-      this.setState({ links });
+      this.setState({ linkConfigs });
     });
   }
 
@@ -23,14 +23,14 @@ export class AppTab extends Component {
   };
 
   render() {
-    const { links } = this.state;
+    const { linkConfigs } = this.state;
     return (
-      <Fade show={!!links.length} className="app">
+      <Fade show={!!linkConfigs.length} className="app">
         <Settings>
           {({ settingsButton, settingsModal }) => (
             <Fragment>
               {settingsButton}
-              <Tiles links={links} disabled={!!settingsModal} />
+              <Tiles linkConfigs={linkConfigs} disabled={!!settingsModal} />
               {settingsModal}
             </Fragment>
           )}
