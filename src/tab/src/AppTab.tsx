@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { CSSTransition } from 'react-transition-group';
-import { Tiles } from './tiles/Tiles';
+import { Fade } from './layout/Fade';
 import { Settings } from './settings/Settings';
+import { Tiles } from './tiles/Tiles';
 import { getLinks } from './links';
 import './appTab.scss';
 
@@ -24,23 +24,18 @@ export class AppTab extends Component {
 
   render() {
     const { links } = this.state;
-    const hasLinks = !!links.length;
     return (
-      <CSSTransition in={hasLinks} timeout={200} classNames="app-container">
-        <div className="app">
-          {hasLinks && (
-            <Settings>
-              {({ renderSettingsButton, renderSettingsModal, settingsModalOpen }) => (
-                <Fragment>
-                  {renderSettingsButton()}
-                  <Tiles links={links} disabled={settingsModalOpen} />
-                  {renderSettingsModal()}
-                </Fragment>
-              )}
-            </Settings>
+      <Fade show={!!links.length} className="app">
+        <Settings>
+          {({ renderSettingsButton, renderSettingsModal, settingsModalOpen }) => (
+            <Fragment>
+              {renderSettingsButton()}
+              <Tiles links={links} disabled={settingsModalOpen} />
+              {renderSettingsModal()}
+            </Fragment>
           )}
-        </div>
-      </CSSTransition>
+        </Settings>
+      </Fade>
     );
   }
 }

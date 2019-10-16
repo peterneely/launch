@@ -13,18 +13,15 @@ html {
   }
 }
 
-.app-container-enter {
-  background-color: $color-background-loading;
-  opacity: 0;
-}
-
-.app-container-enter-active,
-.app-container-enter-done {
-  background-color: $color-background;
-  opacity: 1;
-  transition: $transition;
-}
-
 .app {
   position: relative;
+  background-color: $color-background-loading;
+  opacity: 0;
+  transition: $transition;
+
+  &.mod-enter-active,
+  &.mod-enter-done {
+    background-color: $color-background;
+    opacity: 1;
+  }
 }
