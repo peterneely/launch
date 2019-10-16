@@ -14,8 +14,8 @@ export class Tiles extends Component {
     const { disabled, links } = this.props;
     return (
       <main className={toClassNames('tiles', disabled ? 'mod-disabled' : null)}>
-        {links.map(({ title, url, icon }, index) => (
-          <Tile key={index} title={title} url={url} icon={icon} />
+        {links.map(({ title, url, image }, index) => (
+          <Tile key={index} title={title} url={url} image={image} />
         ))}
       </main>
     );
@@ -27,7 +27,7 @@ Tiles.propTypes = {
     PropTypes.shape({
       title: PropTypes.string.isRequired, // tile title
       url: PropTypes.string.isRequired, // tile URL to launch
-      icon: PropTypes.string.isRequired, // tile icon
+      image: PropTypes.string.isRequired, // tile image
     })
   ),
   disabled: PropTypes.bool,

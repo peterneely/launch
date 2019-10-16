@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Tile = ({ title, url, icon }) => {
+export const Tile = ({ title, url, image }) => {
   return (
     <div className="tile">
       <div className="tile-border tile-border-outer">
         <div className="tile-border tile-border-inner">
           <a className="tile-link" href={url}>
-            <div className="title-icon-container">
-              {icon && <img className="tile-icon" src={icon} alt="" />}
+            <div className="title-image-container">
+              {image && <img className="tile-image" src={image} alt="" />}
             </div>
             <div className="tile-title">{title}</div>
           </a>
@@ -21,5 +21,5 @@ export const Tile = ({ title, url, icon }) => {
 Tile.propTypes = {
   title: PropTypes.string.isRequired, // tile title
   url: PropTypes.string.isRequired, // tile URL to launch
-  icon: PropTypes.string.isRequired, // tile icon
+  image: PropTypes.string.isRequired, // tile image
 };

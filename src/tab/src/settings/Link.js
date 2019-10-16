@@ -2,13 +2,12 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 const Link = ({ link }) => {
-  const { title, domain, icon } = link;
-  // console.log(link, { title, domain, icon });
+  const { title, domain, image } = link;
   return (
         <Fragment>
             <div className="link-column mod-title">{title}</div>
             <div className="link-column mod-domain">{domain}</div>
-            <input className="link-column mod-icon" type="text" value={icon}/>
+            <input className="link-column mod-image" type="text" value={image}/>
         </Fragment>
     );
 };
@@ -18,7 +17,7 @@ Link.propTypes = {
     title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     domain: PropTypes.string.isRequired,
-    icon: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
   }).isRequired,
 };
 

@@ -46,7 +46,7 @@
   z-index: 4;
 }
 
-.title-icon-container {
+.title-image-container {
   align-items: center;
   display: flex;
   height: 100px;
@@ -54,7 +54,7 @@
   margin: 10px 0;
 }
 
-.tile-icon {
+.tile-image {
   max-height: 100px;
   max-width: calc(#{$tileWidth} * 0.8);
 }

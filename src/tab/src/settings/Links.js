@@ -20,10 +20,10 @@ Links.propTypes = {
       title: PropTypes.string.isRequired,
       domain: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
-      icon: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
     }).isRequired
   ),
-  onEditIcon: PropTypes.func.isRequired,
+  onEditImage: PropTypes.func.isRequired,
 };
 
 // Links.defaultProps = {

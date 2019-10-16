@@ -18,19 +18,19 @@ export class Settings extends Component {
     }
   }
 
-  handleEditIcon = () => {
+  handleEditImage = () => {
     this.setState({ dirty: true });
   }
 
   handleSave = () => {
     const { links } = this.state;
-    const iconsByDomain = links.reduce((iconsByDomain, link) => {
-      const { domain, icon } = link;
-      iconsByDomain[domain] = icon;
-      return iconsByDomain;
+    const imagesByDomain = links.reduce((imagesByDomain, link) => {
+      const { domain, image } = link;
+      imagesByDomain[domain] = image;
+      return imagesByDomain;
     }, {});
-    window.chrome.storage.sync.set({ iconsByDomain }, () => {
-      window.chrome.storage.sync.get(['iconsByDomain'], results => {
+    window.chrome.storage.sync.set({ imagesByDomain }, () => {
+      window.chrome.storage.sync.get(['imagesByDomain'], results => {
         console.log(results);
       });
     });
@@ -63,7 +63,7 @@ export class Settings extends Component {
       showSettings && (
         <Fragment>
           <div className="modal">
-            <Links links={links} onEditIcon={this.handleEditIcon} />
+            <Links links={links} onEditImage={this.handleEditImage} />
             <button className="button-save" onClick={this.handleSave}>Save</button>
           </div>
           <div className={overlayClasses} onClick={this.handleBlurModal} />

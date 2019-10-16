@@ -7,9 +7,9 @@ export const getChromeLinks = sorted => new Promise((resolve, reject) => {
     if (bookmarks) {
       const links = bookmarks.map(({ title, url }) => {
         const domain = getDomain(url);
-        const { icon } = linksByDomain[domain] || {};
-        return { title, domain, url, icon };
-      })
+        const { image } = linksByDomain[domain] || {};
+        return { title, domain, url, image };
+      });
       resolve(sorted ? sortBy(links, ({ title = '' }) => title.toLowerCase()) : links);
     } else {
       reject(new Error('Could not get Chrome bookmarks'));
