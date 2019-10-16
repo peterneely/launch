@@ -1,25 +1,29 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 // import PropTypes from 'prop-types';
-import { Settings } from './Settings';
+import './settings.scss';
 
 export class SettingsActivator extends Component {
   constructor(props) {
     super(props);
-    this.state = { open: false };
+    this.state = { showSettings: false };
   }
+
   handleToggleSettings = () => {
-    const { open } = this.state;
-    this.setState({ open: !open });
+    const { showSettings } = this.state;
+    this.setState({ showSettings: !showSettings });
   };
+
+  renderActivator = () => (
+    <div className="activator-container">
+      <i className="activator fas fa-cog" onClick={this.handleToggleSettings} />
+    </div>
+  );
   
   render() {
-    const { open } = this.state;
+    const { children } = this.props;
+    const { showSettings } = this.state;
     return (
-      <div className="activator-container">
-        <i className="activator fas fa-cog" onClick={this.handleToggleSettings}>
-          {open && <Settings />}
-        </i>
-      </div>
+      <Fragment>{children(this.renderActivator, showSettings)}</Fragment>
     );
   }
 };

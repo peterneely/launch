@@ -3,24 +3,11 @@ import PropTypes from 'prop-types';
 import { Link } from './Link';
 
 const Links = ({ links }) => {
-  const handleSaveIcons = () => {
-    const iconsByDomain = links.reduce((iconsByDomain, link) => {
-      const { domain, icon } = link;
-      iconsByDomain[domain] = icon;
-      return iconsByDomain;
-    }, {});
-    window.chrome.storage.sync.set({ iconsByDomain }, () => {
-      window.chrome.storage.sync.get(['iconsByDomain'], results => {
-        console.log(results);
-      });
-    });
-  };
   return (
     <div className="links">
       {links.map((link, index) => {
         return <Link key={index} link={link} />
       })}
-      <button onClick={handleSaveIcons}>Save</button>
     </div>
   );
 };
