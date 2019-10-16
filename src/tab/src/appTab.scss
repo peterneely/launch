@@ -4,9 +4,25 @@ html {
   background-color: $color-background-loading;
   transition: $transition;
 
+  &.mod-disabled {
+    overflow: hidden;
+  }
+
   &.mod-loaded {
     background-color: $color-background;
   }
+}
+
+.app-container-enter {
+  background-color: $color-background-loading;
+  opacity: 0;
+}
+
+.app-container-enter-active,
+.app-container-enter-done {
+  background-color: $color-background;
+  opacity: 1;
+  transition: $transition;
 }
 
 .app {

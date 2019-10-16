@@ -1,12 +1,12 @@
 @import '../variables.scss';
 
-.activator-container {
+.button-container {
   position: absolute;
   top: 10px;
   right: 10px;
 }
 
-.activator {
+.button {
   color: $color-tile-background;
   cursor: pointer;
   font-size: 3em;
@@ -15,6 +15,10 @@
 
   &:hover {
     opacity: 1;
+  }
+
+  &.mod-disabled {
+    filter: $blur;
   }
 }
 
@@ -59,6 +63,10 @@
   top: 0;
   width: 100%;
   z-index: 1000;
+
+  &.mod-clickable {
+    cursor: pointer;
+  }
 }
 
 .settings {

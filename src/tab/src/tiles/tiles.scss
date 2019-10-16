@@ -1,17 +1,17 @@
 @import '../variables.scss';
 
 .tiles {
-  background-color: $color-background-loading;
   display: grid;
   grid-template-columns: repeat(auto-fill, $tileWidth);
   justify-content: center;
-  opacity: 0;
   padding: 24px 24px 36px;
   transition: $transition;
 
-  &.mod-loaded {
-    background-color: $color-background;
-    opacity: 1;
+  &.mod-disabled {
+
+    .tile-link {
+      filter: $blur;
+    }
   }
 }
 
@@ -68,6 +68,7 @@
   position: relative;
   text-align: center;
   text-decoration: none;
+  transition: $transition;
   z-index: 6;
 }
 
