@@ -1,12 +1,16 @@
 @import '../variables.scss';
 
-.button-container {
+.button-save {
+  width: 150px;
+}
+
+.button-toggle-container {
   position: absolute;
   top: 10px;
   right: 10px;
 }
 
-.button {
+.button-toggle {
   color: $color-tile-background;
   cursor: pointer;
   font-size: 3em;
@@ -22,11 +26,14 @@
   }
 }
 
+.links-container {
+  display: flex;
+  overflow: auto;
+}
+
 .links {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  margin: 10px;
-  overflow: auto;
 }
 
 .link-column {
@@ -42,6 +49,7 @@
   background-color: $color-tile-background;
   border-radius: 6px;
   display: flex;
+  flex-direction: column;
   left: 50%;
   max-height: 80vh;
   max-width: 80vw;
@@ -67,10 +75,4 @@
   &.mod-clickable {
     cursor: pointer;
   }
-}
-
-.settings {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
 }

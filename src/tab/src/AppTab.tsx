@@ -27,11 +27,11 @@ export class AppTab extends Component {
     return (
       <Fade show={!!links.length} className="app">
         <Settings>
-          {({ renderSettingsButton, renderSettingsModal, settingsModalOpen }) => (
+          {({ settingsButton, settingsModal }) => (
             <Fragment>
-              {renderSettingsButton()}
-              <Tiles links={links} disabled={settingsModalOpen} />
-              {renderSettingsModal()}
+              {settingsButton}
+              <Tiles links={links} disabled={!!settingsModal} />
+              {settingsModal}
             </Fragment>
           )}
         </Settings>
