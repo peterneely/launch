@@ -5,7 +5,6 @@
   grid-template-columns: repeat(auto-fill, $tileWidth);
   justify-content: center;
   padding: 2em 4em 3em;
-  transition: $transition;
 
   &.mod-disabled {
 

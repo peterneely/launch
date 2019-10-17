@@ -3,10 +3,16 @@ import { Fade } from './layout/Fade';
 import { Settings } from './settings/Settings';
 import { Tiles } from './tiles/Tiles';
 import { getLinkConfigs } from './links';
-import './appTab.scss';
+import './app.scss';
 
-export class AppTab extends Component {
-  constructor(props) {
+interface IState {
+  linkConfigs: string[];
+}
+
+interface IProps {}
+
+export class App extends Component<IProps, IState> {
+  constructor(props: Readonly<IProps>) {
     super(props);
     this.state = { linkConfigs: [] };
   }
