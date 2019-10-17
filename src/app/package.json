@@ -1,5 +1,5 @@
 {
-  "name": "tab",
+  "name": "Launch",
   "version": "0.1.0",
   "private": true,
   "homepage": "./",
@@ -17,7 +17,7 @@
     "typescript": "3.5.3"
   },
   "scripts": {
-    "watch:build": "cra-build-watch -v --build-path ../../dist/tab",
+    "watch:build": "cra-build-watch -v --build-path ../../dist/app",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

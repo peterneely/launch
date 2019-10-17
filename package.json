@@ -7,11 +7,11 @@
     "clean": "rm -rf dist && cpy manifest.json dist && cpy src/assets/* dist/assets",
     "prebuild": "npm run clean",
     "build:contentscript-background": "NODE_ENV=production webpack --config webpack.config.js",
-    "build:tab": "npm run build --prefix src/tab && cd src/tab/build && cpy * /static/* ../../../dist/tab --parents",
+    "build:app": "npm run build --prefix src/app && cd src/app/build && cpy * /static/* ../../../dist/app --parents",
     "build": "npm-run-all build:*",
     "prewatch": "npm run clean",
     "watch:contentscript-background": "NODE_ENV=development webpack --config webpack.config.js -w",
-    "watch:tab": "npm run watch:build --prefix src/tab",
+    "watch:app": "npm run watch:build --prefix src/app",
     "watch": "npm-run-all --parallel watch:*",
     "zip": "bestzip extension.zip dist/*"
   },
