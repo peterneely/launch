@@ -20,7 +20,7 @@
     "typescript": "3.5.3"
   },
   "scripts": {
-    "watch:build": "cra-build-watch -v --build-path ../../dist/app",
+    "watch:build": "cra-build-watch -v --build-path ../../dist/main",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
