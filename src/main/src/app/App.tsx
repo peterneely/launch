@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as appActions from './actions';
 import { Fade } from './layout/Fade';
 import { Settings } from './settings/Settings';
 import { Tiles } from './tiles/Tiles';
-import { getLinkConfigs } from './links';
 import './app.scss';
 
-interface IState {
-  linkConfigs: string[];
+interface IProps {
+  actions: object,
+  tiles: string[]
 }
 
-interface IProps {}
-
-export class App extends Component<IProps, IState> {
-  constructor(props: Readonly<IProps>) {
-    super(props);
-    this.state = { linkConfigs: [] };
-  }
+class App extends Component<IProps> {
 
   componentDidMount() {
-    getLinkConfigs().then(linkConfigs => {
+    const { actions } = this.props;
+    actions.getTiles();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { tiles } = this.props;
+    if (!prevProps.tiles.length && tiles.length) {
       this.setBackgroundColor();
-      this.setState({ linkConfigs });
-    });
+    }
   }
 
   setBackgroundColor = () => {
@@ -29,13 +31,26 @@ export class App extends Component<IProps, IState> {
   };
 
   render() {
-    const { linkConfigs } = this.state;
+    const { tiles } = this.props;
     return (
-      <Fade show={!!linkConfigs.length} className="app">
+      <Fade show={!!tiles.length} className="app">
         <Settings>
-          {settingsOpen => <Tiles linkConfigs={linkConfigs} disabled={settingsOpen} />}
+          {settingsOpen => <Tiles tiles={tiles} disabled={settingsOpen} />}
         </Settings>
       </Fade>
     );
   }
 }
+
+const mapStateToProps = state => {
+  const { app: { tiles } = {} } = state;
+  return { tiles };
+}
+
+const mapDispatchToProps = dispatch => {
+  return { actions: bindActionCreators(appActions, dispatch) };
+}
+
+const component = connect(mapStateToProps, mapDispatchToProps)(App);
+
+export { component as App };

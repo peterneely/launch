@@ -8,7 +8,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import './index.css';
 
 const store = configureStore();
-console.log(store.getState(), process.env.NODE_ENV);
 
 const renderApp = () => {
   ReactDOM.render(
