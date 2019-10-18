@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Fade } from './layout/Fade';
 import { Settings } from './settings/Settings';
 import { Tiles } from './tiles/Tiles';
@@ -33,13 +33,7 @@ export class App extends Component<IProps, IState> {
     return (
       <Fade show={!!linkConfigs.length} className="app">
         <Settings>
-          {({ settingsButton, settingsModal }) => (
-            <Fragment>
-              {settingsButton}
-              <Tiles linkConfigs={linkConfigs} disabled={!!settingsModal} />
-              {settingsModal}
-            </Fragment>
-          )}
+          {settingsOpen => <Tiles linkConfigs={linkConfigs} disabled={settingsOpen} />}
         </Settings>
       </Fade>
     );

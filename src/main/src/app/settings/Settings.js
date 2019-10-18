@@ -67,40 +67,49 @@ export class Settings extends Component {
   };
 
   renderSettingsModal = () => {
-    const { dirty, linkConfigs, show } = this.state;
+    const { dirty, linkConfigs } = this.state;
     const createOverlayClass = () =>
       toClassNames('modal-overlay', !dirty ? 'mod-clickable' : null);
     return (
-      show && (
-        <Fragment>
-          <div className="modal">
-            <div className="modal-body">
-              <LinkConfigs
-                linkConfigs={linkConfigs}
-                onEditConfig={this.handleEditConfig}
-              />
-            </div>
-            <div className="modal-footer">
-              <Button className="button-cancel" label="Cancel" onClick={this.handleToggle} />
-              <Button className="button-save" label="Save" onClick={this.handleSave} />
-            </div>
+      <Fragment>
+        <div className="modal">
+          <div className="modal-body">
+            <LinkConfigs
+              linkConfigs={linkConfigs}
+              onEditConfig={this.handleEditConfig}
+            />
           </div>
-          <div
-            className={createOverlayClass()}
-            onClick={this.handleBlurModal}
-          />
-        </Fragment>
-      )
+          <div className="modal-footer">
+            <Button
+              className="button-cancel"
+              label="Cancel"
+              onClick={this.handleToggle}
+            />
+            <Button
+              className="button-save"
+              label="Save"
+              onClick={this.handleSave}
+            />
+          </div>
+        </div>
+        <div
+          className={createOverlayClass()}
+          onClick={this.handleBlurModal}
+        />
+      </Fragment>
     );
   };
 
   render() {
     const { children } = this.props;
-    const childProps = {
-      settingsButton: this.renderSettingsButton(),
-      settingsModal: this.renderSettingsModal(),
-    };
-    return <Fragment> {children(childProps)} </Fragment>;
+    const { show: settingsOpen } = this.state;
+    return (
+      <Fragment>
+        {this.renderSettingsButton()}
+        {children(settingsOpen)}
+        {settingsOpen && this.renderSettingsModal()}
+      </Fragment>
+    );
   }
 }
 
