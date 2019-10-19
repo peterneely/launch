@@ -1,7 +1,7 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { composeWithDevTools } from 'remote-redux-devtools'
 import thunkMiddleware from 'redux-thunk'
-import { reducer as appReducer } from './app/reducer';
+import { reducer as appReducer } from './reducer';
 
 const rootReducer = combineReducers({
   app: appReducer
