@@ -1,8 +1,6 @@
-import sortBy from 'lodash/sortBy';
-
 const createPath = fileName => `https://peterneely.github.io/icons/${fileName}`;
 
-const linkConfigs = [
+const links = [
   {
     title: '1Password',
     url: 'http://neelys.1password.com/',
@@ -463,24 +461,10 @@ const linkConfigs = [
   },
 ];
 
-export const getDomain = url => {
-  const matches = url.match(/^https?:\/\/([^/:?#]+)(?:[/:?#]|$)/i);
-  return matches ? matches[1] : url;
-};
+const peterImagesByUrl = links.reduce((imagesByUrl, link) => {
+  const { url, image } = link;
+  imagesByUrl[url] = image;
+  return imagesByUrl;
+}, {});
 
-const { domainLinkConfigs, linkConfigsByDomain } = linkConfigs.reduce(
-  (info, link) => {
-    const { url } = link;
-    const domain = getDomain(url);
-    const domainLink = { ...link, domain };
-    info.domainLinkConfigs.push(domainLink);
-    info.linkConfigsByDomain[domain] = domainLink;
-    return info;
-  },
-  { domainLinkConfigs: [], linkConfigsByDomain: {} }
-);
-const sortedLinkConfigs = sortBy(domainLinkConfigs, ({ title = '' }) =>
-  title.toLowerCase()
-);
-
-export { domainLinkConfigs, linkConfigsByDomain, sortedLinkConfigs };
+export { peterImagesByUrl };

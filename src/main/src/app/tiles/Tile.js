@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Tile = ({ title, url, image }) => {
+export const Tile = ({ tile }) => {
+  const { title, url, image } = tile;
   return (
     <div className="tile">
       <div className="tile-border tile-border-outer">
@@ -18,8 +19,13 @@ export const Tile = ({ title, url, image }) => {
   );
 };
 
-Tile.propTypes = {
+export const tilePropType = PropTypes.shape({
   title: PropTypes.string.isRequired, // tile title
   url: PropTypes.string.isRequired, // tile URL to launch
-  image: PropTypes.string.isRequired, // tile image
+  domain: PropTypes.string.isRequired, // tile URL domain
+  image: PropTypes.string, // tile image URL
+});
+
+Tile.propTypes = {
+  tile: tilePropType
 };

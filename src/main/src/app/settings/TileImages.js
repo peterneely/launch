@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-const LinkConfigs = ({ linkConfigs, onEditConfig }) => {
+const TileImages = ({ tiles, onEdit }) => {
   return (
     <div className="link-configs">
-      {linkConfigs.map((linkConfig, index) => {
-        const { title, domain, image } = linkConfig;
+      {tiles.map((tile, index) => {
+        const { title, domain, url, image } = tile;
         return (
           <Fragment key={index}>
             <div className="link-config mod-title">{title}</div>
@@ -14,7 +14,7 @@ const LinkConfigs = ({ linkConfigs, onEditConfig }) => {
               className="link-config mod-image"
               type="text"
               value={image}
-              onChange={onEditConfig(index)}
+              onChange={onEdit(url)}
             />
           </Fragment>
         );
@@ -23,8 +23,8 @@ const LinkConfigs = ({ linkConfigs, onEditConfig }) => {
   );
 };
 
-LinkConfigs.propTypes = {
-  linkConfigs: PropTypes.arrayOf(
+TileImages.propTypes = {
+  tiles: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       domain: PropTypes.string.isRequired,
@@ -32,7 +32,7 @@ LinkConfigs.propTypes = {
       image: PropTypes.string.isRequired,
     }).isRequired
   ),
-  onEditConfig: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
-export { LinkConfigs };
+export { TileImages };

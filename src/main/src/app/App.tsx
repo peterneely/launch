@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as appActions from './actions';
@@ -7,21 +8,15 @@ import { Settings } from './settings/Settings';
 import { Tiles } from './tiles/Tiles';
 import './app.scss';
 
-interface IProps {
-  actions: object,
-  tiles: string[]
-}
-
-class App extends Component<IProps> {
-
+class App extends Component {
   componentDidMount() {
     const { actions } = this.props;
-    actions.getTiles();
+    actions.loadTiles();
   }
 
   componentDidUpdate(prevProps) {
-    const { tiles } = this.props;
-    if (!prevProps.tiles.length && tiles.length) {
+    const { loaded } = this.props;
+    if (loaded && !prevProps.loaded) {
       this.setBackgroundColor();
     }
   }
@@ -31,20 +26,25 @@ class App extends Component<IProps> {
   };
 
   render() {
-    const { tiles } = this.props;
+    const { loaded } = this.props;
     return (
-      <Fade show={!!tiles.length} className="app">
+      <Fade show={loaded} className="app">
         <Settings>
-          {settingsOpen => <Tiles tiles={tiles} disabled={settingsOpen} />}
+          {editing => <Tiles disabled={editing} />}
         </Settings>
       </Fade>
     );
   }
 }
 
+App.propTypes = {
+  actions: PropTypes.object.isRequired,
+  loaded: PropTypes.bool
+};
+
 const mapStateToProps = state => {
-  const { app: { tiles } = {} } = state;
-  return { tiles };
+  const { app: { loaded } = {} } = state;
+  return { loaded };
 }
 
 const mapDispatchToProps = dispatch => {
