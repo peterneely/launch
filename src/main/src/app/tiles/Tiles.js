@@ -14,11 +14,11 @@ class Tiles extends Component {
   }
 
   render() {
-    const { disabled, tiles } = this.props;
+    const { disabled, backgroundColor, tiles } = this.props;
     return (
       <main className={toClassNames('tiles', disabled ? 'mod-disabled' : null)}>
         {tiles.map((tile, index) => (
-          <Tile key={index} tile={tile} />
+          <Tile key={index} tile={tile} backgroundColor={backgroundColor} />
         ))}
       </main>
     );
@@ -27,13 +27,14 @@ class Tiles extends Component {
 
 Tiles.propTypes = {
   actions: PropTypes.object.isRequired,
-  tiles: PropTypes.arrayOf(tilePropType),
+  backgroundColor: PropTypes.string,
   disabled: PropTypes.bool,
+  tiles: PropTypes.arrayOf(tilePropType),
 };
 
 const mapStateToProps = state => {
-  const { app: { tiles } = {} } = state;
-  return { tiles };
+  const { app: { settings, tiles } = {} } = state;
+  return { settings, tiles };
 };
 
 const mapDispatchToProps = dispatch => {

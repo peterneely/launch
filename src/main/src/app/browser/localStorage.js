@@ -4,7 +4,7 @@ import { peterImagesByUrl } from '../settings/peter';
 export const getCachedSettings = () => new Promise((resolve, reject) => {
   try {
     const settingsJson = localStorage.getItem(SETTINGS_KEY);
-    const settings = settingsJson ? JSON.parse(settingsJson) : { imagesByUrl: peterImagesByUrl }; // null
+    const settings = settingsJson ? JSON.parse(settingsJson) : { imagesByUrl: peterImagesByUrl };
     resolve(settings);
   } catch (error) {
     reject(error);

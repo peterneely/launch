@@ -16,6 +16,7 @@ export const saveSettings = settings => async dispatch => {
   try {
     await setSettings(settings);
     dispatch({ type: types.APP_SAVE_SETTINGS_SUCCESS });
+    dispatch(loadTiles());
   } catch (error) {
     dispatch({ type: types.APP_SAVE_SETTINGS_ERROR, payload: error });
   }

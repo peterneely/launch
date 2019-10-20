@@ -23,5 +23,6 @@ html {
   &.mod-enter-done {
     background-color: $color-background;
     opacity: 1;
+    transition: $transition;
   }
 }

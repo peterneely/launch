@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import keyBy from 'lodash/keyBy';
 import * as appActions from '../actions';
 import { Button } from '../layout/Button';
+import { Checkbox } from '../layout/Checkbox';
+import { Input } from '../layout/Input';
 import { TileImages } from './TileImages';
 import { tilePropType } from '../tiles/Tile';
 import { toClassNames } from '../strings';
@@ -13,14 +15,27 @@ import './settings.scss';
 class Settings extends Component {
   constructor(props) {
     super(props);
-    this.state = { dirty: false, editing: false, tilesByUrl: {} };
+    this.state = {};
   }
 
-  componentDidMount() {
-    const { tiles } = this.props;
+  createInitialState = () => {
+    const { settings: { backgroundColor, sorted } = {}, tiles } = this.props;
     const tilesByUrl = keyBy(tiles, 'url');
-    this.setState({ tilesByUrl });
-  }
+    return { backgroundColor, dirty: false, editing: false, sorted, tilesByUrl };
+  };
+
+  createSavableSettings = () => {
+    const { backgroundColor, sorted, tilesByUrl } = this.state;
+    return {
+      backgroundColor,
+      imagesByUrl: Object.values(tilesByUrl).reduce((imagesByUrl, tile) => {
+        const { url, image } = tile;
+        imagesByUrl[url] = image;
+        return imagesByUrl;
+      }, {}),
+      sorted,
+    };
+  };
 
   handleBlurModal = () => {
     const { dirty } = this.state;
@@ -29,29 +44,35 @@ class Settings extends Component {
     }
   };
 
-  handleEdit = url => event => {
+  handleChangeImage = url => () => event => {
     const { tilesByUrl: prevTilesByUrl } = this.state;
     const tilesByUrl = { ...prevTilesByUrl, [url]: { ...prevTilesByUrl[url], image: event.target.value } };
     this.setState({ dirty: true, tilesByUrl });
   };
 
+  handleChangeInput = ({ name }) => event => {
+    this.setState({ [name]: event.target.value });
+  };
+
+  handleChangeCheckbox = ({ name, checked }) => () => {
+    this.setState({ [name]: !checked });
+  };
+
   handleSave = () => {
     const { actions } = this.props;
-    const { tilesByUrl } = this.state;
-    const settings = {
-      imagesByUrl: Object.values(tilesByUrl).reduce((imagesByUrl, tile) => {
-        const { url, image } = tile;
-        imagesByUrl[url] = image;
-        return imagesByUrl;
-      }, {}),
-    };
+    const settings = this.createSavableSettings();
+    this.handleToggle();
     actions.saveSettings(settings);
   };
 
   handleToggle = async () => {
-    const { dirty: prevDirty, editing: prevEditing } = this.state;
+    const { editing: prevEditing } = this.state;
     const editing = !prevEditing;
-    this.setState({ editing, dirty: editing && prevDirty });
+    const state = {
+      ...(editing ? this.createInitialState() : {}),
+      editing,
+    };
+    this.setState(state);
   };
 
   renderSettingsButton = () => {
@@ -65,14 +86,16 @@ class Settings extends Component {
   };
 
   renderSettingsModal = () => {
-    const { dirty, tilesByUrl } = this.state;
+    const { backgroundColor, dirty, sorted, tilesByUrl } = this.state;
     const tiles = Object.values(tilesByUrl);
     const overlayClasses = toClassNames('modal-overlay', !dirty ? 'mod-clickable' : null);
     return (
       <Fragment>
         <div className="modal">
           <div className="modal-body">
-            <TileImages tiles={tiles} onEdit={this.handleEdit} />
+            <TileImages tiles={tiles} onChange={this.handleChangeImage} />
+            <Checkbox checked={sorted} name="sorted" onChange={this.handleChangeCheckbox} />
+            <Input name="backgroundColor" onChange={this.handleChangeInput} value={backgroundColor} />
           </div>
           <div className="modal-footer">
             <Button className="button-cancel" label="Cancel" onClick={this.handleToggle} />
@@ -97,15 +120,22 @@ class Settings extends Component {
   }
 }
 
+export const settingsPropType = PropTypes.shape({
+  backgroundColor: PropTypes.string,
+  imagesByUrl: PropTypes.objectOf(PropTypes.string),
+  sorted: PropTypes.bool
+});
+
 Settings.propTypes = {
   actions: PropTypes.object.isRequired,
   children: PropTypes.func.isRequired,
+  settings: settingsPropType.isRequired,
   tiles: PropTypes.arrayOf(tilePropType),
 };
 
 const mapStateToProps = state => {
-  const { app: { tiles } = {} } = state;
-  return { tiles };
+  const { app: { settings, tiles } = {} } = state;
+  return { settings, tiles };
 };
 
 const mapDispatchToProps = dispatch => {

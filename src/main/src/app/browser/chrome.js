@@ -1,4 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
+import uniqBy from 'lodash/uniqBy';
 import { SETTINGS_KEY } from './types';
 import { getCachedSettings, setCachedSettings } from './localStorage';
 
@@ -10,7 +11,8 @@ export const getBookmarks = () =>
       runtime.sendMessage({ type: 'GET_BOOKMARKS' }, response => {
         const { bookmarks } = response || {};
         if (bookmarks) {
-          resolve(bookmarks);
+          const uniqueBookmarks = uniqBy(bookmarks, ({ url }) => url);
+          resolve(uniqueBookmarks);
         } else {
           reject(new Error('Could not get Chrome bookmarks'));
         }
