@@ -104,7 +104,7 @@ class Settings extends Component {
           </div>
           <div className="modal-footer">
             <Button className="button-cancel" label="Cancel" onClick={this.handleToggle} />
-            <Button className="button-save" label="Save" onClick={this.handleSave} primary />
+            <Button className="button-save" label="Save" onClick={this.handleSave} primary disabled={!dirty} />
           </div>
         </div>
         <div className={overlayClasses} onClick={this.handleBlurModal} />

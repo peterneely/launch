@@ -29,17 +29,26 @@
     outline: none;
   }
 
-  &:hover {
-    background-color: darken($color-button-default, 5%);
+  &:not(.mod-disabled) {
+    &:hover {
+      background-color: darken($color-button-default, 5%);
+    }
+  }
+
+  &.mod-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 
   &.mod-primary {
     color: white;
     background-color: $color-button-primary;
-    border: none;
+    border: 1px solid $color-button-primary-border;
 
-    &:hover {
-      background-color: darken($color-button-primary, 5%);
+    &:not(.mod-disabled) {
+      &:hover {
+        background-color: darken($color-button-primary, 5%);
+      }
     }
   }
 }

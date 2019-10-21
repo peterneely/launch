@@ -8,6 +8,7 @@ $color-border-focus: #408BF9;
 $color-border: #D6D6D6;
 $color-button-default: lighten($color-border, 10%);
 $color-button-primary: #408BF9;
+$color-button-primary-border: darken(#408BF9, 20%);
 $color-label: black;
 $color-row-even: lighten($color-border, 10%);
 $color-tile-background: white;
