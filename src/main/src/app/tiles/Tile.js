@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { isValidColor } from '../strings';
+import { themePropType } from '../settings/propTypes';
 
 class Tile extends Component {
   constructor(props) {
@@ -15,15 +17,18 @@ class Tile extends Component {
     this.setState({ hovering: false });
   }
 
-  render() {
-    const { backgroundColor, tile } = this.props;
+  createBorderStyle = () => {
+    const { theme: { backgroundColor } = {} } = this.props;
     const { hovering } = this.state;
-    const { title, url, image } = tile;
-    const innerBorderStyle = hovering && backgroundColor ? { backgroundColor } : undefined;
+    return hovering && isValidColor(backgroundColor) ? { backgroundColor } : undefined;
+  }
+
+  render() {
+    const { tile: { title, url, image } = {} } = this.props;
     return (
       <div className="tile" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
         <div className="tile-border tile-border-outer">
-          <div className="tile-border tile-border-inner" style={innerBorderStyle}>
+          <div className="tile-border tile-border-inner" style={this.createBorderStyle()}>
             <a className="tile-link" href={url}>
               <div className="title-image-container">{image && <img className="tile-image" src={image} alt="" />}</div>
               <div className="tile-title">{title}</div>
@@ -43,7 +48,7 @@ export const tilePropType = PropTypes.shape({
 });
 
 Tile.propTypes = {
-  backgroundColor: PropTypes.string,
+  theme: themePropType,
   tile: tilePropType,
 };
 

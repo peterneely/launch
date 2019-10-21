@@ -8,8 +8,9 @@ import { Button } from '../layout/Button';
 import { Checkbox } from '../layout/Checkbox';
 import { Input } from '../layout/Input';
 import { TileImages } from './TileImages';
-import { tilePropType } from '../tiles/Tile';
 import { toClassNames } from '../strings';
+import { settingsPropType } from './propTypes';
+import { tilePropType } from '../tiles/Tile';
 import './settings.scss';
 
 class Settings extends Component {
@@ -19,22 +20,19 @@ class Settings extends Component {
   }
 
   createInitialState = () => {
-    const { settings: { backgroundColor, sorted } = {}, tiles } = this.props;
+    const { settings: { sorted, theme } = {}, tiles } = this.props;
     const tilesByUrl = keyBy(tiles, 'url');
-    return { backgroundColor, dirty: false, editing: false, sorted, tilesByUrl };
+    return { dirty: false, editing: false, sorted, theme, tilesByUrl };
   };
 
   createSavableSettings = () => {
-    const { backgroundColor, sorted, tilesByUrl } = this.state;
-    return {
-      backgroundColor,
-      imagesByUrl: Object.values(tilesByUrl).reduce((imagesByUrl, tile) => {
-        const { url, image } = tile;
-        imagesByUrl[url] = image;
-        return imagesByUrl;
-      }, {}),
-      sorted,
-    };
+    const { sorted, theme, tilesByUrl } = this.state;
+    const imagesByUrl = Object.values(tilesByUrl).reduce((imagesByUrl, tile) => {
+      const { url, image } = tile;
+      imagesByUrl[url] = image;
+      return imagesByUrl;
+    }, {});
+    return { imagesByUrl, sorted, theme };
   };
 
   handleBlurModal = () => {
@@ -50,8 +48,9 @@ class Settings extends Component {
     this.setState({ dirty: true, tilesByUrl });
   };
 
-  handleChangeInput = ({ name }) => event => {
-    this.setState({ [name]: event.target.value });
+  handleChangeThemeInput = ({ name }) => event => {
+    const { theme: prevTheme } = this.state;
+    this.setState({ theme: { ...prevTheme, [name]: event.target.value } });
   };
 
   handleChangeCheckbox = ({ name, checked }) => () => {
@@ -86,7 +85,7 @@ class Settings extends Component {
   };
 
   renderSettingsModal = () => {
-    const { backgroundColor, dirty, sorted, tilesByUrl } = this.state;
+    const { dirty, sorted, theme: { backgroundColor } = {}, tilesByUrl } = this.state;
     const tiles = Object.values(tilesByUrl);
     const overlayClasses = toClassNames('modal-overlay', !dirty ? 'mod-clickable' : null);
     return (
@@ -95,7 +94,7 @@ class Settings extends Component {
           <div className="modal-body">
             <TileImages tiles={tiles} onChange={this.handleChangeImage} />
             <Checkbox checked={sorted} name="sorted" onChange={this.handleChangeCheckbox} />
-            <Input name="backgroundColor" onChange={this.handleChangeInput} value={backgroundColor} />
+            <Input name="backgroundColor" onChange={this.handleChangeThemeInput} value={backgroundColor} />
           </div>
           <div className="modal-footer">
             <Button className="button-cancel" label="Cancel" onClick={this.handleToggle} />
@@ -119,12 +118,6 @@ class Settings extends Component {
     );
   }
 }
-
-export const settingsPropType = PropTypes.shape({
-  backgroundColor: PropTypes.string,
-  imagesByUrl: PropTypes.objectOf(PropTypes.string),
-  sorted: PropTypes.bool
-});
 
 Settings.propTypes = {
   actions: PropTypes.object.isRequired,

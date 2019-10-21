@@ -2,52 +2,49 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import isEqual from 'lodash/isEqual';
 import * as appActions from './actions';
 import { Fade } from './layout/Fade';
-import { Settings, settingsPropType } from './settings/Settings';
+import { Settings } from './settings/Settings';
 import { Tiles } from './tiles/Tiles';
 import { isValidColor } from './strings';
+import { settingsPropType } from './settings/propTypes';
 import './app.scss';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { backgroundColor: null }
-  }
-
   componentDidMount() {
     const { actions } = this.props;
     actions.loadTiles();
   }
 
   componentDidUpdate(prevProps) {
-    const { loaded, settings: { backgroundColor } = {} } = this.props;
-    const { settings: { backgroundColor: prevBackgroundColor } = {} } = prevProps;
-    if ((loaded && !prevProps.loaded) || backgroundColor !== prevBackgroundColor) {
-      this.setBackgroundColor();
+    const { loaded, settings } = this.props;
+    const { loaded: prevLoaded, settings: prevSettings } = prevProps;
+    const ready = loaded && !prevLoaded;
+    const themeChanged = !isEqual(settings.theme, prevSettings.theme);
+    if (ready || themeChanged) {
+      this.setRootStyle(settings.theme);
     }
   }
 
-  setBackgroundColor = () => {
-    const { settings: { backgroundColor } = {} } = this.props;
-    if (isValidColor(backgroundColor)) {
-      document.documentElement.style.backgroundColor = backgroundColor;
-      this.setState({ backgroundColor });
-    } else {
-      document.documentElement.style.backgroundColor = undefined;
-      this.setState({ backgroundColor: null });
-    }
-    document.documentElement.classList.add('mod-loaded'); // set background color for html element
+  setRootStyle = theme => {
+    const { backgroundColor } = theme || {};
+    const { documentElement: html } = document;
+    html.style.backgroundColor = isValidColor(backgroundColor) ? backgroundColor : null;
+    html.classList.add('mod-loaded');
+  };
+
+  createAppStyle = () => {
+    const { settings: { theme: { backgroundColor } = {} } = {} } = this.props;
+    return isValidColor(backgroundColor) ? { backgroundColor } : undefined;
   };
 
   render() {
     const { loaded } = this.props;
-    const { backgroundColor } = this.state;
-    const style = backgroundColor ? { backgroundColor } : undefined;
     return (
-      <Fade show={loaded} className="app" style={style}>
+      <Fade show={loaded} className="app" style={this.createAppStyle()}>
         <Settings>
-          {editing => <Tiles backgroundColor={backgroundColor} disabled={editing} />}
+          {editing => <Tiles disabled={editing} />}
         </Settings>
       </Fade>
     );

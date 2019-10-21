@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as appActions from '../actions';
 import { Tile, tilePropType } from './Tile';
+import { settingsPropType } from '../settings/propTypes';
 import { toClassNames } from '../strings';
 import './tiles.scss';
 
@@ -14,11 +15,11 @@ class Tiles extends Component {
   }
 
   render() {
-    const { disabled, backgroundColor, tiles } = this.props;
+    const { disabled, settings: { theme } = {}, tiles } = this.props;
     return (
       <main className={toClassNames('tiles', disabled ? 'mod-disabled' : null)}>
         {tiles.map((tile, index) => (
-          <Tile key={index} tile={tile} backgroundColor={backgroundColor} />
+          <Tile key={index} tile={tile} theme={theme} />
         ))}
       </main>
     );
@@ -27,8 +28,8 @@ class Tiles extends Component {
 
 Tiles.propTypes = {
   actions: PropTypes.object.isRequired,
-  backgroundColor: PropTypes.string,
   disabled: PropTypes.bool,
+  settings: settingsPropType.isRequired,
   tiles: PropTypes.arrayOf(tilePropType),
 };
 

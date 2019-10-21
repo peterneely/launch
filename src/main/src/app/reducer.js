@@ -3,7 +3,7 @@ import * as types from './types';
 const initialState = {
   error: null,
   loaded: false,
-  settings: {},
+  settings: { theme: {} },
   tiles: [],
 };
 
