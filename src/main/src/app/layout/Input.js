@@ -1,20 +1,21 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { toClassNames } from '../strings';
 import './input.scss';
 
 const Input = ({ checked, className, label, name, onChange, type, value }) => (
-  <Fragment>
-    {!!label && <span className={toClassNames(className, `${type}-label`)}>{label}</span>}
+  <div className={toClassNames(className, 'input-container', `${type}-container`)}>
+    {!!label && <label className={toClassNames('input-label', `${type}-label`)} htmlFor={name}>{label}</label>}
     <input
       checked={checked}
-      className={toClassNames(className, `${type}-input`)}
+      className={toClassNames('input', `${type}-input`)}
       type={type}
+      id={name}
       name={name}
       value={value || ''}
       onChange={onChange({ name, checked, value })}
     />
-  </Fragment>
+  </div>
 );
 
 Input.propTypes = {

@@ -1,16 +1,20 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from '../layout/Input';
+import { toClassNames } from '../strings';
+
+const createClassNames = ({ name, isEven }) => toClassNames('tile-info', `mod-${name}`, isEven ? 'mod-even' : null);
 
 const TileImages = ({ tiles, onChange }) => (
-  <div className="link-configs">
+  <div className="tile-images">
     {tiles.map((tile, index) => {
       const { title, domain, url, image } = tile;
+      const isEven = index%2 === 0;
       return (
         <Fragment key={index}>
-          <div className="link-config mod-title">{title}</div>
-          <div className="link-config mod-domain">{domain}</div>
-          <Input className="link-config mod-image" name="image" value={image} onChange={onChange(url)} />
+          <div className={createClassNames({ name: 'title', isEven })}>{title}</div>
+          <div className={createClassNames({ name: 'domain', isEven })}>{domain}</div>
+          <Input className={createClassNames({ name: 'image', isEven })} name="image" value={image} onChange={onChange(url)} />
         </Fragment>
       );
     })}

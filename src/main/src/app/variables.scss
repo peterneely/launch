@@ -1,7 +1,14 @@
 $blur: blur(5px);
 
+$border-radius: 4px;
+
 $color-background-loading: white;
 $color-background: #444541;
+$color-border-focus: #408BF9;
+$color-border: #D6D6D6;
+$color-button-default: lighten($color-border, 10%);
+$color-button-primary: #408BF9;
+$color-row-even: lighten($color-border, 10%);
 $color-tile-background: white;
 $color-tile-title: #878787;
 

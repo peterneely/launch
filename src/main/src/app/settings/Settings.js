@@ -93,12 +93,18 @@ class Settings extends Component {
         <div className="modal">
           <div className="modal-body">
             <TileImages tiles={tiles} onChange={this.handleChangeImage} />
-            <Checkbox checked={sorted} name="sorted" onChange={this.handleChangeCheckbox} />
-            <Input name="backgroundColor" onChange={this.handleChangeThemeInput} value={backgroundColor} />
+            <Checkbox name="sorted" label="Sorted" className="input-sorted" checked={sorted} onChange={this.handleChangeCheckbox} />
+            <Input
+              name="backgroundColor"
+              label="Background Color"
+              className="input-background-color"
+              onChange={this.handleChangeThemeInput}
+              value={backgroundColor}
+            />
           </div>
           <div className="modal-footer">
             <Button className="button-cancel" label="Cancel" onClick={this.handleToggle} />
-            <Button className="button-save" label="Save" onClick={this.handleSave} />
+            <Button className="button-save" label="Save" onClick={this.handleSave} primary />
           </div>
         </div>
         <div className={overlayClasses} onClick={this.handleBlurModal} />
