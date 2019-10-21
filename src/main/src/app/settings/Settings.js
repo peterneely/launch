@@ -50,11 +50,11 @@ class Settings extends Component {
 
   handleChangeThemeInput = ({ name }) => event => {
     const { theme: prevTheme } = this.state;
-    this.setState({ theme: { ...prevTheme, [name]: event.target.value } });
+    this.setState({ dirty: true, theme: { ...prevTheme, [name]: event.target.value } });
   };
 
   handleChangeCheckbox = ({ name, checked }) => () => {
-    this.setState({ [name]: !checked });
+    this.setState({ dirty: true, [name]: !checked });
   };
 
   handleSave = () => {
@@ -91,6 +91,10 @@ class Settings extends Component {
     return (
       <Fragment>
         <div className="modal">
+          <div className="modal-header">
+            <h1 className="label label-title">Launch Settings</h1>
+            <Button className="button-close" icon={<i className="fas fa-times icon-close" />} onClick={this.handleToggle} />
+          </div>
           <div className="modal-body">
             <TileImages tiles={tiles} onChange={this.handleChangeImage} />
             <Checkbox name="sorted" label="Sorted" className="input-sorted" checked={sorted} onChange={this.handleChangeCheckbox} />
