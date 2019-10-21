@@ -16,13 +16,15 @@
 }
 
 .input {
+  transition: $transition;
+
   &:not(.checkbox-input) {
     border-radius: $border-radius;
     border: 1px solid $color-border;
     flex: 1;
     font-size: 1em;
     margin: 0;
-    padding: 8px;
+    padding: 10px;
   }
 
   &:focus {

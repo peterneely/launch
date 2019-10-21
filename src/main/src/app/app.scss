@@ -26,3 +26,9 @@ html {
     transition: $transition;
   }
 }
+
+.label {
+  color: $color-label;
+  font-weight: bold;
+  padding: 10px;
+}

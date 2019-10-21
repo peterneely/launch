@@ -33,7 +33,6 @@
   max-width: 80vw;
   min-height: 80vh;
   min-width: 50vw;
-  padding: 20px;
   position: fixed;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -45,6 +44,7 @@
   flex-direction: column;
   justify-content: space-between;
   min-height: 0;
+  padding: 20px;
 
   .input-label {
     width: 130px;
@@ -53,9 +53,10 @@
 
 .modal-footer {
   align-items: center;
+  border-top: 1px solid $color-border;
   display: flex;
   justify-content: space-between;
-  padding-top: 20px;
+  padding: 20px;
 }
 
 .modal-overlay {
@@ -78,7 +79,7 @@
   border-top: 1px solid $color-border;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   overflow: auto;
 }
 

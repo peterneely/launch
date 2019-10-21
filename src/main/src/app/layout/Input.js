@@ -5,7 +5,7 @@ import './input.scss';
 
 const Input = ({ checked, className, label, name, onChange, type, value }) => (
   <div className={toClassNames(className, 'input-container', `${type}-container`)}>
-    {!!label && <label className={toClassNames('input-label', `${type}-label`)} htmlFor={name}>{label}</label>}
+    {!!label && <label className={toClassNames('label', 'input-label', `${type}-label`)} htmlFor={name}>{label}</label>}
     <input
       checked={checked}
       className={toClassNames('input', `${type}-input`)}

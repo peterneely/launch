@@ -6,19 +6,22 @@ import { toClassNames } from '../strings';
 const createClassNames = ({ name, isEven }) => toClassNames('tile-info', `mod-${name}`, isEven ? 'mod-even' : null);
 
 const TileImages = ({ tiles, onChange }) => (
-  <div className="tile-images">
-    {tiles.map((tile, index) => {
-      const { title, domain, url, image } = tile;
-      const isEven = index%2 === 0;
-      return (
-        <Fragment key={index}>
-          <div className={createClassNames({ name: 'title', isEven })}>{title}</div>
-          <div className={createClassNames({ name: 'domain', isEven })}>{domain}</div>
-          <Input className={createClassNames({ name: 'image', isEven })} name="image" value={image} onChange={onChange(url)} />
-        </Fragment>
-      );
-    })}
-  </div>
+  <Fragment>
+    <label className="label tile-images-label">Image URLs</label>
+    <div className="tile-images">
+      {tiles.map((tile, index) => {
+        const { title, domain, url, image } = tile;
+        const isEven = index%2 === 0;
+        return (
+          <Fragment key={index}>
+            <div className={createClassNames({ name: 'title', isEven })}>{title}</div>
+            <div className={createClassNames({ name: 'domain', isEven })}>{domain}</div>
+            <Input className={createClassNames({ name: 'image', isEven })} name="image" value={image} onChange={onChange(url)} />
+          </Fragment>
+        );
+      })}
+    </div>
+  </Fragment>
 );
 
 TileImages.propTypes = {
