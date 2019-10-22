@@ -99,10 +99,10 @@
   overflow: auto;
 }
 
-.tile-info {
+.cell-container {
   align-items: center;
   display: flex;
-  white-space: nowrap;
+  padding: 0 10px;
 
   &.mod-even {
     background-color: $color-row-even;
@@ -114,6 +114,10 @@
 
   &.mod-title {
     padding-left: 10px;
+  }
+
+  .cell-text {
+    max-width: 25vw;
   }
 
   .text-input {

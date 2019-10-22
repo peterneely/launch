@@ -3,20 +3,25 @@ import PropTypes from 'prop-types';
 import { Input } from '../layout/Input';
 import { toClassNames } from '../strings';
 
-const createClassNames = ({ name, isEven }) => toClassNames('tile-info', `mod-${name}`, isEven ? 'mod-even' : null);
+const createCellClasses = ({ name, isEven }) => toClassNames('cell-container', `mod-${name}`, isEven ? 'mod-even' : null);
 
 const TileImages = ({ tiles, onChange }) => (
   <Fragment>
     <label className="label tile-images-label">Image URLs</label>
     <div className="tile-images">
       {tiles.map((tile, index) => {
-        const { title, domain, url, image } = tile;
-        const isEven = index%2 === 0;
+        const { title, url, image } = tile;
+        const isEven = index % 2 === 0;
         return (
           <Fragment key={index}>
-            <div className={createClassNames({ name: 'title', isEven })}>{title}</div>
-            <div className={createClassNames({ name: 'domain', isEven })}>{domain}</div>
-            <Input className={createClassNames({ name: 'image', isEven })} name="image" value={image} onChange={onChange(url)} />
+            <div className={createCellClasses({ name: 'title', isEven })}>
+              <span className="cell-text truncate-text">{title}</span>
+            </div>
+            {/* <div className={createCellClasses({ name: 'domain', isEven })}>{domain}</div> */}
+            <div className={createCellClasses({ name: 'url', isEven })}>
+              <span className="cell-text truncate-text">{url}</span>
+            </div>
+            <Input className={createCellClasses({ name: 'image', isEven })} name="image" value={image} onChange={onChange(url)} />
           </Fragment>
         );
       })}
