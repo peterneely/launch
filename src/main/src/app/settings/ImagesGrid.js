@@ -5,10 +5,10 @@ import { toClassNames } from '../strings';
 
 const createCellClasses = ({ name, isEven }) => toClassNames('cell-container', `mod-${name}`, isEven ? 'mod-even' : null);
 
-const TileImages = ({ tiles, onChange }) => (
+const ImagesGrid = ({ tiles, onChange }) => (
   <Fragment>
-    <label className="label tile-images-label">Image URLs</label>
-    <div className="tile-images">
+    <label className="label images-grid-label">Image URLs</label>
+    <div className="images-grid">
       {tiles.map((tile, index) => {
         const { title, url, image } = tile;
         const isEven = index % 2 === 0;
@@ -29,7 +29,7 @@ const TileImages = ({ tiles, onChange }) => (
   </Fragment>
 );
 
-TileImages.propTypes = {
+ImagesGrid.propTypes = {
   tiles: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -41,4 +41,4 @@ TileImages.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export { TileImages };
+export { ImagesGrid };

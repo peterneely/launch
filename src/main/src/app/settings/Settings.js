@@ -7,7 +7,8 @@ import * as appActions from '../actions';
 import { Button } from '../layout/Button';
 import { Checkbox } from '../layout/Checkbox';
 import { Input } from '../layout/Input';
-import { TileImages } from './TileImages';
+import { ImagesGrid } from './ImagesGrid';
+import { ImagesInput } from './ImagesInput';
 import { toClassNames } from '../strings';
 import { settingsPropType } from './propTypes';
 import { tilePropType } from '../tiles/Tile';
@@ -85,6 +86,7 @@ class Settings extends Component {
   };
 
   renderSettingsModal = () => {
+    const { settings: { imagesByUrl } = {} } = this.props;
     const { dirty, sorted, theme: { backgroundColor } = {}, tilesByUrl } = this.state;
     const tiles = Object.values(tilesByUrl);
     const overlayClasses = toClassNames('modal-overlay', !dirty ? 'mod-clickable' : null);
@@ -96,15 +98,22 @@ class Settings extends Component {
             <Button className="button-close" icon={<i className="fas fa-times icon-close" />} onClick={this.handleToggle} />
           </div>
           <div className="modal-body">
-            <TileImages tiles={tiles} onChange={this.handleChangeImage} />
-            <Checkbox name="sorted" label="Sorted" className="input-sorted" checked={sorted} onChange={this.handleChangeCheckbox} />
-            <Input
-              name="backgroundColor"
-              label="Background Color"
-              className="input-background-color"
-              onChange={this.handleChangeThemeInput}
-              value={backgroundColor}
-            />
+            <div className="settings-group mod-grid">
+              <ImagesGrid tiles={tiles} onChange={this.handleChangeImage} />
+            </div>
+            <div className="settings-group mod-input">
+              <ImagesInput imagesByUrl={imagesByUrl} />
+            </div>
+            <div className="settings-group mod-other">
+              <Checkbox name="sorted" label="Sorted" className="input-sorted" checked={sorted} onChange={this.handleChangeCheckbox} />
+              <Input
+                name="backgroundColor"
+                label="Background Color"
+                className="input-background-color"
+                onChange={this.handleChangeThemeInput}
+                value={backgroundColor}
+              />
+            </div>
           </div>
           <div className="modal-footer">
             <Button className="button-cancel" label="Cancel" onClick={this.handleToggle} />

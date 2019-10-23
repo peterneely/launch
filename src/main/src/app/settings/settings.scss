@@ -27,6 +27,76 @@
   }
 }
 
+.cell-container {
+  align-items: center;
+  display: flex;
+  padding: 0 10px;
+
+  &.mod-even {
+    background-color: $color-row-even;
+  }
+
+  &.mod-image {
+    min-width: 350px;
+    padding: 0 0 0 10px;
+  }
+
+  &.mod-title {
+    padding-left: 10px;
+
+    .cell-text {
+      max-width: 250px;
+    }
+  }
+
+  &.mod-url {
+    .cell-text {
+      max-width: 350px;
+    }
+  }
+
+  .text-input {
+    background-color: transparent;
+    border-radius: 0;
+    border: 1px solid transparent;
+
+    &:hover {
+      border-color: $color-border-focus;
+    }
+
+    &:focus {
+      background-color: white;
+      border-color: $color-border-focus;
+    }
+  }
+}
+
+.images-grid {
+  border-bottom: 1px solid $color-border;
+  border-top: 1px solid $color-border;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  overflow: auto;
+}
+
+.images-input {
+  background-color: darken($color-background, 10%);
+  border: none;
+  color: white;
+  font-size: 1em;
+  line-height: 1.5em;
+  margin: 0;
+  min-height: 20vh;
+  padding: 10px;
+  resize: none;
+  width: 100%;
+  border-radius: $border-radius;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 .modal {
   background-color: $color-tile-background;
   border-radius: 6px;
@@ -90,55 +160,21 @@
   }
 }
 
-.tile-images {
-  border-bottom: 1px solid $color-border;
-  border-top: 1px solid $color-border;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-bottom: 10px;
-  overflow: auto;
-}
+.settings-group {
+  flex: 1;
 
-.cell-container {
-  align-items: center;
-  display: flex;
-  padding: 0 10px;
-
-  &.mod-even {
-    background-color: $color-row-even;
+  &.mod-grid {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    min-height: 0;
   }
 
-  &.mod-image {
-    min-width: 350px;
-    padding: 0 0 0 10px;
+  &.mod-input {
+    display: flex;
   }
 
-  &.mod-title {
-    padding-left: 10px;
-
-    .cell-text {
-      max-width: 250px;
-    }
-  }
-
-  &.mod-url {
-    .cell-text {
-      max-width: 350px;
-    }
-  }
-
-  .text-input {
-    background-color: transparent;
-    border-radius: 0;
-    border: 1px solid transparent;
-
-    &:hover {
-      border-color: $color-border-focus;
-    }
-
-    &:focus {
-      background-color: white;
-      border-color: $color-border-focus;
-    }
+  &.mod-other {
+    margin-top: 10px;
   }
 }
