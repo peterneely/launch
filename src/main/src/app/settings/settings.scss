@@ -109,15 +109,22 @@
   }
 
   &.mod-image {
-    min-width: 300px;
+    min-width: 350px;
+    padding: 0 0 0 10px;
   }
 
   &.mod-title {
     padding-left: 10px;
+
+    .cell-text {
+      max-width: 250px;
+    }
   }
 
-  .cell-text {
-    max-width: 25vw;
+  &.mod-url {
+    .cell-text {
+      max-width: 350px;
+    }
   }
 
   .text-input {
