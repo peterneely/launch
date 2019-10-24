@@ -35,7 +35,7 @@ ImagesGrid.propTypes = {
       title: PropTypes.string.isRequired,
       domain: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
+      image: PropTypes.string,
     }).isRequired
   ),
   onChange: PropTypes.func.isRequired,

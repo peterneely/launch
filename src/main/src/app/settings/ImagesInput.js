@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ImagesInput = ({ imagesByUrl }) => {
+const ImagesInput = ({ imagesByUrl, onChange, onPaste }) => {
   const imagesJson = JSON.stringify(imagesByUrl, null, 2, true);
-  return <textarea className="images-input">{imagesJson}</textarea>;
+  return <textarea className="images-input" onChange={onChange} onPaste={onPaste} value={imagesJson} />;
 };
 
 ImagesInput.propTypes = {
-  className: PropTypes.string,
   imagesByUrl: PropTypes.objectOf(PropTypes.string),
-};
-
-ImagesInput.defaultProps = {
-  t: key => key,
+  onChange: PropTypes.func.isRequired,
+  onPaste: PropTypes.func.isRequired,
 };
 
 export { ImagesInput };

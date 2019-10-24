@@ -9,7 +9,7 @@ import { Checkbox } from '../layout/Checkbox';
 import { Input } from '../layout/Input';
 import { ImagesGrid } from './ImagesGrid';
 import { ImagesInput } from './ImagesInput';
-import { toClassNames } from '../strings';
+import { cleanJson, toClassNames } from '../strings';
 import { settingsPropType } from './propTypes';
 import { tilePropType } from '../tiles/Tile';
 import './settings.scss';
@@ -26,16 +26,6 @@ class Settings extends Component {
     return { dirty: false, editing: false, sorted, theme, tilesByUrl };
   };
 
-  createSavableSettings = () => {
-    const { sorted, theme, tilesByUrl } = this.state;
-    const imagesByUrl = Object.values(tilesByUrl).reduce((imagesByUrl, tile) => {
-      const { url, image } = tile;
-      imagesByUrl[url] = image;
-      return imagesByUrl;
-    }, {});
-    return { imagesByUrl, sorted, theme };
-  };
-
   handleBlurModal = () => {
     const { dirty } = this.state;
     if (!dirty) {
@@ -43,10 +33,14 @@ class Settings extends Component {
     }
   };
 
-  handleChangeImage = url => () => event => {
+  handleChangeGrid = url => () => event => {
     const { tilesByUrl: prevTilesByUrl } = this.state;
     const tilesByUrl = { ...prevTilesByUrl, [url]: { ...prevTilesByUrl[url], image: event.target.value } };
     this.setState({ dirty: true, tilesByUrl });
+  };
+
+  handleChangeInput = event => {
+    this.parseInput(event.target.value);
   };
 
   handleChangeThemeInput = ({ name }) => event => {
@@ -58,11 +52,17 @@ class Settings extends Component {
     this.setState({ dirty: true, [name]: !checked });
   };
 
+  handlePasteInput = event => {
+    this.parseInput(event.clipboardData.getData('text/plain'));
+  };
+
   handleSave = () => {
     const { actions } = this.props;
-    const settings = this.createSavableSettings();
-    this.handleToggle();
+    const { sorted, theme } = this.state;
+    const { imagesByUrl } = this.parseState();
+    const settings = { imagesByUrl, sorted, theme };
     actions.saveSettings(settings);
+    this.handleToggle();
   };
 
   handleToggle = async () => {
@@ -73,6 +73,35 @@ class Settings extends Component {
       editing,
     };
     this.setState(state);
+  };
+
+  parseInput = text => {
+    const { tilesByUrl: prevTilesByUrl } = this.state;
+    try {
+      const imagesByUrl = JSON.parse(cleanJson(text));
+      const tilesByUrl = Object.entries(imagesByUrl).reduce(
+        (tilesByUrl, [url, image]) => {
+          if (url in tilesByUrl) {
+            tilesByUrl[url].image = image;
+          }
+          return tilesByUrl;
+        },
+        { ...prevTilesByUrl }
+      );
+      this.setState({ dirty: true, tilesByUrl });
+    } catch (error) {
+    }
+  };
+
+  parseState = () => {
+    const { tilesByUrl } = this.state;
+    const tiles = Object.values(tilesByUrl);
+    const imagesByUrl = tiles.reduce((imagesByUrl, tile) => {
+      const { url, image } = tile;
+      imagesByUrl[url] = image;
+      return imagesByUrl;
+    }, {});
+    return { imagesByUrl, tiles };
   };
 
   renderSettingsButton = () => {
@@ -86,9 +115,8 @@ class Settings extends Component {
   };
 
   renderSettingsModal = () => {
-    const { settings: { imagesByUrl } = {} } = this.props;
-    const { dirty, sorted, theme: { backgroundColor } = {}, tilesByUrl } = this.state;
-    const tiles = Object.values(tilesByUrl);
+    const { dirty, sorted, theme: { backgroundColor } = {} } = this.state;
+    const { imagesByUrl, tiles } = this.parseState();
     const overlayClasses = toClassNames('modal-overlay', !dirty ? 'mod-clickable' : null);
     return (
       <Fragment>
@@ -99,10 +127,10 @@ class Settings extends Component {
           </div>
           <div className="modal-body">
             <div className="settings-group mod-grid">
-              <ImagesGrid tiles={tiles} onChange={this.handleChangeImage} />
+              <ImagesGrid tiles={tiles} onChange={this.handleChangeGrid} />
             </div>
             <div className="settings-group mod-input">
-              <ImagesInput imagesByUrl={imagesByUrl} />
+              <ImagesInput imagesByUrl={imagesByUrl} onChange={this.handleChangeInput} onPaste={this.handlePasteInput} />
             </div>
             <div className="settings-group mod-other">
               <Checkbox name="sorted" label="Sorted" className="input-sorted" checked={sorted} onChange={this.handleChangeCheckbox} />
