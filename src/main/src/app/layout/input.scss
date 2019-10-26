@@ -16,23 +16,24 @@
 }
 
 .input {
-  transition: $transition;
+  transition: $util-transition;
 
   &:not(.checkbox-input) {
     border-radius: $border-radius;
-    border: 1px solid $color-border;
+    border: $border-default;
     flex: 1;
+    height: calc(#{$row-height} - #{2 * $border-height});
     font-size: 1em;
     margin: 0;
-    padding: 10px;
+    padding: 0 10px;
   }
 
   &:hover {
-    border-color: $color-border-focus;
+    border-color: $border-hover-color;
   }
 
   &:focus {
-    border-color: $color-border-focus;
+    border-color: $border-focus-color;
     outline: none;
   }
 }

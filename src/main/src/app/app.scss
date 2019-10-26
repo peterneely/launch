@@ -1,34 +1,34 @@
 @import './variables.scss';
 
 html {
-  background-color: $color-background-loading;
-  transition: $transition;
+  background-color: $background-loading-color;
+  transition: $util-transition;
 
   &.mod-disabled {
     overflow: hidden;
   }
 
   &.mod-loaded {
-    background-color: $color-background;
+    background-color: $background-color;
   }
 }
 
 .app {
   position: relative;
-  background-color: $color-background-loading;
+  background-color: $background-loading-color;
   opacity: 0;
-  transition: $transition;
+  transition: $util-transition;
 
   &.mod-enter-active,
   &.mod-enter-done {
-    background-color: $color-background;
+    background-color: $background-color;
     opacity: 1;
-    transition: $transition;
+    transition: $util-transition;
   }
 }
 
 .label {
-  color: $color-label;
+  color: $label-color;
   font-weight: bold;
   padding: 10px;
 }

@@ -2,14 +2,14 @@
 
 .tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fill, $tileWidth);
+  grid-template-columns: repeat(auto-fill, $tile-width);
   justify-content: center;
   padding: 2em 4em 3em;
 
   &.mod-disabled {
 
     .tile-link {
-      filter: $blur;
+      filter: $util-blur;
     }
   }
 }
@@ -20,11 +20,11 @@
 
   &:hover {
     .tile-border-outer {
-      background-color: $color-tile-background;
+      background-color: $tile-background-color;
     }
 
     .tile-border-inner {
-      background-color: $color-background;
+      background-color: $background-color;
     }
   }
 }
@@ -32,7 +32,7 @@
 .tile-border {
   border-radius: 6px;
   position: relative;
-  transition: $transition;
+  transition: $util-transition;
   z-index: 2;
 }
 
@@ -55,11 +55,11 @@
 
 .tile-image {
   max-height: 100px;
-  max-width: calc(#{$tileWidth} * 0.8);
+  max-width: calc(#{$tile-width} * 0.8);
 }
 
 .tile-link {
-  background-color: $color-tile-background;
+  background-color: $tile-background-color;
   border-radius: $border-radius;
   display: flex;
   flex-direction: column;
@@ -71,7 +71,7 @@
 }
 
 .tile-title {
-  color: $color-tile-title;
+  color: $tile-title-color;
   font-size: small;
   font-weight: bold;
   overflow: hidden;

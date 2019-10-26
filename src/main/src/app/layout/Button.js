@@ -4,7 +4,13 @@ import { toClassNames } from '../strings';
 import './button.scss';
 
 const Button = ({ className, disabled, icon, label, onClick, primary }) => {
-  const classNames = toClassNames('button', className, primary ? 'mod-primary' : null, disabled ? 'mod-disabled' : null);
+  const classNames = toClassNames(
+    'button',
+    className,
+    primary ? 'mod-primary' : null,
+    !label ? 'mod-icon-only' : null,
+    disabled ? 'mod-disabled' : null
+  );
   return (
     <button className={classNames} onClick={onClick} disabled={disabled}>
       <Fragment>

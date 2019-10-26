@@ -3,21 +3,24 @@
 .button {
   -webkit-appearance: button;
   -webkit-writing-mode: horizontal-tb !important;
-  align-items: flex-start;
-  background-color: $color-button-default;
-  border: 1px solid $color-border;
+  // padding: 10px;
+  align-items: center;
+  background-color: $button-default-color;
   border-image: initial;
   border-radius: $border-radius;
+  border: $border-default;
   box-sizing: border-box;
   color: buttontext;
   cursor: pointer;
-  display: inline-block;
+  display: flex;
   font-weight: bold;
   font: 800 1em system-ui;
+  height: $row-height;
+  justify-content: center;
   letter-spacing: normal;
-  margin: 0em;
-  min-width: 110px;
-  padding: 10px;
+  margin: 0;
+  min-width: 116px;
+  padding: 0;
   text-align: center;
   text-indent: 0px;
   text-rendering: auto;
@@ -31,7 +34,7 @@
 
   &:not(.mod-disabled) {
     &:hover {
-      background-color: darken($color-button-default, 5%);
+      background-color: darken($button-default-color, 5%);
     }
   }
 
@@ -40,14 +43,20 @@
     opacity: 0.5;
   }
 
+  &.mod-icon-only {
+    font-size: 1.5em;
+    min-width: unset;
+    width: $row-height;
+  }
+
   &.mod-primary {
     color: white;
-    background-color: $color-button-primary;
-    border: 1px solid $color-button-primary-border;
+    background-color: $button-primary-color;
+    border: $border-height solid $button-primary-border-color;
 
     &:not(.mod-disabled) {
       &:hover {
-        background-color: darken($color-button-primary, 5%);
+        background-color: darken($button-primary-color, 5%);
       }
     }
   }

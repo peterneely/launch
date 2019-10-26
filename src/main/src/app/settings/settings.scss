@@ -1,10 +1,5 @@
 @import '../variables.scss';
 
-.button-close {
-  min-width: 40px;
-
-}
-
 .button-toggle-container {
   position: absolute;
   top: 10px;
@@ -12,18 +7,18 @@
 }
 
 .button-toggle {
-  color: $color-tile-background;
+  color: $tile-background-color;
   cursor: pointer;
   font-size: 3em;
   opacity: 0.3;
-  transition: $transition;
+  transition: $util-transition;
 
   &:hover {
     opacity: 1;
   }
 
   &.mod-disabled {
-    filter: $blur;
+    filter: $util-blur;
   }
 }
 
@@ -32,8 +27,12 @@
   display: flex;
   padding: 0 10px;
 
+  &.input-container {
+    padding: 0;
+  }
+
   &.mod-even {
-    background-color: $color-row-even;
+    background-color: $row-even-color;
   }
 
   &.mod-image {
@@ -57,30 +56,30 @@
 
   .text-input {
     background-color: transparent;
+    border-color: transparent;
     border-radius: 0;
-    border: 1px solid transparent;
 
     &:hover {
-      border-color: $color-border-focus;
+      border-color: $border-hover-color;
     }
 
     &:focus {
       background-color: white;
-      border-color: $color-border-focus;
+      border-color: $border-focus-color;
     }
   }
 }
 
 .images-grid {
-  border-bottom: 1px solid $color-border;
-  border-top: 1px solid $color-border;
+  border-bottom: $border-default;
+  border-top: $border-default;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   overflow: auto;
 }
 
 .images-input {
-  background-color: darken($color-background, 10%);
+  background-color: darken($background-color, 10%);
   border: none;
   color: white;
   font-size: 1em;
@@ -98,7 +97,7 @@
 }
 
 .modal {
-  background-color: $color-tile-background;
+  background-color: $tile-background-color;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -146,7 +145,7 @@
 }
 
 .modal-overlay {
-  background-color: $color-background;
+  background-color: $background-color;
   height: 100%;
   left: 0;
   opacity: 0.8;

@@ -1,19 +1,25 @@
-$blur: blur(20px);
+$background-color: #444541;
+$background-loading-color: white;
 
+$border-color: #D6D6D6;
+$border-focus-color: #408BF9;
+$border-height: 1px;
+$border-hover-color: darken(#D6D6D6, 15%);
 $border-radius: 4px;
+$border-default: $border-height solid $border-color;
 
-$color-background-loading: white;
-$color-background: #444541;
-$color-border-focus: #408BF9;
-$color-border: #D6D6D6;
-$color-button-default: lighten($color-border, 10%);
-$color-button-primary: #408BF9;
-$color-button-primary-border: darken(#408BF9, 20%);
-$color-label: black;
-$color-row-even: lighten($color-border, 10%);
-$color-tile-background: white;
-$color-tile-title: #878787;
+$button-default-color: lighten($border-color, 10%);
+$button-primary-border-color: darken(#408BF9, 20%);
+$button-primary-color: #408BF9;
 
-$tileWidth: 260px;
+$label-color: black;
 
-$transition: all 0.2s ease;
+$row-even-color: lighten($border-color, 10%);
+$row-height: 38px;
+
+$tile-background-color: white;
+$tile-title-color: #878787;
+$tile-width: 260px;
+
+$util-blur: blur(20px);
+$util-transition: all 0.2s ease;
