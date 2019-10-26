@@ -172,13 +172,9 @@
   &.mod-other {
     margin-top: 10px;
 
-    .checked-icon-container {
-      padding-right: 20px;
-    }
-
     .input-container {
       &.mod-sorted {
-        cursor: pointer;
+        width: 250px;
       }
     }
 

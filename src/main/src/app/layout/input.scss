@@ -5,6 +5,8 @@
   display: flex;
 
   &.mod-checkbox {
+    cursor: pointer;
+
     &:hover {
       .checked-icon {
         &.mod-unchecked {
