@@ -22,13 +22,28 @@
   }
 }
 
-.cell-container {
+.cell {
   align-items: center;
   display: flex;
   padding: 0 10px;
 
-  &.input-container {
-    padding: 0;
+  .input {
+    padding: 0 10px;
+
+    &.mod-text {
+      background-color: transparent;
+      border-color: transparent;
+      border-radius: 0;
+
+      &:hover {
+        border-color: $border-hover-color;
+      }
+
+      &:focus {
+        background-color: white;
+        border-color: $border-focus-color;
+      }
+    }
   }
 
   &.mod-even {
@@ -37,7 +52,7 @@
 
   &.mod-image {
     min-width: 350px;
-    padding: 0 0 0 10px;
+    padding: 0;
   }
 
   &.mod-title {
@@ -51,21 +66,6 @@
   &.mod-url {
     .cell-text {
       max-width: 350px;
-    }
-  }
-
-  .text-input {
-    background-color: transparent;
-    border-color: transparent;
-    border-radius: 0;
-
-    &:hover {
-      border-color: $border-hover-color;
-    }
-
-    &:focus {
-      background-color: white;
-      border-color: $border-focus-color;
     }
   }
 }
@@ -119,10 +119,6 @@
   justify-content: space-between;
   min-height: 0;
   padding: 20px;
-
-  .input-label {
-    width: 130px;
-  }
 }
 
 .modal-footer {
@@ -176,8 +172,18 @@
   &.mod-other {
     margin-top: 10px;
 
-    .checkbox-input-icon-container {
+    .checked-icon-container {
       padding-right: 20px;
+    }
+
+    .input-container {
+      &.mod-sorted {
+        cursor: pointer;
+      }
+    }
+
+    .label {
+      width: 130px;
     }
   }
 }

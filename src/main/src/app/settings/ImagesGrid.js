@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Input } from '../layout/Input';
 import { toClassNames } from '../strings';
 
-const createCellClasses = ({ name, isEven }) => toClassNames('cell-container', `mod-${name}`, isEven ? 'mod-even' : null);
+const createCellClasses = ({ name, isEven }) => toClassNames('cell', `mod-${name}`, isEven ? 'mod-even' : null);
 
 const ImagesGrid = ({ tiles, onChange }) => (
   <Fragment>

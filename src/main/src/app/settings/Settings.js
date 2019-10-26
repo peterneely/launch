@@ -89,8 +89,7 @@ class Settings extends Component {
         { ...prevTilesByUrl }
       );
       this.setState({ dirty: true, tilesByUrl });
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   parseState = () => {
@@ -133,14 +132,8 @@ class Settings extends Component {
               <ImagesInput imagesByUrl={imagesByUrl} onChange={this.handleChangeInput} onPaste={this.handlePasteInput} />
             </div>
             <div className="settings-group mod-other">
-              <Checkbox name="sorted" label="Sorted" className="input-sorted" checked={sorted} onChange={this.handleChangeCheckbox} />
-              <Input
-                name="backgroundColor"
-                label="Background Color"
-                className="input-background-color"
-                onChange={this.handleChangeThemeInput}
-                value={backgroundColor}
-              />
+              <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeCheckbox} />
+              <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeThemeInput} value={backgroundColor} />
             </div>
           </div>
           <div className="modal-footer">

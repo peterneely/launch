@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { CheckedIcon } from './CheckedIcon';
 import { toClassNames } from '../strings';
 import './input.scss';
 
@@ -9,20 +8,19 @@ const Input = ({ checked, className, label, name, onChange, type, value }) => {
     <Fragment>
       <input
         checked={checked}
-        className={toClassNames('input', `${type}-input`)}
+        className={toClassNames('input', `mod-${type}`)}
         type={type}
-        id={name}
         name={name}
         value={value || ''}
         onChange={onChange({ name, checked, value })}
       />
-      {type === 'checkbox' && <CheckedIcon checked={checked} onChange={onChange({ name, checked, value })} />}
+      {type === 'checkbox' && <i className={toClassNames('checked-icon', checked ? 'mod-checked fas fa-check-circle' : 'mod-unchecked')} />}
     </Fragment>
   );
-  const containerClasses = toClassNames(className, 'input-container', `${type}-container`);
+  const containerClasses = toClassNames(className, 'input-container');
   return label ? (
-    <label className={toClassNames(containerClasses, 'label', 'input-label', `${type}-label`)} htmlFor={name}>
-      {label}
+    <label className={toClassNames(containerClasses, `mod-${name}`)}>
+      <span className="label">{label}</span>
       {input}
     </label>
   ) : (
