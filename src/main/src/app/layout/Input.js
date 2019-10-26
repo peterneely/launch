@@ -1,22 +1,34 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { CheckedIcon } from './CheckedIcon';
 import { toClassNames } from '../strings';
 import './input.scss';
 
-const Input = ({ checked, className, label, name, onChange, type, value }) => (
-  <div className={toClassNames(className, 'input-container', `${type}-container`)}>
-    {!!label && <label className={toClassNames('label', 'input-label', `${type}-label`)} htmlFor={name}>{label}</label>}
-    <input
-      checked={checked}
-      className={toClassNames('input', `${type}-input`)}
-      type={type}
-      id={name}
-      name={name}
-      value={value || ''}
-      onChange={onChange({ name, checked, value })}
-    />
-  </div>
-);
+const Input = ({ checked, className, label, name, onChange, type, value }) => {
+  const input = (
+    <Fragment>
+      <input
+        checked={checked}
+        className={toClassNames('input', `${type}-input`)}
+        type={type}
+        id={name}
+        name={name}
+        value={value || ''}
+        onChange={onChange({ name, checked, value })}
+      />
+      {type === 'checkbox' && <CheckedIcon checked={checked} onChange={onChange({ name, checked, value })} />}
+    </Fragment>
+  );
+  const containerClasses = toClassNames(className, 'input-container', `${type}-container`);
+  return label ? (
+    <label className={toClassNames(containerClasses, 'label', 'input-label', `${type}-label`)} htmlFor={name}>
+      {label}
+      {input}
+    </label>
+  ) : (
+    <div className={containerClasses}>{input}</div>
+  );
+};
 
 Input.propTypes = {
   checked: PropTypes.bool,

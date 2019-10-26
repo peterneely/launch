@@ -1,0 +1,33 @@
+@import '../variables.scss';
+
+.checkbox-input-icon-container {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  height: $row-height;
+  justify-content: center;
+
+  .checkbox-input-icon {
+    align-items: center;
+    color: $border-color;
+    display: flex;
+    font-size: $font-icon-size;
+    height: $row-height;
+    justify-content: center;
+
+    &.mod-checked {
+      color: $button-primary-color;
+    }
+
+    &.mod-unchecked {
+      border: 1px solid $border-color;
+      border-radius: 50%;
+      height: calc(1em - 2px);
+      width: calc(1em - 2px);
+
+      &:hover {
+        border-color: $border-hover-color;
+      }
+    }
+  }
+}
