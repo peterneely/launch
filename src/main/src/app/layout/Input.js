@@ -17,7 +17,7 @@ const Input = ({ checked, className, label, name, onChange, type, value }) => {
       {type === 'checkbox' && <i className={toClassNames('checked-icon', checked ? 'mod-checked fas fa-check-circle' : 'mod-unchecked')} />}
     </Fragment>
   );
-  const containerClasses = toClassNames(className, 'input-container');
+  const containerClasses = toClassNames(className, 'input-container', `mod-${type}`);
   return label ? (
     <label className={toClassNames(containerClasses, `mod-${name}`)}>
       <span className="label">{label}</span>
