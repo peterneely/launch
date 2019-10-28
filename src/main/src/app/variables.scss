@@ -11,10 +11,13 @@ $border-default: $border-height solid $border-color;
 $button-default-color: lighten($border-color, 10%);
 $button-primary-border-color: darken(#408BF9, 20%);
 $button-primary-color: #408BF9;
+$button-width: 120px;
 
 $font-icon-size: 1.5em;
 
 $label-color: black;
+$label-subtext-color: #878787;
+$label-width: 120px;
 
 $row-even-color: lighten($border-color, 10%);
 $row-height: 38px;

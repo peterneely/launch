@@ -23,7 +23,7 @@ class Settings extends Component {
   createInitialState = () => {
     const { settings: { sorted, theme } = {}, tiles } = this.props;
     const tilesByUrl = keyBy(tiles, 'url');
-    return { dirty: false, editing: false, sorted, theme, tilesByUrl };
+    return { dirty: false, editing: false, gridFilter: '', sorted, theme, tilesByUrl };
   };
 
   handleBlurModal = () => {
@@ -50,6 +50,10 @@ class Settings extends Component {
 
   handleChangeCheckbox = ({ name, checked }) => () => {
     this.setState({ dirty: true, [name]: !checked });
+  };
+
+  handleFilterGrid = () => event => {
+    this.setState({ gridFilter: event.target.value });
   };
 
   handlePasteInput = event => {
@@ -114,7 +118,7 @@ class Settings extends Component {
   };
 
   renderSettingsModal = () => {
-    const { dirty, sorted, theme: { backgroundColor } = {} } = this.state;
+    const { dirty, gridFilter, sorted, theme: { backgroundColor } = {} } = this.state;
     const { imagesByUrl, tiles } = this.parseState();
     const overlayClasses = toClassNames('modal-overlay', !dirty ? 'mod-clickable' : null);
     return (
@@ -126,9 +130,11 @@ class Settings extends Component {
           </div>
           <div className="modal-body">
             <div className="settings-group mod-grid">
-              <ImagesGrid tiles={tiles} onChange={this.handleChangeGrid} />
+              <label className="label">Bookmark Images</label>
+              <ImagesGrid tiles={tiles} filter={gridFilter} onChange={this.handleChangeGrid} onFilter={this.handleFilterGrid} />
             </div>
             <div className="settings-group mod-input">
+              <label className="label">Bookmark Images JSON</label>
               <ImagesInput imagesByUrl={imagesByUrl} onChange={this.handleChangeInput} onPaste={this.handlePasteInput} />
             </div>
             <div className="settings-group mod-other">

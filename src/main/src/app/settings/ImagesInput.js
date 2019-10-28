@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './imagesInput.scss';
 
 const ImagesInput = ({ imagesByUrl, onChange, onPaste }) => {
   const imagesJson = JSON.stringify(imagesByUrl, null, 2, true);

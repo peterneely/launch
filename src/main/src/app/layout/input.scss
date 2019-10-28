@@ -1,5 +1,7 @@
 @import '../variables.scss';
 
+$input-height: calc(#{$row-height} - #{2 * $border-height});
+
 .input-container {
   align-items: center;
   display: flex;
@@ -46,9 +48,10 @@
     border-radius: $border-radius;
     border: $border-default;
     flex: 1;
-    height: calc(#{$row-height} - #{2 * $border-height});
     font-size: 1em;
+    height: $input-height;
     margin: 0;
+    min-height: $input-height;
     padding: 0 10px;
   }
 

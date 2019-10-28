@@ -4,11 +4,11 @@ import { toClassNames } from '../strings';
 import './input.scss';
 
 const Input = ({ checked, className, label, name, onChange, type, value }) => {
-  const input = (
+  const renderInput = (classes = null) => (
     <Fragment>
       <input
         checked={checked}
-        className={toClassNames('input', `mod-${type}`)}
+        className={toClassNames(classes, 'input', `mod-${type}`)}
         type={type}
         name={name}
         value={value || ''}
@@ -17,14 +17,13 @@ const Input = ({ checked, className, label, name, onChange, type, value }) => {
       {type === 'checkbox' && <i className={toClassNames('checked-icon', checked ? 'mod-checked fas fa-check-circle' : 'mod-unchecked')} />}
     </Fragment>
   );
-  const containerClasses = toClassNames(className, 'input-container', `mod-${type}`);
   return label ? (
-    <label className={toClassNames(containerClasses, `mod-${name}`)}>
+    <label className={toClassNames(className, 'input-container', `mod-${type}`, `mod-${name}`)}>
       <span className="label">{label}</span>
-      {input}
+      {renderInput()}
     </label>
   ) : (
-    <div className={containerClasses}>{input}</div>
+    renderInput(className)
   );
 };
 
