@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual';
 import * as appActions from './actions';
 import { Fade } from './layout/Fade';
 import { Settings } from './settings/Settings';
-import { SettingsButton } from './SettingsButton';
+import { SettingsButton } from './settings/SettingsButton';
 import { Tiles } from './tiles/Tiles';
 import { isValidColor } from './strings';
 import { settingsPropType } from './settings/propTypes';
@@ -50,9 +50,10 @@ class App extends Component {
     const { loaded, showSettings } = this.props;
     return (
       <Fade show={loaded} className="app" style={this.styles.createAppStyle()}>
-        <SettingsButton onClick={this.handleToggleSettings} />
+        <SettingsButton disabled={showSettings} onClick={this.handleToggleSettings} />
+        <Tiles disabled={editing} />
         <Settings>
-          {editing => <Tiles disabled={editing} />}
+          {editing => }
         </Settings>
       </Fade>
     );
