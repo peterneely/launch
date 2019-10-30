@@ -4,6 +4,7 @@ const initialState = {
   error: null,
   loaded: false,
   settings: { theme: {} },
+  showSettings: false,
   tiles: [],
 };
 
@@ -18,6 +19,8 @@ export const reducer = (state = initialState, action) => {
       return { ...state, error: payload };
     case types.APP_SAVE_SETTINGS_SUCCESS:
       return { ...state, error: null };
+    case types.APP_TOGGLE_SETTINGS:
+      return { ...state, showSettings: !state.showSettings };
     default:
       return state;
   }

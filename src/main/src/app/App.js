@@ -6,6 +6,7 @@ import isEqual from 'lodash/isEqual';
 import * as appActions from './actions';
 import { Fade } from './layout/Fade';
 import { Settings } from './settings/Settings';
+import { SettingsButton } from './SettingsButton';
 import { Tiles } from './tiles/Tiles';
 import { isValidColor } from './strings';
 import { settingsPropType } from './settings/propTypes';
@@ -23,26 +24,33 @@ class App extends Component {
     const ready = loaded && !prevLoaded;
     const themeChanged = !isEqual(settings.theme, prevSettings.theme);
     if (ready || themeChanged) {
-      this.setRootStyle(settings.theme);
+      this.styles.setRootStyle(settings.theme);
     }
   }
 
-  setRootStyle = theme => {
-    const { backgroundColor } = theme || {};
-    const { documentElement: html } = document;
-    html.style.backgroundColor = isValidColor(backgroundColor) ? backgroundColor : null;
-    html.classList.add('mod-loaded');
-  };
+  handleToggleSettings = () => {
+    const { actions } = this.props;
+    actions.toggleSettings();
+  }
 
-  createAppStyle = () => {
-    const { settings: { theme: { backgroundColor } = {} } = {} } = this.props;
-    return isValidColor(backgroundColor) ? { backgroundColor } : undefined;
-  };
+  styles = {
+    createAppStyle: () => {
+      const { settings: { theme: { backgroundColor } = {} } = {} } = this.props;
+      return isValidColor(backgroundColor) ? { backgroundColor } : undefined;
+    },
+    setRootStyle: theme => {
+      const { backgroundColor } = theme || {};
+      const { documentElement: html } = document;
+      html.style.backgroundColor = isValidColor(backgroundColor) ? backgroundColor : null;
+      html.classList.add('mod-loaded');
+    }
+  }
 
   render() {
-    const { loaded } = this.props;
+    const { loaded, showSettings } = this.props;
     return (
-      <Fade show={loaded} className="app" style={this.createAppStyle()}>
+      <Fade show={loaded} className="app" style={this.styles.createAppStyle()}>
+        <SettingsButton onClick={this.handleToggleSettings} />
         <Settings>
           {editing => <Tiles disabled={editing} />}
         </Settings>
@@ -58,8 +66,8 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { app: { loaded, settings } = {} } = state;
-  return { loaded, settings };
+  const { app: { loaded, settings, showSettings } = {} } = state;
+  return { loaded, settings, showSettings };
 }
 
 const mapDispatchToProps = dispatch => {

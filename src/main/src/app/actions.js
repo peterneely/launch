@@ -21,3 +21,5 @@ export const saveSettings = settings => async dispatch => {
     dispatch({ type: types.APP_SAVE_SETTINGS_ERROR, payload: error });
   }
 };
+
+export const toggleSettings = () => ({ type: types.APP_TOGGLE_SETTINGS });
