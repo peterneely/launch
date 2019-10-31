@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { toClassNames } from '../strings';
+import './settingsButton.scss';
 
 const SettingsButton = ({ disabled, onClick }) => {
   const iconClass = toClassNames('button-toggle', 'fas', 'fa-cog', disabled ? 'mod-disabled' : null);

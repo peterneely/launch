@@ -6,11 +6,11 @@ import './imagesGrid.scss';
 
 const createCellClasses = ({ name, isEven }) => toClassNames('cell', `mod-${name}`, isEven ? 'mod-even' : null);
 
-const ImagesGrid = ({ filter, tiles, onChange, onFilter }) => {
+const ImagesGrid = ({ filter, tiles, onChangeRow, onFilterRows }) => {
   const matchesFilter = ({ title, url, image }) => [title, url, image].some(searchable => searchable.includes(filter));
   return (
     <div className="images-grid-container">
-      <Input name="filter" className="input-filter" onChange={onFilter} value={filter} />
+      <Input name="filter" className="input-filter" onChange={onFilterRows} value={filter} />
       <div className="images-grid">
         {tiles.filter(matchesFilter).map((tile, index) => {
           const { title, url, image } = tile;
@@ -21,7 +21,7 @@ const ImagesGrid = ({ filter, tiles, onChange, onFilter }) => {
                 <span className="cell-text">{title}</span>
                 <span className="cell-text mod-subtext truncate-text">{url}</span>
               </div>
-              <Input className={createCellClasses({ name: 'image', isEven })} name="image" value={image} onChange={onChange(url)} />
+              <Input className={createCellClasses({ name: 'image', isEven })} name="image" value={image} onChange={onChangeRow(url)} />
             </Fragment>
           );
         })}
@@ -40,8 +40,8 @@ ImagesGrid.propTypes = {
       image: PropTypes.string,
     }).isRequired
   ),
-  onChange: PropTypes.func.isRequired,
-  onFilter: PropTypes.func.isRequired,
+  onChangeRow: PropTypes.func.isRequired,
+  onFilterRows: PropTypes.func.isRequired,
 };
 
 export { ImagesGrid };

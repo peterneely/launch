@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './imagesInput.scss';
+import './imagesJson.scss';
 
-const ImagesInput = ({ imagesByUrl, onChange, onPaste }) => {
+const ImagesJson = ({ imagesByUrl, onChange, onPaste }) => {
   const imagesJson = JSON.stringify(imagesByUrl, null, 2, true);
-  return <textarea className="images-input" onChange={onChange} onPaste={onPaste} value={imagesJson} />;
+  return <textarea className="images-json" onChange={onChange} onPaste={onPaste} value={imagesJson} />;
 };
 
-ImagesInput.propTypes = {
+ImagesJson.propTypes = {
   imagesByUrl: PropTypes.objectOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
   onPaste: PropTypes.func.isRequired,
 };
 
-export { ImagesInput };
+export { ImagesJson };

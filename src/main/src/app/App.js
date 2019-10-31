@@ -5,8 +5,8 @@ import { bindActionCreators } from 'redux';
 import isEqual from 'lodash/isEqual';
 import * as appActions from './actions';
 import { Fade } from './layout/Fade';
-import { Settings } from './settings/Settings';
 import { SettingsButton } from './settings/SettingsButton';
+import { SettingsModal } from './settings/SettingsModal';
 import { Tiles } from './tiles/Tiles';
 import { isValidColor } from './strings';
 import { settingsPropType } from './settings/propTypes';
@@ -51,10 +51,8 @@ class App extends Component {
     return (
       <Fade show={loaded} className="app" style={this.styles.createAppStyle()}>
         <SettingsButton disabled={showSettings} onClick={this.handleToggleSettings} />
-        <Tiles disabled={editing} />
-        <Settings>
-          {editing => }
-        </Settings>
+        <Tiles disabled={showSettings} />
+        {showSettings && <SettingsModal onClose={this.handleToggleSettings} />}
       </Fade>
     );
   }

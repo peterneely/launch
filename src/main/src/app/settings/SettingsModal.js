@@ -8,42 +8,44 @@ import { Button } from '../layout/Button';
 import { Checkbox } from '../layout/Checkbox';
 import { Input } from '../layout/Input';
 import { ImagesGrid } from './ImagesGrid';
-import { ImagesInput } from './ImagesInput';
+import { ImagesJson } from './ImagesJson';
 import { cleanJson, toClassNames } from '../strings';
 import { settingsPropType } from './propTypes';
 import { tilePropType } from '../tiles/Tile';
-import './settings.scss';
+import './settingsModal.scss';
 
-class Settings extends Component {
+class SettingsModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    const { settings: { sorted, theme } = {}, tiles } = props;
+    this.state = {
+      dirty: false,
+      gridFilter: '',
+      sorted,
+      theme,
+      tilesByUrl: keyBy(tiles, 'url'),
+    };
   }
 
-  createInitialState = () => {
-    const { settings: { sorted, theme } = {}, tiles } = this.props;
-    const tilesByUrl = keyBy(tiles, 'url');
-    return { dirty: false, editing: false, gridFilter: '', sorted, theme, tilesByUrl };
-  };
-
-  handleBlurModal = () => {
+  handleBlurModal = event => {
+    const { onClose } = this.props;
     const { dirty } = this.state;
     if (!dirty) {
-      this.handleToggle();
+      onClose(event);
     }
   };
 
-  handleChangeGrid = url => () => event => {
+  handleChangeGridRow = url => () => event => {
     const { tilesByUrl: prevTilesByUrl } = this.state;
     const tilesByUrl = { ...prevTilesByUrl, [url]: { ...prevTilesByUrl[url], image: event.target.value } };
     this.setState({ dirty: true, tilesByUrl });
   };
 
-  handleChangeInput = event => {
-    this.parseInput(event.target.value);
+  handleChangeJson = event => {
+    this.setTilesByUrl({ json: event.target.value});
   };
 
-  handleChangeThemeInput = ({ name }) => event => {
+  handleChangeInput = ({ name }) => event => {
     const { theme: prevTheme } = this.state;
     this.setState({ dirty: true, theme: { ...prevTheme, [name]: event.target.value } });
   };
@@ -52,37 +54,27 @@ class Settings extends Component {
     this.setState({ dirty: true, [name]: !checked });
   };
 
-  handleFilterGrid = () => event => {
+  handleFilterGridRows = () => event => {
     this.setState({ gridFilter: event.target.value });
   };
 
   handlePasteInput = event => {
-    this.parseInput(event.clipboardData.getData('text/plain'));
+    this.setTilesByUrl({ json: event.clipboardData.getData('text/plain') });
   };
 
-  handleSave = () => {
-    const { actions } = this.props;
+  handleSave = event => {
+    const { actions, onClose } = this.props;
     const { sorted, theme } = this.state;
     const { imagesByUrl } = this.parseState();
     const settings = { imagesByUrl, sorted, theme };
     actions.saveSettings(settings);
-    this.handleToggle();
+    onClose(event);
   };
 
-  handleToggle = async () => {
-    const { editing: prevEditing } = this.state;
-    const editing = !prevEditing;
-    const state = {
-      ...(editing ? this.createInitialState() : {}),
-      editing,
-    };
-    this.setState(state);
-  };
-
-  parseInput = text => {
+  setTilesByUrl = ({ json }) => {
     const { tilesByUrl: prevTilesByUrl } = this.state;
     try {
-      const imagesByUrl = JSON.parse(cleanJson(text));
+      const imagesByUrl = JSON.parse(cleanJson(json));
       const tilesByUrl = Object.entries(imagesByUrl).reduce(
         (tilesByUrl, [url, image]) => {
           if (url in tilesByUrl) {
@@ -107,17 +99,8 @@ class Settings extends Component {
     return { imagesByUrl, tiles };
   };
 
-  renderSettingsButton = () => {
-    const { editing } = this.state;
-    const iconClass = toClassNames('button-toggle', 'fas', 'fa-cog', editing ? 'mod-disabled' : null);
-    return (
-      <div className="button-toggle-container">
-        <i className={iconClass} onClick={this.handleToggle} />
-      </div>
-    );
-  };
-
-  renderSettingsModal = () => {
+  render() {
+    const { onClose } = this.props;
     const { dirty, gridFilter, sorted, theme: { backgroundColor } = {} } = this.state;
     const { imagesByUrl, tiles } = this.parseState();
     const overlayClasses = toClassNames('modal-overlay', !dirty ? 'mod-clickable' : null);
@@ -126,48 +109,36 @@ class Settings extends Component {
         <div className="modal">
           <div className="modal-header">
             <h1 className="label label-title">Launch Settings</h1>
-            <Button className="button-close" icon={<i className="fas fa-times icon-close" />} onClick={this.handleToggle} />
+            <Button className="button-close" icon={<i className="fas fa-times icon-close" />} onClick={onClose} />
           </div>
           <div className="modal-body">
             <div className="settings-group mod-grid">
               <label className="label">Bookmark Images</label>
-              <ImagesGrid tiles={tiles} filter={gridFilter} onChange={this.handleChangeGrid} onFilter={this.handleFilterGrid} />
+              <ImagesGrid tiles={tiles} filter={gridFilter} onChangeRow={this.handleChangeGridRow} onFilterRows={this.handleFilterGridRows} />
             </div>
-            <div className="settings-group mod-input">
+            <div className="settings-group mod-json">
               <label className="label">Bookmark Images JSON</label>
-              <ImagesInput imagesByUrl={imagesByUrl} onChange={this.handleChangeInput} onPaste={this.handlePasteInput} />
+              <ImagesJson imagesByUrl={imagesByUrl} onChange={this.handleChangeJson} onPaste={this.handlePasteInput} />
             </div>
             <div className="settings-group mod-other">
               <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeCheckbox} />
-              <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeThemeInput} value={backgroundColor} />
+              <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeInput} value={backgroundColor} />
             </div>
           </div>
           <div className="modal-footer">
-            <Button className="button-cancel" label="Cancel" onClick={this.handleToggle} />
+            <Button className="button-cancel" label="Cancel" onClick={onClose} />
             <Button className="button-save" label="Save" onClick={this.handleSave} primary disabled={!dirty} />
           </div>
         </div>
         <div className={overlayClasses} onClick={this.handleBlurModal} />
       </Fragment>
     );
-  };
-
-  render() {
-    const { children } = this.props;
-    const { editing } = this.state;
-    return (
-      <Fragment>
-        {this.renderSettingsButton()}
-        {children(editing)}
-        {editing && this.renderSettingsModal()}
-      </Fragment>
-    );
   }
 }
 
-Settings.propTypes = {
+SettingsModal.propTypes = {
   actions: PropTypes.object.isRequired,
-  children: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   settings: settingsPropType.isRequired,
   tiles: PropTypes.arrayOf(tilePropType),
 };
@@ -184,6 +155,6 @@ const mapDispatchToProps = dispatch => {
 const component = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Settings);
+)(SettingsModal);
 
-export { component as Settings };
+export { component as SettingsModal };
