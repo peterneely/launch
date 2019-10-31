@@ -2,16 +2,17 @@
 
 .images-json {
   background-color: darken($background-color, 10%);
+  border-radius: $border-radius;
   border: none;
   color: white;
   font-size: 1em;
+  height: calc(#{$settings-tab-height} - 20px);
   line-height: 1.5em;
   margin: 0;
-  height: calc(#{$settings-tab-height} - 20px);
   padding: 10px;
   resize: none;
+  white-space: nowrap;
   width: calc(100% - 20px);
-  border-radius: $border-radius;
 
   &:focus {
     outline: none;
