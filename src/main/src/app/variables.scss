@@ -3,10 +3,10 @@ $background-loading-color: white;
 
 $border-color: #D6D6D6;
 $border-focus-color: #408BF9;
-$border-height: 1px;
 $border-hover-color: darken(#D6D6D6, 15%);
 $border-radius: 4px;
-$border-default: $border-height solid $border-color;
+$border-weight: 1px;
+$border-default: $border-weight solid $border-color;
 
 $button-default-color: lighten($border-color, 10%);
 $button-primary-border-color: darken(#408BF9, 20%);
@@ -21,6 +21,8 @@ $label-width: 120px;
 
 $row-even-color: lighten($border-color, 10%);
 $row-height: 38px;
+
+$settings-tab-height: 30vh;
 
 $tile-background-color: white;
 $tile-title-color: #878787;

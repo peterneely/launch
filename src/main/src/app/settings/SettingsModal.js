@@ -6,9 +6,10 @@ import keyBy from 'lodash/keyBy';
 import * as appActions from '../actions';
 import { Button } from '../layout/Button';
 import { Checkbox } from '../layout/Checkbox';
-import { Input } from '../layout/Input';
 import { ImagesGrid } from './ImagesGrid';
 import { ImagesJson } from './ImagesJson';
+import { Input } from '../layout/Input';
+import { Tabs } from '../layout/Tabs';
 import { cleanJson, toClassNames } from '../strings';
 import { settingsPropType } from './propTypes';
 import { tilePropType } from '../tiles/Tile';
@@ -54,9 +55,9 @@ class SettingsModal extends Component {
     this.setState({ dirty: true, [name]: !checked });
   };
 
-  handleFilterGridRows = () => event => {
-    this.setState({ gridFilter: event.target.value });
-  };
+  // handleFilterGridRows = () => event => {
+  //   this.setState({ gridFilter: event.target.value });
+  // };
 
   handlePasteInput = event => {
     this.setTilesByUrl({ json: event.clipboardData.getData('text/plain') });
@@ -99,10 +100,23 @@ class SettingsModal extends Component {
     return { imagesByUrl, tiles };
   };
 
+  createTabConfigs = () => {
+    const { imagesByUrl, tiles } = this.parseState();
+    return [
+      {
+        renderTitle: () => <label className="label mod-tab">Bookmark Images</label>,
+        renderBody: () => <ImagesGrid tiles={tiles} onChangeRow={this.handleChangeGridRow} />
+      },
+      {
+        renderTitle: () => <label className="label mod-tab">Bookmark Images JSON</label>,
+        renderBody: () => <ImagesJson imagesByUrl={imagesByUrl} onChange={this.handleChangeJson} onPaste={this.handlePasteInput} />
+      }
+    ];
+  };
+
   render() {
     const { onClose } = this.props;
-    const { dirty, gridFilter, sorted, theme: { backgroundColor } = {} } = this.state;
-    const { imagesByUrl, tiles } = this.parseState();
+    const { dirty, sorted, theme: { backgroundColor } = {} } = this.state;
     const overlayClasses = toClassNames('modal-overlay', !dirty ? 'mod-clickable' : null);
     return (
       <Fragment>
@@ -112,13 +126,8 @@ class SettingsModal extends Component {
             <Button className="button-close" icon={<i className="fas fa-times icon-close" />} onClick={onClose} />
           </div>
           <div className="modal-body">
-            <div className="settings-group mod-grid">
-              <label className="label">Bookmark Images</label>
-              <ImagesGrid tiles={tiles} filter={gridFilter} onChangeRow={this.handleChangeGridRow} onFilterRows={this.handleFilterGridRows} />
-            </div>
-            <div className="settings-group mod-json">
-              <label className="label">Bookmark Images JSON</label>
-              <ImagesJson imagesByUrl={imagesByUrl} onChange={this.handleChangeJson} onPaste={this.handlePasteInput} />
+            <div className="settings-group mod-tabs">
+              <Tabs tabConfigs={this.createTabConfigs()} />
             </div>
             <div className="settings-group mod-other">
               <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeCheckbox} />

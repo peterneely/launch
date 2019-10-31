@@ -1,0 +1,42 @@
+@import '../variables.scss';
+
+.tabs-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+}
+
+.tabs {
+  display: flex;
+  position: absolute;
+  top: calc(-#{$row-height} - 2px);
+}
+
+.tab {
+  align-items: center;
+  border: $border-weight solid transparent;
+  cursor: pointer;
+  display: flex;
+  height: $row-height;
+  justify-content: center;
+
+  &.mod-active {
+    border: $border-default;
+    border-bottom: 3px solid white;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+    z-index: 10;
+  }
+
+  .label {
+    cursor: pointer;
+    text-align: center;
+    padding: 0 15px;
+  }
+}
+
+.tab-body {
+  border-top: $border-default;
+  padding-top: 20px;
+}

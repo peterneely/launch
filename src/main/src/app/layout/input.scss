@@ -1,6 +1,6 @@
 @import '../variables.scss';
 
-$input-height: calc(#{$row-height} - #{2 * $border-height});
+$input-height: calc(#{$row-height} - #{2 * $border-weight});
 
 .input-container {
   align-items: center;

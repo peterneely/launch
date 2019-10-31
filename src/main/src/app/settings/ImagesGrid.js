@@ -6,11 +6,11 @@ import './imagesGrid.scss';
 
 const createCellClasses = ({ name, isEven }) => toClassNames('cell', `mod-${name}`, isEven ? 'mod-even' : null);
 
-const ImagesGrid = ({ filter, tiles, onChangeRow, onFilterRows }) => {
+const ImagesGrid = ({ filter, tiles, onChangeRow }) => {
   const matchesFilter = ({ title, url, image }) => [title, url, image].some(searchable => searchable.includes(filter));
   return (
     <div className="images-grid-container">
-      <Input name="filter" className="input-filter" onChange={onFilterRows} value={filter} />
+      {/* <Input name="filter" className="input-filter" onChange={() => {}} value={filter} /> */}
       <div className="images-grid">
         {tiles.filter(matchesFilter).map((tile, index) => {
           const { title, url, image } = tile;
@@ -41,7 +41,6 @@ ImagesGrid.propTypes = {
     }).isRequired
   ),
   onChangeRow: PropTypes.func.isRequired,
-  onFilterRows: PropTypes.func.isRequired,
 };
 
 export { ImagesGrid };
