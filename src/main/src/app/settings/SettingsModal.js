@@ -121,17 +121,19 @@ class SettingsModal extends Component {
     return (
       <Fragment>
         <div className="modal">
-          <div className="modal-header">
-            <h1 className="label label-title">Launch Settings</h1>
-            <Button className="button-close" icon={<i className="fas fa-times icon-close" />} onClick={onClose} />
-          </div>
-          <div className="modal-body">
-            <div className="settings-group mod-tabs">
-              <Tabs tabConfigs={this.createTabConfigs()} />
+          <div>
+            <div className="modal-header">
+              <h1 className="label label-title">Launch Settings</h1>
+              <Button className="button-close" icon={<i className="fas fa-times icon-close" />} onClick={onClose} />
             </div>
-            <div className="settings-group mod-other">
-              <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeCheckbox} />
-              <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeInput} value={backgroundColor} />
+            <div className="modal-body">
+              <div className="settings-group mod-tabs">
+                <Tabs tabConfigs={this.createTabConfigs()} />
+              </div>
+              <div className="settings-group mod-other">
+                <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeCheckbox} />
+                <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeInput} value={backgroundColor} />
+              </div>
             </div>
           </div>
           <div className="modal-footer">
