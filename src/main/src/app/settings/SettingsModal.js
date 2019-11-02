@@ -28,9 +28,32 @@ class SettingsModal extends Component {
     };
   }
 
+  createTabConfigs = () => {
+    const { filter } = this.state;
+    return [
+      {
+        renderTitle: () => <label className="label mod-tab">Bookmark Images</label>,
+        renderBody: () => <ImagesList filter={filter} tiles={this.getFilteredTiles()} onChange={this.handleChangeListInput} onFilter={this.handleFilterList} />
+      },
+      {
+        renderTitle: () => <label className="label mod-tab">Bookmark Images JSON</label>,
+        renderBody: () => <ImagesJson imagesByUrl={this.getImagesByUrl()} onChange={this.handleChangeJson} onPaste={this.handlePasteJson} />
+      }
+    ];
+  };
+
   getFilteredTiles = () => {
     const { filter, tilesByUrl } = this.state;
     return Object.values(tilesByUrl).filter(({ title, url, image }) => [title, url, image].some(tileInfo => (tileInfo || '').includes(filter)));
+  };
+
+  getImagesByUrl = () => {
+    const { tilesByUrl } = this.state;
+    return Object.values(tilesByUrl).reduce((imagesByUrl, tile) => {
+      const { url, image } = tile;
+      imagesByUrl[url] = image;
+      return imagesByUrl;
+    }, {});
   };
 
   handleBlurModal = event => {
@@ -41,43 +64,42 @@ class SettingsModal extends Component {
     }
   };
 
-  handleChangeListRow = url => () => event => {
+  handleChangeJson = event => {
+    this.parseJson({ json: event.target.value});
+  };
+
+  handleChangeListInput = url => () => event => {
     const { tilesByUrl: prevTilesByUrl } = this.state;
     const tilesByUrl = { ...prevTilesByUrl, [url]: { ...prevTilesByUrl[url], image: event.target.value } };
     this.setState({ dirty: true, tilesByUrl });
   };
 
-  handleChangeJson = event => {
-    this.setTilesByUrl({ json: event.target.value});
+  handleChangeOtherCheckbox = ({ name, checked }) => () => {
+    this.setState({ dirty: true, [name]: !checked });
   };
 
-  handleChangeInput = ({ name }) => event => {
+  handleChangeOtherInput = ({ name }) => event => {
     const { theme: prevTheme } = this.state;
     this.setState({ dirty: true, theme: { ...prevTheme, [name]: event.target.value } });
   };
 
-  handleChangeCheckbox = ({ name, checked }) => () => {
-    this.setState({ dirty: true, [name]: !checked });
+  handleFilterList = ({ clear }) => event => {
+    this.setState({ filter: clear ? '' : event.target.value });
   };
 
-  handleFilterList = () => event => {
-    this.setState({ filter: event.target.value });
-  };
-
-  handlePasteInput = event => {
-    this.setTilesByUrl({ json: event.clipboardData.getData('text/plain') });
+  handlePasteJson = event => {
+    this.parseJson({ json: event.clipboardData.getData('text/plain') });
   };
 
   handleSave = event => {
     const { actions, onClose } = this.props;
     const { sorted, theme } = this.state;
-    const { imagesByUrl } = this.parseState();
-    const settings = { imagesByUrl, sorted, theme };
-    actions.saveSettings(settings);
+    const imagesByUrl = this.getImagesByUrl();
+    actions.saveSettings({ imagesByUrl, sorted, theme });
     onClose(event);
   };
 
-  setTilesByUrl = ({ json }) => {
+  parseJson = ({ json }) => {
     const { tilesByUrl: prevTilesByUrl } = this.state;
     try {
       const imagesByUrl = JSON.parse(cleanJson(json));
@@ -92,32 +114,6 @@ class SettingsModal extends Component {
       );
       this.setState({ dirty: true, tilesByUrl });
     } catch (error) {}
-  };
-
-  parseState = () => {
-    const { tilesByUrl } = this.state;
-    const tiles = Object.values(tilesByUrl);
-    const imagesByUrl = tiles.reduce((imagesByUrl, tile) => {
-      const { url, image } = tile;
-      imagesByUrl[url] = image;
-      return imagesByUrl;
-    }, {});
-    return { imagesByUrl, tiles };
-  };
-
-  createTabConfigs = () => {
-    const { filter } = this.state;
-    const { imagesByUrl } = this.parseState();
-    return [
-      {
-        renderTitle: () => <label className="label mod-tab">Bookmark Images</label>,
-        renderBody: () => <ImagesList filter={filter} tiles={this.getFilteredTiles()} onChange={this.handleChangeListRow} onFilter={this.handleFilterList} />
-      },
-      {
-        renderTitle: () => <label className="label mod-tab">Bookmark Images JSON</label>,
-        renderBody: () => <ImagesJson imagesByUrl={imagesByUrl} onChange={this.handleChangeJson} onPaste={this.handlePasteInput} />
-      }
-    ];
   };
 
   render() {
@@ -137,8 +133,8 @@ class SettingsModal extends Component {
                 <Tabs tabConfigs={this.createTabConfigs()} />
               </div>
               <div className="settings-group mod-other">
-                <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeCheckbox} />
-                <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeInput} value={backgroundColor} />
+                <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeOtherCheckbox} />
+                <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeOtherInput} value={backgroundColor} />
               </div>
             </div>
           </div>

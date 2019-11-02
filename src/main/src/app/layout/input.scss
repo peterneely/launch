@@ -5,6 +5,13 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
 .input-container {
   align-items: center;
   display: flex;
+  height: $row-height;
+  position: relative;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
 
   &.mod-checkbox {
     cursor: pointer;
@@ -15,6 +22,21 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
           border-color: $border-hover-color;
         }
       }
+    }
+  }
+
+  &.mod-focused {
+    &:not(.mod-empty) {
+      .input-icon {
+        display: flex;
+        // opacity: 1;
+      }
+    }
+  }
+
+  &.mod-blurring {
+    .input-icon {
+      opacity: 0;
     }
   }
 
@@ -36,6 +58,18 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
       height: calc(1em - 4px);
       width: calc(1em - 4px);
     }
+  }
+
+  .input-icon {
+    align-items: center;
+    cursor: pointer;
+    // opacity: 0;
+    display: none;
+    height: $row-height;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    width: $row-height;
   }
 }
 

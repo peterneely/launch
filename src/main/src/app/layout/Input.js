@@ -1,31 +1,87 @@
-import React, { Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { toClassNames } from '../strings';
 import './input.scss';
 
-const Input = ({ checked, className, label, name, onChange, type, value }) => {
-  const renderInput = (classes = null) => (
-    <Fragment>
-      <input
-        checked={checked}
-        className={toClassNames(classes, 'input', `mod-${type}`)}
-        type={type}
-        name={name}
-        value={value || ''}
-        onChange={onChange({ name, checked, value })}
-      />
-      {type === 'checkbox' && <i className={toClassNames('checked-icon', checked ? 'mod-checked fas fa-check-circle' : 'mod-unchecked')} />}
-    </Fragment>
-  );
-  return label ? (
-    <label className={toClassNames(className, 'input-container', `mod-${type}`, `mod-${name}`)}>
-      <span className="label">{label}</span>
-      {renderInput()}
-    </label>
-  ) : (
-    renderInput(className)
-  );
-};
+class Input extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { blurring: false, focused: false };
+  }
+
+  componentDidUpdate() {
+    const { blurring, focused } = this.state;
+    if (blurring && focused) {
+      this.willBlur = setTimeout(() => {
+        this.willBlur = null;
+        this.setState({ blurring: false, focused: false });
+      }, 300);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.willBlur) {
+      clearTimeout(this.willBlur);
+      this.willBlur = null;
+    }
+  }
+
+  handleBlur = () => {
+    this.setState({ blurring: true });
+  };
+
+  handleClear = event => {
+    const { checked, name, onChange, value } = this.props;
+    onChange({ name, checked, value, clear: true })(event);
+  };
+
+  handleFocus = () => {
+    this.setState({ blurring: false, focused: true });
+  };
+
+  renderInput = () => {
+    const { checked, className, name, onChange, type, value } = this.props;
+    const { blurring, focused } = this.state;
+    const containerClasses = toClassNames(
+      className,
+      'input-container',
+      `mod-${type}`,
+      `mod-${name}`,
+      focused ? 'mod-focused' : null,
+      blurring ? 'mod-blurring' : null,
+      !value ? 'mod-empty' : null
+    );
+    return (
+      <span className={containerClasses} onBlur={this.handleBlur} onFocus={this.handleFocus}>
+        <input
+          checked={checked}
+          className={toClassNames('input', `mod-${type}`)}
+          name={name}
+          onChange={onChange({ name, checked, value })}
+          type={type}
+          value={value || ''}
+        />
+        {type === 'checkbox' ? (
+          <i className={toClassNames('checked-icon', checked ? 'mod-checked fas fa-check-circle' : 'mod-unchecked')} />
+        ) : (
+          <i className="input-icon icon-close fas fa-times" onClick={this.handleClear} />
+        )}
+      </span>
+    );
+  };
+
+  render() {
+    const { className, label, name, type } = this.props;
+    return label ? (
+      <label className={toClassNames(className, 'input-container', `mod-${type}`, `mod-${name}`)}>
+        <span className="label">{label}</span>
+        {this.renderInput()}
+      </label>
+    ) : (
+      this.renderInput()
+    );
+  }
+}
 
 Input.propTypes = {
   checked: PropTypes.bool,

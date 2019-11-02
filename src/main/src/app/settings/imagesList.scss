@@ -4,25 +4,25 @@
   align-items: center;
   display: flex;
   flex: 1;
-  padding: 6px 10px;
 
-  &.mod-image {
+  &:not(.mod-image) {
+    overflow: hidden;
+    padding: 0 10px;
+  }
+
+  .input {
     background-color: transparent;
     border-color: transparent;
     border-radius: 0;
-
-    &:hover {
-      border-color: $border-hover-color;
-    }
 
     &:focus {
       background-color: white;
       border-color: $border-focus-color;
     }
-  }
 
-  &.mod-title {
-    overflow: hidden;
+    &:hover {
+      border-color: $border-hover-color;
+    }
   }
 }
 

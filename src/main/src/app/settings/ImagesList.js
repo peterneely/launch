@@ -30,7 +30,6 @@ ImagesList.propTypes = {
   filter: PropTypes.string,
   tiles: PropTypes.arrayOf(tilePropType).isRequired,
   onChange: PropTypes.func.isRequired,
-  onFilter: PropTypes.func.isRequired,
 };
 
 export { ImagesList };
