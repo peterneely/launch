@@ -6,8 +6,8 @@ import keyBy from 'lodash/keyBy';
 import * as appActions from '../actions';
 import { Button } from '../layout/Button';
 import { Checkbox } from '../layout/Checkbox';
-import { ImagesGrid } from './ImagesGrid';
 import { ImagesJson } from './ImagesJson';
+import { ImagesList } from './ImagesList';
 import { Input } from '../layout/Input';
 import { Tabs } from '../layout/Tabs';
 import { cleanJson, toClassNames } from '../strings';
@@ -21,12 +21,17 @@ class SettingsModal extends Component {
     const { settings: { sorted, theme } = {}, tiles } = props;
     this.state = {
       dirty: false,
-      gridFilter: '',
+      filter: '',
       sorted,
       theme,
       tilesByUrl: keyBy(tiles, 'url'),
     };
   }
+
+  getFilteredTiles = () => {
+    const { filter, tilesByUrl } = this.state;
+    return Object.values(tilesByUrl).filter(({ title, url, image }) => [title, url, image].some(tileInfo => (tileInfo || '').includes(filter)));
+  };
 
   handleBlurModal = event => {
     const { onClose } = this.props;
@@ -36,7 +41,7 @@ class SettingsModal extends Component {
     }
   };
 
-  handleChangeGridRow = url => () => event => {
+  handleChangeListRow = url => () => event => {
     const { tilesByUrl: prevTilesByUrl } = this.state;
     const tilesByUrl = { ...prevTilesByUrl, [url]: { ...prevTilesByUrl[url], image: event.target.value } };
     this.setState({ dirty: true, tilesByUrl });
@@ -55,9 +60,9 @@ class SettingsModal extends Component {
     this.setState({ dirty: true, [name]: !checked });
   };
 
-  // handleFilterGridRows = () => event => {
-  //   this.setState({ gridFilter: event.target.value });
-  // };
+  handleFilterList = () => event => {
+    this.setState({ filter: event.target.value });
+  };
 
   handlePasteInput = event => {
     this.setTilesByUrl({ json: event.clipboardData.getData('text/plain') });
@@ -101,11 +106,12 @@ class SettingsModal extends Component {
   };
 
   createTabConfigs = () => {
-    const { imagesByUrl, tiles } = this.parseState();
+    const { filter } = this.state;
+    const { imagesByUrl } = this.parseState();
     return [
       {
         renderTitle: () => <label className="label mod-tab">Bookmark Images</label>,
-        renderBody: () => <ImagesGrid tiles={tiles} onChangeRow={this.handleChangeGridRow} />
+        renderBody: () => <ImagesList filter={filter} tiles={this.getFilteredTiles()} onChange={this.handleChangeListRow} onFilter={this.handleFilterList} />
       },
       {
         renderTitle: () => <label className="label mod-tab">Bookmark Images JSON</label>,

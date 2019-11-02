@@ -50,7 +50,6 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
     flex: 1;
     font-size: 1em;
     height: $input-height;
-    margin: 0;
     min-height: $input-height;
     padding: 0 10px;
   }

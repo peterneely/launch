@@ -6,13 +6,13 @@ import './tabs.scss';
 class Tabs extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeIndex: props.controlledIndex };
+    this.state = { activeIndex: props.index };
   }
 
   componentDidUpdate(prevProps) {
-    const { controlledIndex } = this.props;
-    if (controlledIndex !== prevProps.controlledIndex) {
-      this.setState({ activeIndex: controlledIndex });
+    const { index } = this.props;
+    if (index !== prevProps.index) {
+      this.setState({ activeIndex: index });
     }
   }
 
@@ -43,7 +43,7 @@ class Tabs extends Component {
 }
 
 Tabs.propTypes = {
-  controlledIndex: PropTypes.number,
+  index: PropTypes.number,
   tabConfigs: PropTypes.arrayOf(
     PropTypes.shape({
       renderTitle: PropTypes.func.isRequired,
@@ -53,7 +53,7 @@ Tabs.propTypes = {
 };
 
 Tabs.defaultProps = {
-  controlledIndex: 0,
+  index: 0,
 };
 
 export { Tabs };
