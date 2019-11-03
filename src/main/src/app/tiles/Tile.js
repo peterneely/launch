@@ -33,7 +33,7 @@ class Tile extends Component {
               <div className="title-image-container">{image && <img className="tile-image" src={image} alt="" />}</div>
               <div className="tile-title">{title}</div>
             </a>
-            <i className="tile-icon mod-edit fas fa-edit" onClick={onEdit(url)} />
+            <i className="tile-icon mod-edit fas fa-cog" onClick={onEdit(url)} />
           </div>
         </div>
       </div>

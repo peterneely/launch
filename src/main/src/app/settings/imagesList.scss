@@ -10,6 +10,18 @@
     padding: 0 10px;
   }
 
+  &.mod-auto-scrolled {
+
+    .input,
+    .input:focus {
+      background-color: $row-auto-scrolled-color;
+    }
+
+    .input-icon {
+      background-color: $row-auto-scrolled-color;
+    }
+  }
+
   .input {
     background-color: transparent;
     border-color: transparent;
@@ -78,18 +90,24 @@
   display: flex;
   width: 100%;
 
+  &.mod-auto-scrolled {
+    background-color: $row-auto-scrolled-color;
+  }
+
   &.mod-even {
-    background-color: $row-even-color;
+    &:not(.mod-auto-scrolled) {
+      background-color: $row-even-color;
 
-    .input-container {
-      &.mod-focused {
-        .input-icon {
-          background-color: white;
+      .input-container {
+        &.mod-focused {
+          .input-icon {
+            background-color: white;
+          }
         }
-      }
 
-      .input-icon {
-        background-color: $row-even-color;
+        .input-icon {
+          background-color: $row-even-color;
+        }
       }
     }
   }

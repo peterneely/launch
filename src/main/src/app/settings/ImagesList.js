@@ -26,10 +26,17 @@ class ImagesList extends Component {
   };
 
   render() {
-    const { filter, onChange, onFilter, tiles } = this.props;
+    const { filter, onChange, onFilter, scrollToUrl, tiles } = this.props;
     return (
       <div className="images-list-container">
-        <Input autoFocus className="images-list-filter" name="filter" placeholder="Filter bookmarks" value={filter} onChange={onFilter} />
+        <Input
+          autoFocus={!scrollToUrl}
+          className="images-list-filter"
+          name="filter"
+          placeholder="Filter bookmarks"
+          value={filter}
+          onChange={onFilter}
+        />
         <div className="images-list-header">
           <div className="images-row">
             <span className="cell">Bookmark</span>
@@ -39,14 +46,17 @@ class ImagesList extends Component {
         <div className="images-list">
           {tiles.map((tile, index) => {
             const { title, url, image } = tile;
-            const isEven = index % 2 === 0;
+            const even = index % 2 === 0;
+            const autoScrolled = url === scrollToUrl;
+            const rowClasses = toClassNames('images-row', even ? 'mod-even' : null, autoScrolled ? 'mod-auto-scrolled' : null);
+            const cellInputClasses = toClassNames('cell', 'mod-image', autoScrolled ? 'mod-auto-scrolled' : null);
             return (
-              <div className={toClassNames('images-row', isEven ? 'mod-even' : null)} key={index} ref={this.setTileRef(url)}>
+              <div className={rowClasses} key={index} ref={this.setTileRef(url)}>
                 <div className="cell mod-title">
                   <span className="cell-text">{title}</span>
                   <span className="cell-text mod-subtext truncate-text">{url}</span>
                 </div>
-                <Input className="cell mod-image" name="image" value={image} onChange={onChange(url)} />
+                <Input autoFocus={autoScrolled} className={cellInputClasses} name="image" value={image} onChange={onChange(url)} />
               </div>
             );
           })}

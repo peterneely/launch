@@ -34,6 +34,23 @@
   position: relative;
   transition: $util-transition;
   z-index: 2;
+
+  .tile-icon {
+    bottom: 0;
+    color: $tile-icon-color;
+    cursor: pointer;
+    display: none;
+    font-size: 1.2em;
+    left: 0;
+    padding: 12px;
+    position: absolute;
+  }
+
+  &:hover {
+    .tile-icon {
+      display: inline-block;
+    }
+  }
 }
 
 .tile-border-outer {
@@ -43,12 +60,6 @@
 .tile-border-inner {
   padding: 6px;
   z-index: 4;
-}
-
-.tile-icon {
-  bottom: 0;
-  left: 0;
-  position: absolute;
 }
 
 .title-image-container {
@@ -78,7 +89,7 @@
 
 .tile-title {
   color: $tile-title-color;
-  font-size: small;
+  font-size: 1.1em;
   font-weight: bold;
   max-width: 80%;
   overflow: hidden;

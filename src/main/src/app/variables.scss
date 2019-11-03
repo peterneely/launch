@@ -21,12 +21,14 @@ $label-color: black;
 $label-subtext-color: #878787;
 $label-width: 120px;
 
+$row-auto-scrolled-color: lighten(yellow, 45%);
 $row-even-color: lighten($border-color, 10%);
 $row-height: 38px;
 
 $settings-tab-height: 40vh;
 
 $tile-background-color: white;
+$tile-icon-color: lighten(#878787, 30%);
 $tile-title-color: #878787;
 $tile-width: 260px;
 
