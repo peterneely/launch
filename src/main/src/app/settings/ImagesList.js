@@ -8,6 +8,12 @@ import './imagesList.scss';
 const ImagesList = ({ filter, onChange, onFilter, tiles }) => (
   <div className="images-list-container">
     <Input autoFocus className="images-list-filter" name="filter" placeholder="Filter bookmarks" value={filter} onChange={onFilter} />
+    <div className="images-list-header">
+      <div className="images-row">
+        <span className="cell">Bookmark</span>
+        <span className="cell has-input">Image URL</span>
+      </div>
+    </div>
     <div className="images-list">
       {tiles.map((tile, index) => {
         const { title, url, image } = tile;

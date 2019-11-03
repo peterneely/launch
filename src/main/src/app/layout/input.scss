@@ -59,12 +59,12 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
     color: $icon-color-disabled;
     cursor: pointer;
     display: none;
-    height: $row-height;
+    height: calc(#{$row-height} - 2px);
     justify-content: center;
     position: absolute;
-    right: 0;
+    right: $border-weight;
     transition: $util-transition;
-    width: $row-height;
+    width: calc(#{$row-height} - 2px);
 
     &.mod-clear {
       &:hover {
