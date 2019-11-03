@@ -10,7 +10,7 @@
     padding: 0 10px;
   }
 
-  &.mod-auto-scrolled {
+  &.mod-scroll {
 
     .input,
     .input:focus {
@@ -92,12 +92,8 @@
   width: 100%;
   transition: $util-transition;
 
-  &.mod-auto-scrolled {
-    background-color: $row-auto-scrolled-color;
-  }
-
   &.mod-even {
-    &:not(.mod-auto-scrolled) {
+    &:not(.mod-scroll) {
       background-color: $row-even-color;
 
       .input-container {
@@ -112,6 +108,10 @@
         }
       }
     }
+  }
+
+  &.mod-scroll {
+    background-color: $row-auto-scrolled-color;
   }
 
   .input-icon {
