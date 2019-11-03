@@ -26,6 +26,7 @@
     background-color: transparent;
     border-color: transparent;
     border-radius: 0;
+    transition: $util-transition;
 
     &:focus {
       background-color: white;
@@ -89,6 +90,7 @@
   align-items: center;
   display: flex;
   width: 100%;
+  transition: $util-transition;
 
   &.mod-auto-scrolled {
     background-color: $row-auto-scrolled-color;
@@ -114,5 +116,6 @@
 
   .input-icon {
     background-color: white;
+    transition: $util-transition;
   }
 }
