@@ -22,4 +22,4 @@ export const saveSettings = settings => async dispatch => {
   }
 };
 
-export const toggleSettings = () => ({ type: types.APP_TOGGLE_SETTINGS });
+export const toggleSettings = (url = null) => ({ type: types.APP_TOGGLE_SETTINGS, payload: url });

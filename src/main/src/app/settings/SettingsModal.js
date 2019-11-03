@@ -29,6 +29,7 @@ class SettingsModal extends Component {
   }
 
   createTabConfigs = () => {
+    const { settingsUrl } = this.props;
     const { filter } = this.state;
     return [
       {
@@ -39,6 +40,7 @@ class SettingsModal extends Component {
             tiles={this.getFilteredTiles()}
             onChange={this.handleChangeListInput}
             onFilter={this.handleChangeListFilter}
+            scrollToUrl={settingsUrl}
           />
         ),
       },
@@ -164,12 +166,13 @@ SettingsModal.propTypes = {
   actions: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   settings: settingsPropType.isRequired,
+  settingsUrl: PropTypes.string, // URL to scroll to in settings images list
   tiles: PropTypes.arrayOf(tilePropType),
 };
 
 const mapStateToProps = state => {
-  const { app: { settings, tiles } = {} } = state;
-  return { settings, tiles };
+  const { app: { settings, settingsUrl, tiles } = {} } = state;
+  return { settings, settingsUrl, tiles };
 };
 
 const mapDispatchToProps = dispatch => {

@@ -45,6 +45,12 @@
   z-index: 4;
 }
 
+.tile-icon {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+}
+
 .title-image-container {
   align-items: center;
   display: flex;
@@ -59,12 +65,12 @@
 }
 
 .tile-link {
+  align-items: center;
   background-color: $tile-background-color;
   border-radius: $border-radius;
   display: flex;
   flex-direction: column;
   padding: 10px;
-  position: relative;
   text-align: center;
   text-decoration: none;
   z-index: 6;
@@ -74,6 +80,7 @@
   color: $tile-title-color;
   font-size: small;
   font-weight: bold;
+  max-width: 80%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -24,7 +24,7 @@ class Tile extends Component {
   }
 
   render() {
-    const { tile: { title, url, image } = {} } = this.props;
+    const { onEdit, tile: { title, url, image } = {} } = this.props;
     return (
       <div className="tile" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
         <div className="tile-border tile-border-outer">
@@ -33,6 +33,7 @@ class Tile extends Component {
               <div className="title-image-container">{image && <img className="tile-image" src={image} alt="" />}</div>
               <div className="tile-title">{title}</div>
             </a>
+            <i className="tile-icon mod-edit fas fa-edit" onClick={onEdit(url)} />
           </div>
         </div>
       </div>
@@ -48,6 +49,7 @@ export const tilePropType = PropTypes.shape({
 });
 
 Tile.propTypes = {
+  onEdit: PropTypes.func.isRequired,
   theme: themePropType,
   tile: tilePropType,
 };

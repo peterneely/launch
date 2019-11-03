@@ -14,12 +14,17 @@ class Tiles extends Component {
     document.documentElement.classList.toggle('mod-disabled', disabled);
   }
 
+  handleEditTile = url => () => {
+    const { actions } = this.props;
+    actions.toggleSettings(url);
+  };
+
   render() {
     const { disabled, settings: { theme } = {}, tiles } = this.props;
     return (
       <main className={toClassNames('tiles', disabled ? 'mod-disabled' : null)}>
         {tiles.map((tile, index) => (
-          <Tile key={index} tile={tile} theme={theme} />
+          <Tile key={index} onEdit={this.handleEditTile} tile={tile} theme={theme} />
         ))}
       </main>
     );
