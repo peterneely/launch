@@ -6,53 +6,45 @@ import './input.scss';
 class Input extends Component {
   constructor(props) {
     super(props);
-    this.state = { blurring: false, focused: false };
-  }
-
-  componentDidUpdate() {
-    const { blurring, focused } = this.state;
-    if (blurring && focused) {
-      this.willBlur = setTimeout(() => {
-        this.willBlur = null;
-        this.setState({ blurring: false, focused: false });
-      }, 300);
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.willBlur) {
-      clearTimeout(this.willBlur);
-      this.willBlur = null;
-    }
+    this.state = { focused: false, hovering: false };
   }
 
   handleBlur = () => {
-    this.setState({ blurring: true });
-  };
-
-  handleClear = event => {
-    const { checked, name, onChange, value } = this.props;
-    onChange({ name, checked, value, clear: true })(event);
+    this.setState({ focused: false });
   };
 
   handleFocus = () => {
-    this.setState({ blurring: false, focused: true });
+    this.setState({ focused: true });
+  };
+
+  handleHoverEnd = () => {
+    this.setState({ hovering: false });
+  };
+
+  handleHoverStart = () => {
+    this.setState({ hovering: true });
   };
 
   renderInput = () => {
     const { checked, className, name, onChange, type, value } = this.props;
-    const { blurring, focused } = this.state;
+    const { focused, hovering } = this.state;
     const containerClasses = toClassNames(
       className,
       'input-container',
       `mod-${type}`,
       `mod-${name}`,
       focused ? 'mod-focused' : null,
-      blurring ? 'mod-blurring' : null,
+      hovering ? 'mod-hovering' : null,
       !value ? 'mod-empty' : null
     );
     return (
-      <span className={containerClasses} onBlur={this.handleBlur} onFocus={this.handleFocus}>
+      <span
+        className={containerClasses}
+        onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
+        onMouseOver={this.handleHoverStart}
+        onMouseOut={this.handleHoverEnd}
+      >
         <input
           checked={checked}
           className={toClassNames('input', `mod-${type}`)}
@@ -64,7 +56,7 @@ class Input extends Component {
         {type === 'checkbox' ? (
           <i className={toClassNames('checked-icon', checked ? 'mod-checked fas fa-check-circle' : 'mod-unchecked')} />
         ) : (
-          <i className="input-icon icon-close fas fa-times" onClick={this.handleClear} />
+          <i className="input-icon mod-clear fas fa-times" onClick={onChange({ name, checked, value, clear: true })} />
         )}
       </span>
     );

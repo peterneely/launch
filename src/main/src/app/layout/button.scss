@@ -44,7 +44,7 @@
   }
 
   &.mod-icon-only {
-    font-size: $font-icon-size;
+    font-size: $icon-size;
     min-width: unset;
     width: $row-height;
   }
@@ -63,5 +63,5 @@
 }
 
 .icon-close {
-  color: red;
+  color: $icon-color-danger;
 }

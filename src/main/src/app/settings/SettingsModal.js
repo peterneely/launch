@@ -33,18 +33,29 @@ class SettingsModal extends Component {
     return [
       {
         renderTitle: () => <label className="label mod-tab">Bookmark Images</label>,
-        renderBody: () => <ImagesList filter={filter} tiles={this.getFilteredTiles()} onChange={this.handleChangeListInput} onFilter={this.handleFilterList} />
+        renderBody: () => (
+          <ImagesList
+            filter={filter}
+            tiles={this.getFilteredTiles()}
+            onChange={this.handleChangeListInput}
+            onFilter={this.handleChangeListFilter}
+          />
+        ),
       },
       {
         renderTitle: () => <label className="label mod-tab">Bookmark Images JSON</label>,
-        renderBody: () => <ImagesJson imagesByUrl={this.getImagesByUrl()} onChange={this.handleChangeJson} onPaste={this.handlePasteJson} />
-      }
+        renderBody: () => (
+          <ImagesJson imagesByUrl={this.getImagesByUrl()} onChange={this.handleChangeJson} onPaste={this.handlePasteJson} />
+        ),
+      },
     ];
   };
 
   getFilteredTiles = () => {
     const { filter, tilesByUrl } = this.state;
-    return Object.values(tilesByUrl).filter(({ title, url, image }) => [title, url, image].some(tileInfo => (tileInfo || '').includes(filter)));
+    return Object.values(tilesByUrl).filter(({ title, url, image }) =>
+      [title, url, image].some(tileInfo => (tileInfo || '').includes(filter))
+    );
   };
 
   getImagesByUrl = () => {
@@ -65,12 +76,16 @@ class SettingsModal extends Component {
   };
 
   handleChangeJson = event => {
-    this.parseJson({ json: event.target.value});
+    this.parseJson({ json: event.target.value });
   };
 
-  handleChangeListInput = url => () => event => {
+  handleChangeListFilter = ({ clear }) => event => {
+    this.setState({ filter: clear ? '' : event.target.value });
+  };
+
+  handleChangeListInput = url => ({ clear }) => event => {
     const { tilesByUrl: prevTilesByUrl } = this.state;
-    const tilesByUrl = { ...prevTilesByUrl, [url]: { ...prevTilesByUrl[url], image: event.target.value } };
+    const tilesByUrl = { ...prevTilesByUrl, [url]: { ...prevTilesByUrl[url], image: clear ? '' : event.target.value } };
     this.setState({ dirty: true, tilesByUrl });
   };
 
@@ -81,10 +96,6 @@ class SettingsModal extends Component {
   handleChangeOtherInput = ({ name }) => event => {
     const { theme: prevTheme } = this.state;
     this.setState({ dirty: true, theme: { ...prevTheme, [name]: event.target.value } });
-  };
-
-  handleFilterList = ({ clear }) => event => {
-    this.setState({ filter: clear ? '' : event.target.value });
   };
 
   handlePasteJson = event => {

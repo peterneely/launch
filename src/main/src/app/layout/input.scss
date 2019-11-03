@@ -25,18 +25,12 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
     }
   }
 
-  &.mod-focused {
+  &.mod-focused,
+  &.mod-hovering {
     &:not(.mod-empty) {
       .input-icon {
         display: flex;
-        // opacity: 1;
       }
-    }
-  }
-
-  &.mod-blurring {
-    .input-icon {
-      opacity: 0;
     }
   }
 
@@ -44,7 +38,7 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
     align-items: center;
     color: $border-color;
     display: flex;
-    font-size: $font-icon-size;
+    font-size: $icon-size;
     height: $row-height;
     justify-content: center;
 
@@ -62,14 +56,21 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
 
   .input-icon {
     align-items: center;
+    color: $icon-color-disabled;
     cursor: pointer;
-    // opacity: 0;
     display: none;
     height: $row-height;
     justify-content: center;
     position: absolute;
     right: 0;
+    transition: $util-transition;
     width: $row-height;
+
+    &.mod-clear {
+      &:hover {
+        color: $icon-color-danger;
+      }
+    }
   }
 }
 
