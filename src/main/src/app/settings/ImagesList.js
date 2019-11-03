@@ -19,14 +19,20 @@ class ImagesList extends Component {
       const rowElement = this.rowElementsByUrl[scrollToUrl];
       if (rowElement) {
         rowElement.scrollIntoView({ block: 'center' });
-        this.setState({ classesByUrl: { ...classesByUrl, [scrollToUrl]: 'mod-auto-scrolled' } }, () => {
-          console.log(this.state);
-        });
+        this.setState({ classesByUrl: { ...classesByUrl, [scrollToUrl]: 'mod-auto-scrolled' } });
         this.autoScrolledTimer = setTimeout(() => {
+          this.autoScrolledTimer = null;
           const { classesByUrl: { [scrollToUrl]: urlToRemove, ...restClassesByUrl } } = this.state;
           this.setState({ classesByUrl: restClassesByUrl });
         }, 1000);
       }
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.autoScrolledTimer) {
+      clearTimeout(this.autoScrolledTimer);
+      this.autoScrolledTimer = null;
     }
   }
 
