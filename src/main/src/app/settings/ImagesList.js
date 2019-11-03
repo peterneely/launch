@@ -24,7 +24,7 @@ class ImagesList extends Component {
           this.autoScrolledTimer = null;
           const { classesByUrl: { [scrollToUrl]: urlToRemove, ...restClassesByUrl } } = this.state;
           this.setState({ classesByUrl: restClassesByUrl });
-        }, 1000);
+        }, 1500);
       }
     }
   }
