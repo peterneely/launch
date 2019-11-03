@@ -21,7 +21,9 @@
     }
 
     &:hover {
-      border-color: $border-hover-color;
+      &:not(:focus) {
+        border-color: $border-hover-color;
+      }
     }
   }
 }
@@ -42,7 +44,6 @@
 
   .input-filter {
     margin-bottom: 10px;
-    ;
   }
 }
 
@@ -80,8 +81,16 @@
   &.mod-even {
     background-color: $row-even-color;
 
-    .input-icon {
-      background-color: $row-even-color;
+    .input-container {
+      &.mod-focused {
+        .input-icon {
+          background-color: white;
+        }
+      }
+
+      .input-icon {
+        background-color: $row-even-color;
+      }
     }
   }
 
