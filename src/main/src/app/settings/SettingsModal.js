@@ -22,6 +22,7 @@ class SettingsModal extends Component {
     this.state = {
       dirty: false,
       filter: '',
+      filterEmptyImages: false,
       sorted,
       theme,
       tilesByUrl: keyBy(tiles, 'url'),
@@ -30,16 +31,20 @@ class SettingsModal extends Component {
 
   createTabConfigs = () => {
     const { scrollUrl } = this.props;
-    const { filter } = this.state;
+    const { filter, filterEmptyImages, tilesByUrl } = this.state;
+    const hasEmptyImages = !!Object.values(tilesByUrl).filter(({ image }) => !image).length;
     return [
       {
         renderTitle: () => <label className="label mod-tab">Bookmark Images</label>,
         renderBody: () => (
           <ImagesList
             filter={filter}
+            filterEmptyImages={filterEmptyImages}
+            hasEmptyImages={!!hasEmptyImages}
             tiles={this.getFilteredTiles()}
             onChange={this.handleChangeListInput}
             onFilter={this.handleChangeListFilter}
+            onFilterEmptyImages={this.handleChangeListFilterEmptyImages}
             scrollUrl={scrollUrl}
           />
         ),
@@ -54,10 +59,10 @@ class SettingsModal extends Component {
   };
 
   getFilteredTiles = () => {
-    const { filter, tilesByUrl } = this.state;
-    return Object.values(tilesByUrl).filter(({ title, url, image }) =>
-      [title, url, image].some(tileInfo => (tileInfo || '').includes(filter))
-    );
+    const { filter, filterEmptyImages, tilesByUrl } = this.state;
+    const tiles = Object.values(tilesByUrl);
+    const tilesToFilter = filterEmptyImages ? tiles.filter(({ image }) => !image) : tiles;
+    return tilesToFilter.filter(({ title, url, image }) => [title, url, image].some(tileInfo => (tileInfo || '').includes(filter)));
   };
 
   getImagesByUrl = () => {
@@ -83,6 +88,10 @@ class SettingsModal extends Component {
 
   handleChangeListFilter = ({ clear }) => event => {
     this.setState({ filter: clear ? '' : event.target.value });
+  };
+
+  handleChangeListFilterEmptyImages = ({ checked: prevChecked }) => () => {
+    this.setState({ filterEmptyImages: !prevChecked });
   };
 
   handleChangeListInput = url => ({ clear }) => event => {

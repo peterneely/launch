@@ -32,27 +32,19 @@ class Input extends Component {
     this.setState({ hovering: true });
   };
 
-  styles = {
-    createContainerClasses: () => {
-      const { className, name, type, value } = this.props;
-      const { focused, hovering } = this.state;
-      return toClassNames(
-        className,
-        'input-container',
-        `mod-${type}`,
-        `mod-${name}`,
-        focused ? 'mod-focused' : null,
-        hovering ? 'mod-hovering' : null,
-        !value ? 'mod-empty' : null
-      );
-    },
-  };
-
-  renderInput = () => {
+  renderInput = containerClasses => {
     const { autoFocus, checked, name, onChange, placeholder, type, value } = this.props;
+    const { focused, hovering } = this.state;
+    const classes = toClassNames(
+      containerClasses,
+      'input-wrapper',
+      focused ? 'mod-focused' : null,
+      hovering ? 'mod-hovering' : null,
+      !value ? 'mod-empty' : null
+    );
     return (
       <span
-        className={this.styles.createContainerClasses()}
+        className={classes || undefined}
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
         onMouseOver={this.handleHoverStart}
@@ -80,13 +72,14 @@ class Input extends Component {
 
   render() {
     const { className, label, name, type } = this.props;
+    const containerClasses = toClassNames(className, 'input-container', `mod-${type}`, `mod-${name}`);
     return label ? (
-      <label className={toClassNames(className, 'input-container', `mod-${type}`, `mod-${name}`)}>
+      <label className={containerClasses}>
         <span className="label">{label}</span>
         {this.renderInput()}
       </label>
     ) : (
-      this.renderInput()
+      this.renderInput(containerClasses)
     );
   }
 }

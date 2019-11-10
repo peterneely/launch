@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Checkbox } from '../layout/Checkbox';
 import { Input } from '../layout/Input';
 import { tilePropType } from '../tiles/Tile';
 import { toClassNames } from '../strings';
@@ -88,17 +89,27 @@ class ImagesList extends Component {
   })();
 
   render() {
-    const { filter, onFilter, scrollUrl, tiles } = this.props;
+    const { filter, filterEmptyImages, hasEmptyImages, onFilter, onFilterEmptyImages, scrollUrl, tiles } = this.props;
     return (
       <div className="images-list-container">
-        <Input
-          autoFocus={!scrollUrl}
-          className="images-list-filter"
-          name="filter"
-          placeholder="Filter bookmarks"
-          value={filter}
-          onChange={onFilter}
-        />
+        <div className="images-list-filters">
+          <Input
+            autoFocus={!scrollUrl}
+            className="images-list-filter"
+            name="filter"
+            placeholder="Filter bookmarks"
+            value={filter}
+            onChange={onFilter}
+          />
+          {hasEmptyImages && (
+            <Checkbox
+              checked={filterEmptyImages}
+              label="Show only bookmarks with empty images"
+              name="filterEmptyImages"
+              onChange={onFilterEmptyImages}
+            />
+          )}
+        </div>
         <div className="images-list-header">
           <div className="images-row">
             <span className="cell">Bookmark</span>
@@ -113,9 +124,13 @@ class ImagesList extends Component {
 
 ImagesList.propTypes = {
   filter: PropTypes.string,
-  tiles: PropTypes.arrayOf(tilePropType).isRequired,
+  filterEmptyImages: PropTypes.bool,
+  hasEmptyImages: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
+  onFilter: PropTypes.func.isRequired,
+  onFilterEmptyImages: PropTypes.func.isRequired,
   scrollUrl: PropTypes.string,
+  tiles: PropTypes.arrayOf(tilePropType).isRequired,
 };
 
 export { ImagesList };

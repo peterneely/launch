@@ -2,78 +2,6 @@
 
 $input-height: calc(#{$row-height} - #{2 * $border-weight});
 
-.input-container {
-  align-items: center;
-  display: flex;
-  height: $row-height;
-  position: relative;
-  width: 100%;
-
-  &:focus {
-    outline: none;
-  }
-
-  &.mod-checkbox {
-    cursor: pointer;
-
-    &:hover {
-      .checked-icon {
-        &.mod-unchecked {
-          border-color: $border-hover-color;
-        }
-      }
-    }
-  }
-
-  &.mod-focused,
-  &.mod-hovering {
-    &:not(.mod-empty) {
-      .input-icon {
-        display: flex;
-      }
-    }
-  }
-
-  .checked-icon {
-    align-items: center;
-    color: $border-color;
-    display: flex;
-    font-size: $icon-size;
-    height: $row-height;
-    justify-content: center;
-
-    &.mod-checked {
-      color: $button-primary-color;
-    }
-
-    &.mod-unchecked {
-      border: 2px solid $border-color;
-      border-radius: 50%;
-      height: calc(1em - 4px);
-      width: calc(1em - 4px);
-    }
-  }
-
-  .input-icon {
-    align-items: center;
-    color: $icon-color-disabled;
-    cursor: pointer;
-    display: none;
-    height: calc(#{$row-height} - 2px);
-    justify-content: center;
-    position: absolute;
-    right: $border-weight;
-    transition: $util-transition;
-    width: calc(#{$row-height} - 2px);
-
-    &.mod-clear {
-      &:hover {
-        color: $icon-color-danger;
-      }
-    }
-  }
-}
-
 .input {
   align-items: center;
   display: flex;
@@ -105,5 +33,89 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
   &.mod-checkbox {
     cursor: pointer;
     margin: 0;
+  }
+}
+
+.input-container {
+  align-items: center;
+  display: flex;
+  height: $row-height;
+  position: relative;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.mod-checkbox {
+    cursor: pointer;
+
+    &:hover {
+      .checked-icon {
+        &.mod-unchecked {
+          border-color: $border-hover-color;
+        }
+      }
+    }
+  }
+
+  &.mod-text {
+    .input-wrapper {
+      align-items: center;
+      display: flex;
+      flex: 1;
+    }
+  }
+
+  .checked-icon {
+    align-items: center;
+    color: $border-color;
+    display: flex;
+    font-size: $icon-size;
+    height: $row-height;
+    justify-content: center;
+
+    &.mod-checked {
+      color: $button-primary-color;
+    }
+
+    &.mod-unchecked {
+      border: 2px solid $border-color;
+      border-radius: 50%;
+      height: calc(1em - 4px);
+      width: calc(1em - 4px);
+    }
+  }
+
+  .input-icon {
+    align-items: center;
+    color: $icon-color-disabled;
+    cursor: pointer;
+    display: none;
+    height: calc(#{$row-height} - 4px);
+    justify-content: center;
+    position: absolute;
+    right: $border-weight;
+    top: 3px;
+    transition: $util-transition;
+    width: calc(#{$row-height} - 2px);
+
+    &.mod-clear {
+      &:hover {
+        color: $icon-color-danger;
+      }
+    }
+  }
+}
+
+.input-wrapper {
+
+  &.mod-focused,
+  &.mod-hovering {
+    &:not(.mod-empty) {
+      .input-icon {
+        display: flex;
+      }
+    }
   }
 }
