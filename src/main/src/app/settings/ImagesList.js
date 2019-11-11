@@ -90,6 +90,8 @@ class ImagesList extends Component {
 
   render() {
     const { filter, filterEmptyImages, hasEmptyImages, onFilter, onFilterEmptyImages, scrollUrl, tiles } = this.props;
+    const { length: tileCount } = tiles;
+    const bookmarkHeaderLabel = toClassNames('Bookmarks', tileCount ? `(${tileCount})` : null);
     return (
       <div className="images-list-container">
         <div className="images-list-filters">
@@ -104,7 +106,7 @@ class ImagesList extends Component {
           {hasEmptyImages && (
             <Checkbox
               checked={filterEmptyImages}
-              label="Show only bookmarks with empty images"
+              label="Show only bookmarks with no image URLs"
               name="filterEmptyImages"
               onChange={onFilterEmptyImages}
             />
@@ -112,8 +114,8 @@ class ImagesList extends Component {
         </div>
         <div className="images-list-header">
           <div className="images-row">
-            <span className="cell">Bookmark</span>
-            <span className="cell has-input">Image URL</span>
+            <span className="cell">{bookmarkHeaderLabel}</span>
+            <span className="cell has-input">Image URLs</span>
           </div>
         </div>
         <div className="images-list">{tiles.map(this.row.render)}</div>
