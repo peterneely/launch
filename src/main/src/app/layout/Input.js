@@ -75,7 +75,7 @@ class Input extends Component {
     const containerClasses = toClassNames(className, 'input-container', `mod-${type}`, `mod-${name}`);
     return label ? (
       <label className={containerClasses}>
-        <span className="label">{label}</span>
+        <span className="label mod-input">{label}</span>
         {this.renderInput()}
       </label>
     ) : (

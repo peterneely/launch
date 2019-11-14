@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import cloneDeep from 'lodash/cloneDeep';
 import keyBy from 'lodash/keyBy';
 import * as appActions from '../actions';
 import { Button } from '../layout/Button';
@@ -23,45 +24,49 @@ class SettingsModal extends Component {
       dirty: false,
       filter: '',
       filterEmptyImages: false,
+      prevEmptyImageTilesByUrl: {},
       sorted,
       theme,
-      tilesByUrl: keyBy(tiles, 'url'),
+      tilesByUrl: keyBy(cloneDeep(tiles), 'url'),
     };
   }
 
-  createTabConfigs = () => {
+  createTabConfigs = tiles => {
     const { scrollUrl } = this.props;
-    const { filter, filterEmptyImages, tilesByUrl } = this.state;
-    const hasEmptyImages = !!Object.values(tilesByUrl).filter(({ image }) => !image).length;
-    return [
+    const { filter, filterEmptyImages, prevEmptyImageTilesByUrl } = this.state;
+    const hasEmptyImages = !!tiles.filter(({ image }) => !image).length || !!Object.keys(prevEmptyImageTilesByUrl).length;
+    const tabConfigs = [
       {
         renderTitle: () => <label className="label mod-tab">Bookmark Images</label>,
         renderBody: () => (
           <ImagesList
             filter={filter}
             filterEmptyImages={filterEmptyImages}
-            hasEmptyImages={!!hasEmptyImages}
-            tiles={this.getFilteredTiles()}
+            hasEmptyImages={hasEmptyImages}
+            tiles={tiles}
             onChange={this.handleChangeListInput}
             onFilter={this.handleChangeListFilter}
             onFilterEmptyImages={this.handleChangeListFilterEmptyImages}
             scrollUrl={scrollUrl}
           />
         ),
-      },
-      {
+      }
+    ];
+    if (tiles.length) {
+      tabConfigs.push({
         renderTitle: () => <label className="label mod-tab">Bookmark Images JSON</label>,
         renderBody: () => (
-          <ImagesJson imagesByUrl={this.getImagesByUrl()} onChange={this.handleChangeJson} onPaste={this.handlePasteJson} />
+          <ImagesJson imagesByUrl={this.getImagesByUrl()} onChange={this.handleChangeJson} />
         ),
-      },
-    ];
+      })
+    }
+    return tabConfigs;
   };
 
   getFilteredTiles = () => {
-    const { filter, filterEmptyImages, tilesByUrl } = this.state;
+    const { filter, filterEmptyImages, prevEmptyImageTilesByUrl, tilesByUrl } = this.state;
     const tiles = Object.values(tilesByUrl);
-    const tilesToFilter = filterEmptyImages ? tiles.filter(({ image }) => !image) : tiles;
+    const tilesToFilter = filterEmptyImages ? tiles.filter(({ image, url }) => !image || prevEmptyImageTilesByUrl[url]) : tiles;
     return tilesToFilter.filter(({ title, url, image }) => [title, url, image].some(tileInfo => (tileInfo || '').includes(filter)));
   };
 
@@ -83,7 +88,20 @@ class SettingsModal extends Component {
   };
 
   handleChangeJson = event => {
-    this.parseJson({ json: event.target.value });
+    const { tilesByUrl: prevTilesByUrl } = this.state;
+    try {
+      const imagesByUrl = JSON.parse(cleanJson(event.target.value));
+      const tilesByUrl = Object.entries(imagesByUrl).reduce(
+        (tilesByUrl, [url, image]) => {
+          if (url in tilesByUrl) {
+            tilesByUrl[url].image = image;
+          }
+          return tilesByUrl;
+        },
+        { ...prevTilesByUrl }
+      );
+      this.setState({ dirty: true, tilesByUrl });
+    } catch (error) {}
   };
 
   handleChangeListFilter = ({ clear }) => event => {
@@ -91,7 +109,18 @@ class SettingsModal extends Component {
   };
 
   handleChangeListFilterEmptyImages = ({ checked: prevChecked }) => () => {
-    this.setState({ filterEmptyImages: !prevChecked });
+    this.setState({
+      filterEmptyImages: !prevChecked,
+      prevEmptyImageTilesByUrl: (() => {
+        if (!prevChecked) {
+          const { tilesByUrl } = this.state;
+          const tiles = Object.values(tilesByUrl);
+          const prevEmptyImageTiles = tiles.filter(({ image }) => !image);
+          return keyBy(prevEmptyImageTiles, 'url');
+        }
+        return {};
+      })()
+    });
   };
 
   handleChangeListInput = url => ({ clear }) => event => {
@@ -109,10 +138,6 @@ class SettingsModal extends Component {
     this.setState({ dirty: true, theme: { ...prevTheme, [name]: event.target.value } });
   };
 
-  handlePasteJson = event => {
-    this.parseJson({ json: event.clipboardData.getData('text/plain') });
-  };
-
   handleSave = event => {
     const { actions, onClose } = this.props;
     const { sorted, theme } = this.state;
@@ -121,27 +146,11 @@ class SettingsModal extends Component {
     onClose(event);
   };
 
-  parseJson = ({ json }) => {
-    const { tilesByUrl: prevTilesByUrl } = this.state;
-    try {
-      const imagesByUrl = JSON.parse(cleanJson(json));
-      const tilesByUrl = Object.entries(imagesByUrl).reduce(
-        (tilesByUrl, [url, image]) => {
-          if (url in tilesByUrl) {
-            tilesByUrl[url].image = image;
-          }
-          return tilesByUrl;
-        },
-        { ...prevTilesByUrl }
-      );
-      this.setState({ dirty: true, tilesByUrl });
-    } catch (error) {}
-  };
-
   render() {
     const { onClose } = this.props;
     const { dirty, sorted, theme: { backgroundColor } = {} } = this.state;
     const overlayClasses = toClassNames('modal-overlay', !dirty ? 'mod-clickable' : null);
+    const tiles = this.getFilteredTiles();
     return (
       <Fragment>
         <div className="modal">
@@ -152,10 +161,10 @@ class SettingsModal extends Component {
             </div>
             <div className="modal-body">
               <div className="settings-group mod-tabs">
-                <Tabs tabConfigs={this.createTabConfigs()} />
+                <Tabs tabConfigs={this.createTabConfigs(tiles)} />
               </div>
               <div className="settings-group mod-other">
-                <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeOtherCheckbox} />
+                {tiles.length ? <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeOtherCheckbox} /> : null}
                 <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeOtherInput} value={backgroundColor} />
               </div>
             </div>

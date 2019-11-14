@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox } from '../layout/Checkbox';
 import { Input } from '../layout/Input';
@@ -91,34 +91,41 @@ class ImagesList extends Component {
   render() {
     const { filter, filterEmptyImages, hasEmptyImages, onFilter, onFilterEmptyImages, scrollUrl, tiles } = this.props;
     const { length: tileCount } = tiles;
-    const bookmarkHeaderLabel = toClassNames('Bookmarks', tileCount ? `(${tileCount})` : null);
+    const hasTiles = !!tileCount;
+    const bookmarkHeaderLabel = toClassNames('Bookmarks', hasTiles ? `(${tileCount})` : null);
     return (
       <div className="images-list-container">
-        <div className="images-list-filters">
-          <Input
-            autoFocus={!scrollUrl}
-            className="images-list-filter"
-            name="filter"
-            placeholder="Filter bookmarks"
-            value={filter}
-            onChange={onFilter}
-          />
-          {hasEmptyImages && (
-            <Checkbox
-              checked={filterEmptyImages}
-              label="Show only bookmarks with no image URLs"
-              name="filterEmptyImages"
-              onChange={onFilterEmptyImages}
-            />
-          )}
-        </div>
-        <div className="images-list-header">
-          <div className="images-row">
-            <span className="cell">{bookmarkHeaderLabel}</span>
-            <span className="cell has-input">Image URLs</span>
-          </div>
-        </div>
-        <div className="images-list">{tiles.map(this.row.render)}</div>
+        {hasTiles ? (
+          <Fragment>
+            <div className="images-list-filters">
+              <Input
+                autoFocus={!scrollUrl}
+                className="images-list-filter"
+                name="filter"
+                placeholder="Filter bookmarks"
+                value={filter}
+                onChange={onFilter}
+              />
+              {hasEmptyImages && (
+                <Checkbox
+                  checked={filterEmptyImages}
+                  label="Show only bookmarks with no image URLs"
+                  name="filterEmptyImages"
+                  onChange={onFilterEmptyImages}
+                />
+              )}
+            </div>
+            <div className="images-list-header">
+              <div className="images-row">
+                <span className="cell">{bookmarkHeaderLabel}</span>
+                <span className="cell has-input">Image URLs</span>
+              </div>
+            </div>
+            <div className="images-list mod-not-empty">{tiles.map(this.row.render)}</div>
+          </Fragment>
+        ) : (
+          <div className="images-list mod-empty label mod-sub">No bookmarks :'(</div>
+        )}
       </div>
     );
   }

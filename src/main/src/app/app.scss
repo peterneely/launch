@@ -31,6 +31,10 @@ html {
   color: $label-color;
   font-weight: bold;
   white-space: nowrap;
+
+  &.mod-sub {
+    color: $label-subtext-color;
+  }
 }
 
 .truncate-text {

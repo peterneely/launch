@@ -76,7 +76,8 @@
   }
 
   .label {
-    &:not(.mod-tab) {
+
+    &.mod-input {
       min-width: $label-width;
       padding: 10px 0;
       white-space: normal;
