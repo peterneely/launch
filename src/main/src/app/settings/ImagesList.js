@@ -95,7 +95,7 @@ class ImagesList extends Component {
     const bookmarkHeaderLabel = toClassNames('Bookmarks', hasTiles ? `(${tileCount})` : null);
     return (
       <div className="images-list-container">
-        {hasTiles ? (
+        {hasTiles || filter ? (
           <Fragment>
             <div className="images-list-filters">
               <Input

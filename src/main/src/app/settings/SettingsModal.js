@@ -31,7 +31,7 @@ class SettingsModal extends Component {
     };
   }
 
-  createTabConfigs = tiles => {
+  createTabConfigs = (tiles, hasTiles) => {
     const { scrollUrl } = this.props;
     const { filter, filterEmptyImages, prevEmptyImageTilesByUrl } = this.state;
     const hasEmptyImages = !!tiles.filter(({ image }) => !image).length || !!Object.keys(prevEmptyImageTilesByUrl).length;
@@ -52,7 +52,7 @@ class SettingsModal extends Component {
         ),
       }
     ];
-    if (tiles.length) {
+    if (hasTiles) {
       tabConfigs.push({
         renderTitle: () => <label className="label mod-tab">Bookmark Images JSON</label>,
         renderBody: () => (
@@ -148,9 +148,10 @@ class SettingsModal extends Component {
 
   render() {
     const { onClose } = this.props;
-    const { dirty, sorted, theme: { backgroundColor } = {} } = this.state;
+    const { dirty, filter, sorted, theme: { backgroundColor } = {} } = this.state;
     const overlayClasses = toClassNames('modal-overlay', !dirty ? 'mod-clickable' : null);
     const tiles = this.getFilteredTiles();
+    const hasTiles = !!tiles.length || filter;
     return (
       <Fragment>
         <div className="modal">
@@ -161,10 +162,10 @@ class SettingsModal extends Component {
             </div>
             <div className="modal-body">
               <div className="settings-group mod-tabs">
-                <Tabs tabConfigs={this.createTabConfigs(tiles)} />
+                <Tabs tabConfigs={this.createTabConfigs(tiles, hasTiles)} />
               </div>
               <div className="settings-group mod-other">
-                {tiles.length ? <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeOtherCheckbox} /> : null}
+                {hasTiles ? <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeOtherCheckbox} /> : null}
                 <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeOtherInput} value={backgroundColor} />
               </div>
             </div>
