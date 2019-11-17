@@ -1,3 +1,3 @@
-import { getBookmarks, getSettings, setSettings } from './chrome';
+import { getBookmarkTree, getBookmarks, getSettings, setSettings } from './chrome';
 
-export { getBookmarks, getSettings, setSettings };
+export { getBookmarkTree, getBookmarks, getSettings, setSettings };

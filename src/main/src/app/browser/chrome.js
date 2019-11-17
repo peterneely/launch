@@ -5,6 +5,22 @@ import { getCachedSettings, setCachedSettings } from './localStorage';
 
 const { runtime, storage } = window.chrome;
 
+export const getBookmarkTree = () =>
+  new Promise((resolve, reject) => {
+    try {
+      runtime.sendMessage({ type: 'GET_BOOKMARK_TREE' }, response => {
+        const { bookmarkTree } = response || {};
+        if (bookmarkTree) {
+          resolve(bookmarkTree);
+        } else {
+          reject(new Error('Could not get Chrome bookmark tree'));
+        }
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+
 export const getBookmarks = () =>
   new Promise((resolve, reject) => {
     try {

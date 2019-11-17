@@ -15,7 +15,7 @@ import './app.scss';
 class App extends Component {
   componentDidMount() {
     const { actions } = this.props;
-    actions.loadTiles();
+    actions.tryLoadTiles();
   }
 
   componentDidUpdate(prevProps) {
