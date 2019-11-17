@@ -1,16 +1,22 @@
 import { getBookmarkTree } from '../browser';
 
-export const createFolders = (tree, prevPath = '') => {
-  const { children = [], title } = tree;
-  if (children.length) {
-    const path = title ? `${prevPath}/${title}` : prevPath;
-    return createFolders(children, path)
-  }
-  return tree;
+export const buildFolderPaths = ({ nodes, folderPaths, prevFolderPath = '' }) => {
+  nodes.forEach(node => {
+    const { children, title, url } = node;
+    if (!url) {
+      const folderPath = title ? `${prevFolderPath}/${title}` : prevFolderPath;
+      if (folderPath) {
+        folderPaths.push(folderPath);
+      }
+      if (children) {
+        buildFolderPaths({ nodes: children, folderPaths, prevFolderPath: folderPath });
+      }
+    }
+  });
+  return folderPaths;
 };
 
 export const getFolders = async () => {
-  const bookmarkTree = await getBookmarkTree();
-  console.log(bookmarkTree);
-  return createFolders(bookmarkTree);
+  const nodes = await getBookmarkTree();
+  return buildFolderPaths({ nodes, folderPaths: [] });
 };

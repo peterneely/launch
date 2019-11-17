@@ -21,9 +21,9 @@ class Tiles extends Component {
 
   render() {
     const { disabled, settings: { theme } = {}, tiles } = this.props;
-    return (
+    return tiles && (
       <main className={toClassNames('tiles', disabled ? 'mod-disabled' : null)}>
-        {tiles && tiles.map((tile, index) => (
+        {tiles.map((tile, index) => (
           <Tile key={index} onEdit={this.handleEditTile} tile={tile} theme={theme} />
         ))}
       </main>
