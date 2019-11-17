@@ -1,17 +1,24 @@
 import * as types from './types';
-// import { createTiles } from './tiles/factory';
+import { createTiles } from './tiles/factory';
 import { getFolders } from './folders/factory';
 import { getSettings, setSettings } from './browser';
 
-export const tryLoadTiles = () => async dispatch => {
+export const loadFolders = () => async dispatch => {
+  try {
+    const folders = await getFolders();
+    dispatch({ type: types.APP_LOAD_FOLDERS_SUCCESS, payload: { folders } });
+  } catch (error) {
+    dispatch({ type: types.APP_LOAD_FOLDERS_ERROR, payload: { error } });
+  }
+}
+
+export const loadTiles = () => async dispatch => {
   try {
     const settings = await getSettings();
-    // const tiles = await createTiles(settings);
-    const tiles = null;
-    const folders = !tiles ? await getFolders() : null;
-    dispatch({ type: types.APP_LOAD_SUCCESS, payload: { folders, settings, tiles } });
+    const tiles = await createTiles(settings);
+    dispatch({ type: types.APP_LOAD_TILES_SUCCESS, payload: { settings, tiles } });
   } catch (error) {
-    dispatch({ type: types.APP_LOAD_ERROR, payload: error });
+    dispatch({ type: types.APP_LOAD_TILES_ERROR, payload: { error } });
   }
 };
 
@@ -19,10 +26,10 @@ export const saveSettings = settings => async dispatch => {
   try {
     await setSettings(settings);
     dispatch({ type: types.APP_SAVE_SETTINGS_SUCCESS });
-    dispatch(tryLoadTiles());
+    dispatch(loadTiles());
   } catch (error) {
-    dispatch({ type: types.APP_SAVE_SETTINGS_ERROR, payload: error });
+    dispatch({ type: types.APP_SAVE_SETTINGS_ERROR, payload: { error } });
   }
 };
 
-export const toggleSettings = (url = null) => ({ type: types.APP_TOGGLE_SETTINGS, payload: url });
+export const toggleSettings = (url = null) => ({ type: types.APP_TOGGLE_SETTINGS, payload: { url } });

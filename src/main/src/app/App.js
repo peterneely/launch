@@ -15,17 +15,11 @@ import './app.scss';
 class App extends Component {
   componentDidMount() {
     const { actions } = this.props;
-    actions.tryLoadTiles();
+    actions.loadTiles();
   }
 
   componentDidUpdate(prevProps) {
-    const { loaded, settings } = this.props;
-    const { loaded: prevLoaded, settings: prevSettings } = prevProps;
-    const ready = loaded && !prevLoaded;
-    const themeChanged = !isEqual(settings.theme, prevSettings.theme);
-    if (ready || themeChanged) {
-      this.styles.setRootStyle(settings.theme);
-    }
+    this.trySetRootStyle(prevProps);
   }
 
   handleToggleSettings = () => {
@@ -42,14 +36,24 @@ class App extends Component {
       const { backgroundColor } = theme || {};
       const { documentElement: html } = document;
       html.style.backgroundColor = isValidColor(backgroundColor) ? backgroundColor : null;
-      html.classList.add('mod-loaded');
+      html.classList.add('mod-tiles-loaded');
     }
   }
 
+  trySetRootStyle = prevProps => {
+    const { tilesLoaded, settings } = this.props;
+    const { tilesLoaded: prevTilesLoaded, settings: prevSettings } = prevProps;
+    const tilesReady = tilesLoaded && !prevTilesLoaded;
+    const themeChanged = !isEqual(settings.theme, prevSettings.theme);
+    if (tilesReady || themeChanged) {
+      this.styles.setRootStyle(settings.theme);
+    }
+  };
+
   render() {
-    const { loaded, showSettings } = this.props;
+    const { tilesLoaded, showSettings } = this.props;
     return (
-      <Fade show={loaded} className="app" style={this.styles.createAppStyle()}>
+      <Fade show={tilesLoaded} className="app" style={this.styles.createAppStyle()}>
         <SettingsButton disabled={showSettings} onClick={this.handleToggleSettings} />
         <Tiles disabled={showSettings} />
         {showSettings && <SettingsModal onClose={this.handleToggleSettings} />}
@@ -60,13 +64,13 @@ class App extends Component {
 
 App.propTypes = {
   actions: PropTypes.object.isRequired,
-  loaded: PropTypes.bool,
+  tilesLoaded: PropTypes.bool,
   settings: settingsPropType.isRequired
 };
 
 const mapStateToProps = state => {
-  const { app: { loaded, settings, showSettings } = {} } = state;
-  return { loaded, settings, showSettings };
+  const { app: { tilesLoaded, settings, showSettings } = {} } = state;
+  return { tilesLoaded, settings, showSettings };
 }
 
 const mapDispatchToProps = dispatch => {

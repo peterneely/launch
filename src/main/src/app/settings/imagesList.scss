@@ -1,5 +1,7 @@
 @import '../variables.scss';
 
+$list-height: calc(#{$settings-tab-height} - #{$row-height} - 20px);
+
 .cell {
   align-items: center;
   display: flex;
@@ -57,12 +59,12 @@
 }
 
 .images-list {
-  height: calc(#{$settings-tab-height} - #{$row-height} - 20px);
+  height: $list-height;
 
   &.mod-empty {
     align-items: center;
     display: flex;
-    height: calc(#{$settings-tab-height} - #{$row-height} - 20px);
+    height: $list-height;
     justify-content: center;
   }
 

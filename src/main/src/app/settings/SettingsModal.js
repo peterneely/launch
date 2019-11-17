@@ -7,11 +7,13 @@ import keyBy from 'lodash/keyBy';
 import * as appActions from '../actions';
 import { Button } from '../layout/Button';
 import { Checkbox } from '../layout/Checkbox';
+import { General } from './General';
 import { ImagesJson } from './ImagesJson';
 import { ImagesList } from './ImagesList';
 import { Input } from '../layout/Input';
 import { Tabs } from '../layout/Tabs';
 import { cleanJson, toClassNames } from '../strings';
+import { folderPropType } from '../folders/propTypes';
 import { settingsPropType } from './propTypes';
 import { tilePropType } from '../tiles/Tile';
 import './settingsModal.scss';
@@ -32,33 +34,38 @@ class SettingsModal extends Component {
   }
 
   createTabConfigs = (tiles, hasTiles) => {
-    const { scrollUrl } = this.props;
+    const { actions: { loadFolders } = {}, folders, scrollUrl } = this.props;
     const { filter, filterEmptyImages, prevEmptyImageTilesByUrl } = this.state;
     const hasEmptyImages = !!tiles.filter(({ image }) => !image).length || !!Object.keys(prevEmptyImageTilesByUrl).length;
     const tabConfigs = [
       {
-        renderTitle: () => <label className="label mod-tab">Bookmark Images</label>,
-        renderBody: () => (
-          <ImagesList
-            filter={filter}
-            filterEmptyImages={filterEmptyImages}
-            hasEmptyImages={hasEmptyImages}
-            tiles={tiles}
-            onChange={this.handleChangeListInput}
-            onFilter={this.handleChangeListFilter}
-            onFilterEmptyImages={this.handleChangeListFilterEmptyImages}
-            scrollUrl={scrollUrl}
-          />
-        ),
-      }
+        renderTitle: () => <label className="label mod-tab">General</label>,
+        renderBody: () => <General folders={folders} loadFolders={loadFolders} />,
+      },
     ];
     if (hasTiles) {
-      tabConfigs.push({
-        renderTitle: () => <label className="label mod-tab">Bookmark Images JSON</label>,
-        renderBody: () => (
-          <ImagesJson imagesByUrl={this.getImagesByUrl()} onChange={this.handleChangeJson} />
-        ),
-      })
+      const tileTabConfigs = [
+        {
+          renderTitle: () => <label className="label mod-tab">Bookmark Images</label>,
+          renderBody: () => (
+            <ImagesList
+              filter={filter}
+              filterEmptyImages={filterEmptyImages}
+              hasEmptyImages={hasEmptyImages}
+              tiles={tiles}
+              onChange={this.handleChangeListInput}
+              onFilter={this.handleChangeListFilter}
+              onFilterEmptyImages={this.handleChangeListFilterEmptyImages}
+              scrollUrl={scrollUrl}
+            />
+          ),
+        },
+        {
+          renderTitle: () => <label className="label mod-tab">Bookmark Images JSON</label>,
+          renderBody: () => <ImagesJson imagesByUrl={this.getImagesByUrl()} onChange={this.handleChangeJson} />,
+        },
+      ];
+      tabConfigs.push(...tileTabConfigs);
     }
     return tabConfigs;
   };
@@ -119,7 +126,7 @@ class SettingsModal extends Component {
           return keyBy(prevEmptyImageTiles, 'url');
         }
         return {};
-      })()
+      })(),
     });
   };
 
@@ -139,10 +146,10 @@ class SettingsModal extends Component {
   };
 
   handleSave = event => {
-    const { actions, onClose } = this.props;
+    const { actions: { saveSettings } = {}, onClose } = this.props;
     const { sorted, theme } = this.state;
     const imagesByUrl = this.getImagesByUrl();
-    actions.saveSettings({ imagesByUrl, sorted, theme });
+    saveSettings({ imagesByUrl, sorted, theme });
     onClose(event);
   };
 
@@ -183,24 +190,22 @@ class SettingsModal extends Component {
 
 SettingsModal.propTypes = {
   actions: PropTypes.object.isRequired,
+  folders: PropTypes.arrayOf(folderPropType).isRequired,
   onClose: PropTypes.func.isRequired,
-  scrollUrl: PropTypes.string, // URL to scroll to in settings images list
+  scrollUrl: PropTypes.string,
   settings: settingsPropType.isRequired,
-  tiles: PropTypes.arrayOf(tilePropType),
+  tiles: PropTypes.arrayOf(tilePropType).isRequired,
 };
 
 const mapStateToProps = state => {
-  const { app: { settings, scrollUrl, tiles } = {} } = state;
-  return { settings, scrollUrl, tiles };
+  const { app: { folders, settings, scrollUrl, tiles } = {} } = state;
+  return { folders, settings, scrollUrl, tiles };
 };
 
 const mapDispatchToProps = dispatch => {
   return { actions: bindActionCreators(appActions, dispatch) };
 };
 
-const component = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingsModal);
+const component = connect(mapStateToProps, mapDispatchToProps)(SettingsModal);
 
 export { component as SettingsModal };

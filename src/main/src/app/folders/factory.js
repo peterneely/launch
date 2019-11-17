@@ -1,22 +1,22 @@
 import { getBookmarkTree } from '../browser';
 
-export const buildFolderPaths = ({ nodes, folderPaths, prevFolderPath = '' }) => {
+export const buildFolderPaths = ({ nodes, folders, prevFolderPath = '' }) => {
   nodes.forEach(node => {
-    const { children, title, url } = node;
+    const { children, id, title, url } = node;
     if (!url) {
       const folderPath = title ? `${prevFolderPath}/${title}` : prevFolderPath;
       if (folderPath) {
-        folderPaths.push(folderPath);
+        folders.push({ id, path: folderPath });
       }
       if (children) {
-        buildFolderPaths({ nodes: children, folderPaths, prevFolderPath: folderPath });
+        buildFolderPaths({ nodes: children, folders, prevFolderPath: folderPath });
       }
     }
   });
-  return folderPaths;
+  return folders;
 };
 
 export const getFolders = async () => {
   const nodes = await getBookmarkTree();
-  return buildFolderPaths({ nodes, folderPaths: [] });
+  return buildFolderPaths({ nodes, folders: [] });
 };

@@ -21,10 +21,10 @@ export const getBookmarkTree = () =>
     }
   });
 
-export const getBookmarks = () =>
+export const getBookmarks = folderId =>
   new Promise((resolve, reject) => {
     try {
-      runtime.sendMessage({ type: 'GET_BOOKMARKS' }, response => {
+      runtime.sendMessage({ type: 'GET_BOOKMARKS', payload: { folderId } }, response => {
         const { bookmarks } = response || {};
         if (bookmarks) {
           const uniqueBookmarks = uniqBy(bookmarks, ({ url }) => url);
