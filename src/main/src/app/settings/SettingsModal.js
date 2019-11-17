@@ -21,11 +21,12 @@ import './settingsModal.scss';
 class SettingsModal extends Component {
   constructor(props) {
     super(props);
-    const { settings: { sorted, theme } = {}, tiles } = props;
+    const { settings: { folderId, sorted, theme } = {}, tiles } = props;
     this.state = {
       dirty: false,
       filter: '',
       filterEmptyImages: false,
+      folderId,
       prevEmptyImageTilesByUrl: {},
       sorted,
       theme,
@@ -35,12 +36,12 @@ class SettingsModal extends Component {
 
   createTabConfigs = (tiles, hasTiles) => {
     const { actions: { loadFolders } = {}, folders, scrollUrl } = this.props;
-    const { filter, filterEmptyImages, prevEmptyImageTilesByUrl } = this.state;
+    const { filter, filterEmptyImages, folderId, prevEmptyImageTilesByUrl } = this.state;
     const hasEmptyImages = !!tiles.filter(({ image }) => !image).length || !!Object.keys(prevEmptyImageTilesByUrl).length;
     const tabConfigs = [
       {
         renderTitle: () => <label className="label mod-tab">General</label>,
-        renderBody: () => <General folders={folders} loadFolders={loadFolders} />,
+        renderBody: () => <General folderId={folderId} folders={folders} loadFolders={loadFolders} onSelectFolder={this.handleSelectFolder} />,
       },
     ];
     if (hasTiles) {
@@ -151,6 +152,10 @@ class SettingsModal extends Component {
     const imagesByUrl = this.getImagesByUrl();
     saveSettings({ imagesByUrl, sorted, theme });
     onClose(event);
+  };
+
+  handleSelectFolder = ({ value }) => () => {
+    this.setState({ folderId: value });
   };
 
   render() {

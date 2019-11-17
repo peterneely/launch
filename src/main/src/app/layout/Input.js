@@ -33,7 +33,7 @@ class Input extends Component {
   };
 
   renderInput = containerClasses => {
-    const { autoFocus, checked, name, onChange, placeholder, type, value } = this.props;
+    const { autoFocus, checked, name, onChange, onClick, placeholder, type, value } = this.props;
     const { focused, hovering } = this.state;
     const classes = toClassNames(
       containerClasses,
@@ -56,6 +56,7 @@ class Input extends Component {
           className={toClassNames('input', `mod-${type}`)}
           name={name}
           onChange={onChange({ name, checked, value })}
+          onClick={onClick({ name, checked, value })}
           placeholder={placeholder}
           ref={this.input}
           type={type}
@@ -91,6 +92,7 @@ Input.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   placeholder: PropTypes.string,
   type: PropTypes.oneOf([
     'button',
@@ -121,6 +123,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
   type: 'text',
+  onClick: () => () => {},
 };
 
 export { Input };
