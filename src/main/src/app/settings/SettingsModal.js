@@ -13,7 +13,6 @@ import { ImagesList } from './ImagesList';
 import { Input } from '../layout/Input';
 import { Tabs } from '../layout/Tabs';
 import { cleanJson, toClassNames } from '../strings';
-import { folderPropType } from '../folders/propTypes';
 import { settingsPropType } from './propTypes';
 import { tilePropType } from '../tiles/Tile';
 import './settingsModal.scss';
@@ -35,13 +34,13 @@ class SettingsModal extends Component {
   }
 
   createTabConfigs = (tiles, hasTiles) => {
-    const { actions: { loadFolders } = {}, folders, scrollUrl } = this.props;
+    const { actions: { loadFolders } = {}, foldersById, scrollUrl } = this.props;
     const { filter, filterEmptyImages, folderId, prevEmptyImageTilesByUrl } = this.state;
     const hasEmptyImages = !!tiles.filter(({ image }) => !image).length || !!Object.keys(prevEmptyImageTilesByUrl).length;
     const tabConfigs = [
       {
         renderTitle: () => <label className="label mod-tab">General</label>,
-        renderBody: () => <General folderId={folderId} folders={folders} loadFolders={loadFolders} onChange={this.handleChangeInput} />,
+        renderBody: () => <General folderId={folderId} foldersById={foldersById} loadFolders={loadFolders} onChange={this.handleChangeInput} />,
       },
     ];
     if (hasTiles) {
@@ -195,7 +194,7 @@ class SettingsModal extends Component {
 
 SettingsModal.propTypes = {
   actions: PropTypes.object.isRequired,
-  folders: PropTypes.arrayOf(folderPropType).isRequired,
+  foldersById: PropTypes.objectOf(PropTypes.string).isRequired,
   onClose: PropTypes.func.isRequired,
   scrollUrl: PropTypes.string,
   settings: settingsPropType.isRequired,
@@ -203,8 +202,8 @@ SettingsModal.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { app: { folders, settings, scrollUrl, tiles } = {} } = state;
-  return { folders, settings, scrollUrl, tiles };
+  const { app: { foldersById, settings, scrollUrl, tiles } = {} } = state;
+  return { foldersById, settings, scrollUrl, tiles };
 };
 
 const mapDispatchToProps = dispatch => {

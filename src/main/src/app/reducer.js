@@ -2,7 +2,7 @@ import * as types from './types';
 
 const initialState = {
   errors: {}, // errors keyed by domain (folder) name, like 'tiles' and 'settings'
-  folders: [], // bookmark folders from which to choose a folder to create bookmark tiles
+  foldersById: {}, // bookmark folders, keyed by their IDs, from which to choose a folder to create bookmark tiles
   foldersLoaded: false, // whether folders have been loaded
   tilesLoaded: false, // whether tiles have been loaded
   scrollUrl: null, // bookmark URL to scroll to in SettingsModal.ImagesList
