@@ -1,15 +1,15 @@
 import { getBookmarkTree } from '../browser';
 
-export const buildFolderPaths = ({ nodes, foldersById, prevFolderPath = '' }) => {
+export const buildFolderPaths = ({ nodes, foldersById, prevFolderPaths = [] }) => {
   nodes.forEach(node => {
     const { children, id, title, url } = node;
     if (!url) {
-      const folderPath = title ? `${prevFolderPath}/${title}` : prevFolderPath;
-      if (folderPath) {
-        foldersById[id] = folderPath;
+      const folderPaths = title ? [...prevFolderPaths, title] : prevFolderPaths;
+      if (folderPaths.length) {
+        foldersById[id] = folderPaths.join(' > ');
       }
       if (children) {
-        buildFolderPaths({ nodes: children, foldersById, prevFolderPath: folderPath });
+        buildFolderPaths({ nodes: children, foldersById, prevFolderPaths: folderPaths });
       }
     }
   });

@@ -16,11 +16,11 @@ $list-height: calc(#{$settings-tab-height} - #{$row-height} - 20px);
 
     .input,
     .input:focus {
-      background-color: $row-auto-scrolled-color;
+      background-color: $row-highlight-background-color;
     }
 
     .input-icon {
-      background-color: $row-auto-scrolled-color;
+      background-color: $row-highlight-background-color;
     }
   }
 
@@ -134,7 +134,7 @@ $list-height: calc(#{$settings-tab-height} - #{$row-height} - 20px);
   }
 
   &.mod-scroll {
-    background-color: $row-auto-scrolled-color;
+    background-color: $row-highlight-background-color;
   }
 
   .input-icon {

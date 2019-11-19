@@ -26,7 +26,7 @@ class Dropdown extends Component {
   };
 
   render() {
-    const { name, onChange, options, value } = this.props;
+    const { name, onChange, options, title, value } = this.props;
     const { expanded } = this.state;
     return (
       <div className="dropdown-container">
@@ -35,6 +35,7 @@ class Dropdown extends Component {
           <ClickAway onClick={this.handleToggleMenu}>
             {setRef => (
               <div className="dropdown-menu">
+                <div className="dropdown-header label mod-sub">{title}</div>
                 <ul className="dropdown-list" ref={setRef}>
                   {options.map(({ primaryLabel, value: itemValue }) => {
                     return (
@@ -62,6 +63,7 @@ Dropdown.propTypes = {
       primaryLabel: PropTypes.string,
     })
   ).isRequired,
+  title: PropTypes.string.isRequired,
   value: PropTypes.string,
 };
 
