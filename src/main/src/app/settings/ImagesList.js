@@ -69,7 +69,7 @@ class ImagesList extends Component {
               <span className="cell-text">{title}</span>
               <span className="cell-text mod-subtext truncate-text">{url}</span>
             </div>
-            <Input autoFocus={scroll} className={cellInputClasses} name="image" value={image} onChange={onChange(url)} />
+            <Input autoFocus={scroll} className={cellInputClasses} name={`tilesByUrl.${url}`} value={image} onChange={onChange(url)} />
           </div>
         );
       },

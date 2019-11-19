@@ -15,8 +15,8 @@ class Input extends Component {
   };
 
   handleClear = event => {
-    const { checked, name, onChange, value } = this.props;
-    onChange({ name, checked, value, clear: true })(event);
+    const { name, onChange, value } = this.props;
+    onChange({ name, prevValue: value, clear: true })(event);
     this.input.current.focus();
   }
 
@@ -33,8 +33,9 @@ class Input extends Component {
   };
 
   renderInput = containerClasses => {
-    const { autoFocus, checked, name, onChange, onClick, placeholder, type, value } = this.props;
+    const { autoFocus, name, onChange, onClick, placeholder, type, value } = this.props;
     const { focused, hovering } = this.state;
+    const isCheckbox = type === 'checkbox';
     const classes = toClassNames(
       containerClasses,
       'input-wrapper',
@@ -52,18 +53,18 @@ class Input extends Component {
       >
         <input
           autoFocus={autoFocus}
-          checked={checked}
+          checked={isCheckbox && value}
           className={toClassNames('input', `mod-${type}`)}
           name={name}
-          onChange={onChange({ name, checked, value })}
-          onClick={onClick({ name, checked, value })}
+          onChange={onChange({ name, prevValue: value })}
+          onClick={onClick({ name, prevValue: value })}
           placeholder={placeholder}
           ref={this.input}
           type={type}
           value={value || ''}
         />
-        {type === 'checkbox' ? (
-          <i className={toClassNames('checked-icon', checked ? 'mod-checked fas fa-check-circle' : 'mod-unchecked')} />
+        {isCheckbox ? (
+          <i className={toClassNames('checked-icon', value ? 'mod-checked fas fa-check-circle' : 'mod-unchecked')} />
         ) : (
           <i className="input-icon mod-clear fas fa-times" onClick={this.handleClear} />
         )}
@@ -87,7 +88,6 @@ class Input extends Component {
 
 Input.propTypes = {
   autoFocus: PropTypes.bool,
-  checked: PropTypes.bool,
   className: PropTypes.string,
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
