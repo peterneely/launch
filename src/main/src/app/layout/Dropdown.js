@@ -10,42 +10,35 @@ class Dropdown extends Component {
     this.state = { expanded: false };
   }
 
-  handleInputChange = ({ name, value, clear }) => event => {
-    const { onClear } = this.props;
-    if (clear) {
-      onClear({ name, value })(event);
-    }
+  handleClickInput = () => event => {
+    this.handleToggleMenu(event);
   };
 
-  handleInputClick = () => event => {
-    this.handleMenuToggle(event);
+  handleSelectListItem = itemValue => event => {
+    const { name, onChange } = this.props;
+    this.handleToggleMenu(event);
+    onChange({ name, value: itemValue })(event);
   };
 
-  handleListItemSelect = itemValue => event => {
-    const { name, onSelect } = this.props;
-    this.handleMenuToggle(event);
-    onSelect({ name, value: itemValue })(event);
-  };
-
-  handleMenuToggle = () => {
+  handleToggleMenu = () => {
     const { expanded } = this.state;
     this.setState({ expanded: !expanded });
   };
 
   render() {
-    const { name, options, value } = this.props;
+    const { name, onChange, options, value } = this.props;
     const { expanded } = this.state;
     return (
       <div className="dropdown-container">
-        <Input name={name} onChange={this.handleInputChange} onClick={this.handleInputClick} value={value} />
+        <Input name={name} onChange={onChange} onClick={this.handleClickInput} value={value} />
         {expanded && (
-          <ClickAway onClick={this.handleMenuToggle}>
+          <ClickAway onClick={this.handleToggleMenu}>
             {setRef => (
               <div className="dropdown-menu">
                 <ul className="dropdown-list" ref={setRef}>
                   {options.map(({ primaryLabel, value: itemValue }) => {
                     return (
-                      <li key={itemValue} className="dropdown-list-item" onClick={this.handleListItemSelect(itemValue)}>
+                      <li key={itemValue} className="dropdown-list-item" onClick={this.handleSelectListItem(itemValue)}>
                         {primaryLabel}
                       </li>
                     );
@@ -62,8 +55,7 @@ class Dropdown extends Component {
 
 Dropdown.propTypes = {
   name: PropTypes.string.isRequired,
-  onClear: PropTypes.func.isRequired,
-  onSelect: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.string,

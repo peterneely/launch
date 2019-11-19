@@ -41,7 +41,7 @@ class SettingsModal extends Component {
     const tabConfigs = [
       {
         renderTitle: () => <label className="label mod-tab">General</label>,
-        renderBody: () => <General folderId={folderId} folders={folders} loadFolders={loadFolders} onSelectFolder={this.handleSelectFolder} />,
+        renderBody: () => <General folderId={folderId} folders={folders} loadFolders={loadFolders} onChange={this.handleChangeInput} />,
       },
     ];
     if (hasTiles) {
@@ -93,6 +93,10 @@ class SettingsModal extends Component {
     if (!dirty) {
       onClose(event);
     }
+  };
+
+  handleChangeInput = ({ name, value, clear }) => () => {
+    this.setState({ [name]: clear ? null : value });
   };
 
   handleChangeJson = event => {
@@ -152,10 +156,6 @@ class SettingsModal extends Component {
     const imagesByUrl = this.getImagesByUrl();
     saveSettings({ imagesByUrl, sorted, theme });
     onClose(event);
-  };
-
-  handleSelectFolder = ({ value }) => () => {
-    this.setState({ folderId: value });
   };
 
   render() {
