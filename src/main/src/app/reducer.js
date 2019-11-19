@@ -6,7 +6,7 @@ const initialState = {
   foldersLoaded: false, // whether folders have been loaded
   tilesLoaded: false, // whether tiles have been loaded
   scrollUrl: null, // bookmark URL to scroll to in SettingsModal.ImagesList
-  settings: { theme: {} }, // user settings, synced via Chrome sync or cached in local storage
+  settings: { folderId: null, sorted: true, theme: {} }, // user settings, synced via Chrome sync or cached in local storage
   showSettings: false, // whether to show the settings modal
   tiles: [], // bookmark tiles
 };

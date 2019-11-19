@@ -24,7 +24,7 @@ class SettingsModal extends Component {
     const { settings: { folderId, sorted, theme } = {}, tiles } = props;
     this.state = {
       dirty: false,
-      filter: '',
+      filter: null,
       filterEmptyImages: false,
       folderId,
       prevEmptyImageTilesByUrl: {},
@@ -54,8 +54,8 @@ class SettingsModal extends Component {
               filterEmptyImages={filterEmptyImages}
               hasEmptyImages={hasEmptyImages}
               tiles={tiles}
-              onChange={this.handleChangeListInput}
-              onFilter={this.handleChangeListFilter}
+              onChange={this.handleChangeImage}
+              onFilter={this.handleChangeInput}
               onFilterEmptyImages={this.handleChangeListFilterEmptyImages}
               scrollUrl={scrollUrl}
             />
@@ -75,7 +75,7 @@ class SettingsModal extends Component {
     const { filter, filterEmptyImages, prevEmptyImageTilesByUrl, tilesByUrl } = this.state;
     const tiles = Object.values(tilesByUrl);
     const tilesToFilter = filterEmptyImages ? tiles.filter(({ image, url }) => !image || prevEmptyImageTilesByUrl[url]) : tiles;
-    return tilesToFilter.filter(({ title, url, image }) => [title, url, image].some(tileInfo => (tileInfo || '').includes(filter)));
+    return tilesToFilter.filter(({ title, url, image }) => [title, url, image].some(tileInfo => (tileInfo || '').includes(filter || '')));
   };
 
   getImagesByUrl = () => {
@@ -95,8 +95,22 @@ class SettingsModal extends Component {
     }
   };
 
-  handleChangeInput = ({ name, value, clear }) => () => {
-    this.setState({ [name]: clear ? null : value });
+  handleChangeImage = url => ({ clear }) => event => {
+    const { tilesByUrl: prevTilesByUrl } = this.state;
+    this.setState({
+      dirty: true,
+      tilesByUrl: {
+        ...prevTilesByUrl,
+        [url]: {
+          ...prevTilesByUrl[url],
+          image: clear ? '' : event.target.value,
+        },
+      },
+    });
+  };
+
+  handleChangeInput = ({ name, prevValue, value, defaultValue = null, clear, toggle }) => event => {
+    this.setState({ dirty: true, [name]: toggle ? !prevValue : clear ? defaultValue : value || event.target.value });
   };
 
   handleChangeJson = event => {
@@ -116,11 +130,7 @@ class SettingsModal extends Component {
     } catch (error) {}
   };
 
-  handleChangeListFilter = ({ clear }) => event => {
-    this.setState({ filter: clear ? '' : event.target.value });
-  };
-
-  handleChangeListFilterEmptyImages = ({ checked: prevChecked }) => () => {
+  handleChangeListFilterEmptyImages = ({ value: prevChecked }) => () => {
     this.setState({
       filterEmptyImages: !prevChecked,
       prevEmptyImageTilesByUrl: (() => {
@@ -135,17 +145,7 @@ class SettingsModal extends Component {
     });
   };
 
-  handleChangeListInput = url => ({ clear }) => event => {
-    const { tilesByUrl: prevTilesByUrl } = this.state;
-    const tilesByUrl = { ...prevTilesByUrl, [url]: { ...prevTilesByUrl[url], image: clear ? '' : event.target.value } };
-    this.setState({ dirty: true, tilesByUrl });
-  };
-
-  handleChangeOtherCheckbox = ({ name, checked }) => () => {
-    this.setState({ dirty: true, [name]: !checked });
-  };
-
-  handleChangeOtherInput = ({ name }) => event => {
+  handleChangeTheme = ({ name }) => event => {
     const { theme: prevTheme } = this.state;
     this.setState({ dirty: true, theme: { ...prevTheme, [name]: event.target.value } });
   };
@@ -163,7 +163,7 @@ class SettingsModal extends Component {
     const { dirty, filter, sorted, theme: { backgroundColor } = {} } = this.state;
     const overlayClasses = toClassNames('modal-overlay', !dirty ? 'mod-clickable' : null);
     const tiles = this.getFilteredTiles();
-    const hasTiles = !!tiles.length || filter;
+    const hasTiles = !!tiles.length || !!filter;
     return (
       <Fragment>
         <div className="modal">
@@ -177,8 +177,8 @@ class SettingsModal extends Component {
                 <Tabs tabConfigs={this.createTabConfigs(tiles, hasTiles)} />
               </div>
               <div className="settings-group mod-other">
-                {hasTiles ? <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeOtherCheckbox} /> : null}
-                <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeOtherInput} value={backgroundColor} />
+                {hasTiles ? <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeInput} /> : null}
+                <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeTheme} value={backgroundColor} />
               </div>
             </div>
           </div>
