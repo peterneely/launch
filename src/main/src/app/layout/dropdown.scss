@@ -1,5 +1,16 @@
 @import '../variables.scss';
 
+@mixin triangle-up {
+  border-bottom: 10px solid white;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  content: '';
+  height: 0;
+  left: calc(50% - 10px);
+  position: absolute;
+  width: 0;
+}
+
 .dropdown-container {
   display: flex;
   flex-direction: column;
@@ -23,28 +34,18 @@
     max-height: 300px;
     overflow: auto;
     padding: 0;
-    // position: absolute;
-    // top: $row-height;
-    // z-index: 1050;
 
     &::before {
-      content: '';
-      position: absolute;
-      // width: 20px;
-      // height: 20px;
-      // background: white;
-      // z-index: -1;
-      left: calc(50% - 10px);
+      @include triangle-up;
+      top: -8px;
+      z-index: 110;
+    }
+
+    &::after {
+      @include triangle-up;
+      border-bottom-color: $border-color;
       top: -9px;
-      // transform: rotate(45deg);
-
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-bottom: 10px solid white;
-
-      // background: inherit;
+      z-index: 100;
     }
   }
 

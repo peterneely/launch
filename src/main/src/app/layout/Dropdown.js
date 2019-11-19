@@ -10,26 +10,42 @@ class Dropdown extends Component {
     this.state = { expanded: false };
   }
 
-  handleToggleOptions = () => () => {
-    console.log('handleToggleOptions');
+  handleInputChange = ({ name, value, clear }) => event => {
+    const { onClear } = this.props;
+    if (clear) {
+      onClear({ name, value })(event);
+    }
+  };
+
+  handleInputClick = () => event => {
+    this.handleMenuToggle(event);
+  };
+
+  handleListItemSelect = itemValue => event => {
+    const { name, onSelect } = this.props;
+    this.handleMenuToggle(event);
+    onSelect({ name, value: itemValue })(event);
+  };
+
+  handleMenuToggle = () => {
     const { expanded } = this.state;
     this.setState({ expanded: !expanded });
   };
 
   render() {
-    const { name, onSelect, options, value } = this.props;
+    const { name, options, value } = this.props;
     const { expanded } = this.state;
     return (
       <div className="dropdown-container">
-        <Input name={name} onChange={() => () => {}} onClick={this.handleToggleOptions} value={value} />
+        <Input name={name} onChange={this.handleInputChange} onClick={this.handleInputClick} value={value} />
         {expanded && (
-          <ClickAway onClick={this.handleToggleOptions()}>
+          <ClickAway onClick={this.handleMenuToggle}>
             {setRef => (
               <div className="dropdown-menu">
                 <ul className="dropdown-list" ref={setRef}>
-                  {options.map(({ primaryLabel, value }) => {
+                  {options.map(({ primaryLabel, value: itemValue }) => {
                     return (
-                      <li key={value} className="dropdown-list-item" onClick={onSelect({ name, value })}>
+                      <li key={itemValue} className="dropdown-list-item" onClick={this.handleListItemSelect(itemValue)}>
                         {primaryLabel}
                       </li>
                     );
@@ -46,6 +62,7 @@ class Dropdown extends Component {
 
 Dropdown.propTypes = {
   name: PropTypes.string.isRequired,
+  onClear: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 class ClickAway extends Component {
   componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickAway);
+    document.addEventListener('mouseup', this.handleClickAway);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickAway);
+    document.removeEventListener('mouseup', this.handleClickAway);
   }
 
   handleClickAway = event => {
@@ -27,7 +27,7 @@ class ClickAway extends Component {
 }
 
 ClickAway.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
