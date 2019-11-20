@@ -19,12 +19,27 @@
   .dropdown-menu {
     background-color: $dropdown-menu-background-color;
     border-radius: $border-radius;
-    border: $border-weight solid $border-focus-color;
+    border: $border-default;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     cursor: default;
     margin: 10px 0 0;
+    padding: 10px;
     position: absolute;
     top: $row-height;
     z-index: 1050;
+
+    &::before {
+      @include triangle-up;
+      top: -9px;
+      z-index: 110;
+    }
+
+    &::after {
+      @include triangle-up;
+      border-bottom-color: $border-color;
+      top: -10px;
+      z-index: 100;
+    }
   }
 
   .dropdown-header {
@@ -43,23 +58,9 @@
     max-height: 300px;
     overflow: auto;
     padding: 0;
-
-    &::before {
-      @include triangle-up;
-      top: -8px;
-      z-index: 110;
-    }
-
-    &::after {
-      @include triangle-up;
-      border-bottom-color: $border-focus-color;
-      top: -9px;
-      z-index: 100;
-    }
   }
 
   .dropdown-list-item {
-    // cursor: default;
     height: $row-height;
     padding: 10px;
     transition: all 0.1s ease;

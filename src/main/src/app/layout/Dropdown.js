@@ -35,7 +35,7 @@ class Dropdown extends Component {
           <ClickAway onClick={this.handleToggleMenu}>
             {setRef => (
               <div className="dropdown-menu">
-                <div className="dropdown-header label mod-sub">{title}</div>
+                {/* <div className="dropdown-header label mod-sub">{title}</div> */}
                 <ul className="dropdown-list" ref={setRef}>
                   {options.map(({ primaryLabel, value: itemValue }) => {
                     return (
