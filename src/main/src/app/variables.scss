@@ -8,6 +8,8 @@ $border-radius: 4px;
 $border-weight: 1px;
 $border-default: $border-weight solid $border-color;
 
+$box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+
 $button-default-color: lighten($border-color, 10%);
 $button-primary-border-color: darken(#408BF9, 20%);
 $button-primary-color: #408BF9;
