@@ -124,7 +124,7 @@ class ImagesList extends Component {
             <div className="images-list mod-not-empty">{tiles.map(this.row.render)}</div>
           </Fragment>
         ) : (
-          <div className="images-list mod-empty label mod-sub">No bookmarks :'(</div>
+          <div className="images-list is-empty label mod-sub">No bookmarks :'(</div>
         )}
       </div>
     );

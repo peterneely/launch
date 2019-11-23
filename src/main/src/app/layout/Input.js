@@ -18,7 +18,7 @@ class Input extends Component {
     const { name, onChange, value } = this.props;
     onChange({ name, prevValue: value, clear: true })(event);
     this.input.current.focus();
-  }
+  };
 
   handleFocus = () => {
     this.setState({ focused: true });
@@ -33,18 +33,18 @@ class Input extends Component {
   };
 
   renderInput = containerClasses => {
-    const { autoFocus, name, onChange, onClick, placeholder, type, value } = this.props;
+    const { autoFocus, name, onChange, onClick, placeholder, renderCommands, type, value } = this.props;
     const { focused, hovering } = this.state;
     const isCheckbox = type === 'checkbox';
     const classes = toClassNames(
       containerClasses,
       'input-wrapper',
-      focused ? 'mod-focused' : null,
-      hovering ? 'mod-hovering' : null,
-      !value ? 'mod-empty' : null
+      focused ? 'is-focused' : null,
+      hovering ? 'is-hovering' : null,
+      !value ? 'is-empty' : null
     );
     return (
-      <span
+      <div
         className={classes || undefined}
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
@@ -64,11 +64,14 @@ class Input extends Component {
           value={value || ''}
         />
         {isCheckbox ? (
-          <i className={toClassNames('checked-icon', value ? 'mod-checked fas fa-check-circle' : 'mod-unchecked')} />
+          <i className={toClassNames('checked-icon', value ? 'mod-checked fas fa-check-circle' : 'is-unchecked')} />
         ) : (
-          <i className="input-icon mod-clear fas fa-times" onClick={this.handleClear} />
+          <div className="input-commands">
+            <i className="input-command-icon mod-clear fas fa-times" onClick={this.handleClear} />
+            {renderCommands({ focused, hovering })}
+          </div>
         )}
-      </span>
+      </div>
     );
   };
 
@@ -94,6 +97,7 @@ Input.propTypes = {
   onChange: PropTypes.func.isRequired,
   onClick: PropTypes.func,
   placeholder: PropTypes.string,
+  renderCommands: PropTypes.func, // render other command buttons inside input
   type: PropTypes.oneOf([
     'button',
     'checkbox',
@@ -122,8 +126,9 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
-  type: 'text',
   onClick: () => () => {},
+  renderCommands: () => {},
+  type: 'text',
 };
 
 export { Input };

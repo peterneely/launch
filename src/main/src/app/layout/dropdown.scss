@@ -74,4 +74,20 @@
       color: white;
     }
   }
+
+  .input-command-icon {
+    &.mod-dropdown {
+      color: $icon-color-disabled;
+      font-size: 1.4em;
+
+      &.is-hovering-container {
+        color: $border-hover-color;
+      }
+
+      &:hover,
+      &.is-focused-container {
+        color: $row-highlight-background-color;
+      }
+    }
+  }
 }

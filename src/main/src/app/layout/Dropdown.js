@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Input } from './Input';
 import { ClickAway } from './ClickAway';
 import './dropdown.scss';
+import { toClassNames } from '../strings';
 
 class Dropdown extends Component {
   constructor(props) {
@@ -25,12 +26,24 @@ class Dropdown extends Component {
     this.setState({ expanded: !expanded });
   };
 
+  renderToggleButton = ({ focused, hovering }) => {
+    const className = toClassNames(
+      'input-command-icon',
+      'mod-dropdown',
+      'fas',
+      'fa-caret-down',
+      focused ? 'is-focused-container' : null,
+      hovering ? 'is-hovering-container' : null
+    );
+    return <i className={className} onClick={() => {}} />;
+  };
+
   render() {
     const { name, onChange, options, title, value } = this.props;
     const { expanded } = this.state;
     return (
       <div className="dropdown-container">
-        <Input name={name} onChange={onChange} onClick={this.handleClickInput} value={value} />
+        <Input name={name} onChange={onChange} onClick={this.handleClickInput} renderCommands={this.renderToggleButton} value={value} />
         {expanded && (
           <ClickAway onClick={this.handleToggleMenu}>
             {setRef => (

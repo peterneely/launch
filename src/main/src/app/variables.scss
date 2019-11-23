@@ -5,8 +5,8 @@ $border-color: #D6D6D6;
 $border-focus-color: #408BF9;
 $border-hover-color: darken(#D6D6D6, 15%);
 $border-radius: 4px;
-$border-weight: 1px;
-$border-default: $border-weight solid $border-color;
+$border-width: 1px;
+$border-default: $border-width solid $border-color;
 
 $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 

@@ -52,7 +52,7 @@
   &.mod-primary {
     color: white;
     background-color: $button-primary-color;
-    border: $border-weight solid $button-primary-border-color;
+    border: $border-width solid $button-primary-border-color;
 
     &:not(.mod-disabled) {
       &:hover {

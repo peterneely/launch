@@ -1,6 +1,6 @@
 @import '../variables.scss';
 
-$input-height: calc(#{$row-height} - #{2 * $border-weight});
+$input-height: calc(#{$row-height} - #{2 * $border-width});
 
 .input {
   align-items: center;
@@ -52,7 +52,7 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
 
     &:hover {
       .checked-icon {
-        &.mod-unchecked {
+        &.is-unchecked {
           border-color: $border-hover-color;
         }
       }
@@ -79,7 +79,7 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
       color: $button-primary-color;
     }
 
-    &.mod-unchecked {
+    &.is-unchecked {
       border: 2px solid $border-color;
       border-radius: 50%;
       height: calc(1em - 4px);
@@ -87,20 +87,28 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
     }
   }
 
-  .input-icon {
+  .input-commands {
     align-items: center;
-    color: $icon-color-disabled;
-    cursor: pointer;
-    display: none;
-    height: calc(#{$row-height} - 4px);
+    display: flex;
     justify-content: center;
     position: absolute;
-    right: $border-weight;
+    right: $border-width;
     top: 3px;
+  }
+
+  .input-command-icon {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    height: calc(#{$row-height} - 4px);
+    justify-content: center;
     transition: $util-transition;
     width: calc(#{$row-height} - 2px);
 
     &.mod-clear {
+      color: $icon-color-disabled;
+      display: none;
+
       &:hover {
         color: $icon-color-danger;
       }
@@ -110,11 +118,14 @@ $input-height: calc(#{$row-height} - #{2 * $border-weight});
 
 .input-wrapper {
 
-  &.mod-focused,
-  &.mod-hovering {
-    &:not(.mod-empty) {
-      .input-icon {
-        display: flex;
+  &.is-focused,
+  &.is-hovering {
+    &:not(.is-empty) {
+      .input-command-icon {
+
+        &.mod-clear {
+          display: flex;
+        }
       }
     }
   }
