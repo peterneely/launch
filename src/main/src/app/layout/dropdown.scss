@@ -1,12 +1,13 @@
 @import '../variables.scss';
 
+$menu-z-index: 1050;
+
 @mixin triangle-up {
-  border-bottom: 10px solid white;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
+  border-bottom: 9px solid white;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
   content: '';
   height: 0;
-  left: calc(50% - 10px);
   position: absolute;
   width: 0;
 }
@@ -14,33 +15,6 @@
 .dropdown-container {
   display: flex;
   flex-direction: column;
-  position: relative;
-
-  .dropdown-menu {
-    background-color: $dropdown-menu-background-color;
-    border-radius: $border-radius;
-    border: $border-default;
-    box-shadow: $box-shadow;
-    cursor: default;
-    margin: 10px 0 0;
-    padding: 10px;
-    position: absolute;
-    top: $row-height;
-    z-index: 1050;
-
-    &::before {
-      @include triangle-up;
-      top: -9px;
-      z-index: 110;
-    }
-
-    &::after {
-      @include triangle-up;
-      border-bottom-color: $border-color;
-      top: -10px;
-      z-index: 100;
-    }
-  }
 
   .dropdown-header {
     align-items: center;
@@ -64,6 +38,7 @@
     height: $row-height;
     padding: 10px;
     transition: all 0.1s ease;
+    white-space: nowrap;
 
     &:nth-child(even) {
       background-color: $row-even-color;
@@ -73,6 +48,24 @@
       background-color: $row-highlight-background-color;
       color: white;
     }
+  }
+
+  .dropdown-menu {
+    background-color: $dropdown-menu-background-color;
+    border-radius: $border-radius;
+    border: $border-default;
+    box-shadow: $box-shadow;
+    cursor: default;
+    margin: 8px 0 0;
+    padding: 10px;
+    position: absolute;
+    right: -1px;
+    top: $row-height;
+    z-index: $menu-z-index;
+  }
+
+  .dropdown-menu-container {
+    position: relative;
   }
 
   .input {
@@ -94,13 +87,28 @@
         background-color: $button-highlight-default-color;
       }
 
-      .input-command-icon {
-        transition: $util-transition;
+      &.is-expanded {
+        &::before {
+          @include triangle-up;
+          bottom: -12px;
+          z-index: #{$menu-z-index + 2};
+        }
 
-        &.is-expanded {
-          transform: rotate(180deg);
+        &::after {
+          @include triangle-up;
+          border-bottom-color: $border-color;
+          bottom: -11px;
+          z-index: #{$menu-z-index + 1};
         }
       }
+    }
+  }
+
+  .input-command-icon {
+    transition: $util-transition;
+
+    &.is-expanded {
+      transform: rotate(-180deg);
     }
   }
 }

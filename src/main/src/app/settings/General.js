@@ -35,7 +35,7 @@ class General extends Component {
     const { folderOptions } = this.state;
     return (
       <div className="general-container">
-        <Dropdown className="general-folder" name="folderId" title="Select a folder" onChange={onChange} options={folderOptions} value={foldersById[folderId]} />
+        <Dropdown className="general-folder" name="folderId" onChange={onChange} options={folderOptions} value={foldersById[folderId]} />
         <pre>{JSON.stringify(folderOptions, null, 2)}</pre>
       </div>
     );

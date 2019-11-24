@@ -96,24 +96,40 @@ $input-height: calc(#{$row-height} - #{2 * $border-width});
     top: 1px;
   }
 
+  .input-command-background {
+    filter: $util-blur;
+    background: red;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
   .input-command-button {
     align-items: center;
     cursor: pointer;
     display: flex;
     height: $input-height;
     justify-content: center;
+    // position: relative;
     transition: $util-transition;
     width: $input-height;
 
     &.mod-clear {
       color: $icon-color-disabled;
       display: none;
+      // filter: $util-blur;
       font-size: $icon-size;
 
       &:hover {
         color: $icon-color-danger;
       }
     }
+  }
+
+  .input-command-icon {
+    position: relative;
+    z-index: 5;
   }
 }
 

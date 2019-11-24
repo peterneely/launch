@@ -12,7 +12,6 @@ class Dropdown extends Component {
   }
 
   handleClickInput = () => event => {
-    console.log('handleClickInput');
     this.handleToggleMenu(event);
   };
 
@@ -32,38 +31,40 @@ class Dropdown extends Component {
   };
 
   renderToggleButton = stateClasses => {
+    const { options } = this.props;
     const { expanded } = this.state;
-    const iconContainerClass = toClassNames('input-command-button', 'mod-dropdown', stateClasses);
-    const iconClass = toClassNames('input-command-icon', 'fas', 'fa-chevron-down', expanded ? 'is-expanded' : null);
+    const dropdownStateClasses = toClassNames(stateClasses, expanded ? 'is-expanded' : null);
+    const iconContainerClass = toClassNames('input-command-button', 'mod-dropdown', dropdownStateClasses);
+    const iconClass = toClassNames('input-command-icon', 'mod-dropdown', 'fas', 'fa-chevron-down', dropdownStateClasses);
     return (
-      <span className={iconContainerClass} onClick={this.handleToggleMenu}>
-        <i className={iconClass} />
-      </span>
+      <div className="dropdown-menu-container">
+        <div className={iconContainerClass} onClick={this.handleToggleMenu}>
+          <i className={iconClass} />
+        </div>
+        {expanded && (
+          <div className="dropdown-menu">
+            <ul className="dropdown-list">
+              {options.map(({ primaryLabel, value: itemValue }) => {
+                return (
+                  <li key={itemValue} className="dropdown-list-item" onClick={this.handleSelectListItem(itemValue)}>
+                    {primaryLabel}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+      </div>
     );
   };
 
   render() {
-    const { className, name, onChange, options, title, value } = this.props;
-    const { expanded } = this.state;
+    const { className, name, onChange, value } = this.props;
     return (
       <ClickAway onClick={this.handleCloseMenu}>
         {setTarget => (
           <div className={toClassNames('dropdown-container', className)} ref={setTarget}>
             <Input name={name} onChange={onChange} onClick={this.handleClickInput} renderCommands={this.renderToggleButton} value={value} />
-            {expanded && (
-              <div className="dropdown-menu">
-                {/* <div className="dropdown-header label mod-sub">{title}</div> */}
-                <ul className="dropdown-list">
-                  {options.map(({ primaryLabel, value: itemValue }) => {
-                    return (
-                      <li key={itemValue} className="dropdown-list-item" onClick={this.handleSelectListItem(itemValue)}>
-                        {primaryLabel}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
           </div>
         )}
       </ClickAway>
@@ -81,7 +82,6 @@ Dropdown.propTypes = {
       primaryLabel: PropTypes.string,
     })
   ).isRequired,
-  title: PropTypes.string.isRequired,
   value: PropTypes.string,
 };
 

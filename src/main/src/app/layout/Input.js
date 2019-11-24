@@ -32,7 +32,7 @@ class Input extends Component {
   };
 
   renderInput = ({ containerClasses, stateClasses }) => {
-    const { autoFocus, dirtyOnChange, name, onChange, onClick, placeholder, readonly, renderCommands, type, value } = this.props;
+    const { autoFocus, dirtyOnChange, name, onChange, onClick, placeholder, readOnly, renderCommands, type, value } = this.props;
     const isCheckbox = type === 'checkbox';
     const eventProps = containerClasses ? this.eventProps : {};
     return (
@@ -45,7 +45,7 @@ class Input extends Component {
           onChange={onChange({ name, prevValue: value, dirty: dirtyOnChange })}
           onClick={onClick({ name, prevValue: value })}
           placeholder={placeholder}
-          readonly={readonly}
+          readOnly={readOnly}
           ref={this.input}
           type={type}
           value={value || ''}
@@ -54,7 +54,10 @@ class Input extends Component {
           <i className={toClassNames('checked-icon', value ? 'mod-checked fas fa-check-circle' : 'is-unchecked', stateClasses)} />
         ) : (
           <div className={toClassNames('input-commands', stateClasses)}>
-            <i className={toClassNames('input-command-button', 'mod-clear', 'fas', 'fa-times', stateClasses)} onClick={this.handleClear} />
+            <div className={toClassNames('input-command-button', 'mod-clear', stateClasses)} onClick={this.handleClear}>
+              <div className={toClassNames('input-command-background', 'mod-clear', stateClasses)} />
+              <i className={toClassNames('input-command-icon', 'mod-clear', 'fas', 'fa-times', stateClasses)} />
+            </div>
             {renderCommands(stateClasses)}
           </div>
         )}
@@ -91,7 +94,7 @@ Input.propTypes = {
   onChange: PropTypes.func.isRequired,
   onClick: PropTypes.func,
   placeholder: PropTypes.string,
-  readonly: PropTypes.bool,
+  readOnly: PropTypes.bool,
   renderCommands: PropTypes.func, // render other command buttons inside input
   type: PropTypes.oneOf([
     'button',
