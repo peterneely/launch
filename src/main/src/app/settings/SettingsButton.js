@@ -4,7 +4,7 @@ import { toClassNames } from '../strings';
 import './settingsButton.scss';
 
 const SettingsButton = ({ disabled, onClick }) => {
-  const iconClass = toClassNames('button-toggle', 'fas', 'fa-cog', disabled ? 'mod-disabled' : null);
+  const iconClass = toClassNames('button-toggle', 'fas', 'fa-cog', disabled ? 'is-disabled' : null);
   return (
     <div className="button-toggle-container">
       <i className={iconClass} onClick={onClick} />

@@ -11,7 +11,7 @@ import './tiles.scss';
 class Tiles extends Component {
   componentDidUpdate() {
     const { disabled } = this.props;
-    document.documentElement.classList.toggle('mod-disabled', disabled);
+    document.documentElement.classList.toggle('is-disabled', disabled);
   }
 
   handleEditTile = url => () => {
@@ -22,7 +22,7 @@ class Tiles extends Component {
   render() {
     const { disabled, settings: { theme } = {}, tiles } = this.props;
     return (
-      <main className={toClassNames('tiles', disabled ? 'mod-disabled' : null)}>
+      <main className={toClassNames('tiles', disabled ? 'is-disabled' : null)}>
         {tiles.map((tile, index) => (
           <Tile key={index} onEdit={this.handleEditTile} tile={tile} theme={theme} />
         ))}

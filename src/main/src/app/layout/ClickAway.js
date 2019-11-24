@@ -12,7 +12,7 @@ class ClickAway extends Component {
 
   handleClickAway = event => {
     if (this.ref && !this.ref.contains(event.target)) {
-      this.props.onClick(event);
+      // this.props.onClick(event);
     }
   };
 

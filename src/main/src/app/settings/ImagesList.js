@@ -102,9 +102,10 @@ class ImagesList extends Component {
                 autoFocus={!scrollUrl}
                 className="images-list-filter"
                 name="filter"
+                onChange={onFilter}
+                dirtyOnChange={false}
                 placeholder="Filter bookmarks"
                 value={filter}
-                onChange={onFilter}
               />
               {hasEmptyImages && (
                 <Checkbox

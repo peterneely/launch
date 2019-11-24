@@ -11,6 +11,7 @@ $border-default: $border-width solid $border-color;
 $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 
 $button-default-color: lighten($border-color, 10%);
+$button-highlight-default-color: darken($button-default-color, 5%);
 $button-primary-border-color: darken(#408BF9, 20%);
 $button-primary-color: #408BF9;
 $button-width: 120px;
@@ -20,6 +21,7 @@ $dropdown-menu-background-color: white;
 $icon-size: 1.5em;
 $icon-color-disabled: lighten(#878787, 20%);
 $icon-color-danger: red;
+$icon-color-info: #408BF9;
 
 $label-color: black;
 $label-subtext-color: #878787;

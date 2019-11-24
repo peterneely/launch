@@ -10,8 +10,19 @@ class Input extends Component {
     this.input = createRef();
   }
 
-  handleBlur = () => {
-    this.setState({ focused: false });
+  eventProps = {
+    onBlur: () => {
+      this.setState({ focused: false });
+    },
+    onFocus: () => {
+      this.setState({ focused: true });
+    },
+    onMouseOver: () => {
+      this.setState({ hovering: true });
+    },
+    onMouseOut: () => {
+      this.setState({ hovering: false });
+    },
   };
 
   handleClear = event => {
@@ -20,43 +31,18 @@ class Input extends Component {
     this.input.current.focus();
   };
 
-  handleFocus = () => {
-    this.setState({ focused: true });
-  };
-
-  handleHoverEnd = () => {
-    this.setState({ hovering: false });
-  };
-
-  handleHoverStart = () => {
-    this.setState({ hovering: true });
-  };
-
-  renderInput = containerClasses => {
-    const { autoFocus, name, onChange, onClick, placeholder, renderCommands, type, value } = this.props;
-    const { focused, hovering } = this.state;
+  renderInput = ({ containerClasses, stateClasses }) => {
+    const { autoFocus, dirtyOnChange, name, onChange, onClick, placeholder, renderCommands, type, value } = this.props;
     const isCheckbox = type === 'checkbox';
-    const classes = toClassNames(
-      containerClasses,
-      'input-wrapper',
-      focused ? 'is-focused' : null,
-      hovering ? 'is-hovering' : null,
-      !value ? 'is-empty' : null
-    );
+    const eventProps = containerClasses ? this.eventProps : {};
     return (
-      <div
-        className={classes || undefined}
-        onBlur={this.handleBlur}
-        onFocus={this.handleFocus}
-        onMouseOver={this.handleHoverStart}
-        onMouseOut={this.handleHoverEnd}
-      >
+      <div className={toClassNames(containerClasses, 'input-wrapper', stateClasses)} {...eventProps}>
         <input
           autoFocus={autoFocus}
           checked={isCheckbox && value}
-          className={toClassNames('input', `mod-${type}`)}
+          className={toClassNames('input', `mod-${type}`, stateClasses)}
           name={name}
-          onChange={onChange({ name, prevValue: value })}
+          onChange={onChange({ name, prevValue: value, dirty: dirtyOnChange })}
           onClick={onClick({ name, prevValue: value })}
           placeholder={placeholder}
           ref={this.input}
@@ -64,11 +50,11 @@ class Input extends Component {
           value={value || ''}
         />
         {isCheckbox ? (
-          <i className={toClassNames('checked-icon', value ? 'mod-checked fas fa-check-circle' : 'is-unchecked')} />
+          <i className={toClassNames('checked-icon', value ? 'mod-checked fas fa-check-circle' : 'is-unchecked', stateClasses)} />
         ) : (
-          <div className="input-commands">
-            <i className="input-command-icon mod-clear fas fa-times" onClick={this.handleClear} />
-            {renderCommands({ focused, hovering })}
+          <div className={toClassNames('input-commands', stateClasses)}>
+            <i className={toClassNames('input-command-icon', 'mod-clear', 'fas', 'fa-times', stateClasses)} onClick={this.handleClear} />
+            {renderCommands(stateClasses)}
           </div>
         )}
       </div>
@@ -76,15 +62,17 @@ class Input extends Component {
   };
 
   render() {
-    const { className, label, name, type } = this.props;
+    const { className, label, name, type, value } = this.props;
+    const { focused, hovering } = this.state;
     const containerClasses = toClassNames(className, 'input-container', `mod-${type}`, `mod-${name}`);
+    const stateClasses = toClassNames(focused ? 'is-focused' : null, hovering ? 'is-hovering' : null, !value ? 'is-empty' : null);
     return label ? (
-      <label className={containerClasses}>
+      <label className={toClassNames(containerClasses, stateClasses)} {...this.eventProps}>
         <span className="label mod-input">{label}</span>
-        {this.renderInput()}
+        {this.renderInput({ stateClasses })}
       </label>
     ) : (
-      this.renderInput(containerClasses)
+      this.renderInput({ containerClasses, stateClasses })
     );
   }
 }
@@ -92,6 +80,7 @@ class Input extends Component {
 Input.propTypes = {
   autoFocus: PropTypes.bool,
   className: PropTypes.string,
+  dirtyOnChange: PropTypes.bool,
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -126,6 +115,7 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
+  dirtyOnChange: true,
   onClick: () => () => {},
   renderCommands: () => {},
   type: 'text',

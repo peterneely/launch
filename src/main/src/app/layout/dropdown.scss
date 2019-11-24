@@ -76,17 +76,17 @@
   }
 
   .input-command-icon {
+    border-left: $border-default;
+
     &.mod-dropdown {
-      color: $icon-color-disabled;
+      background-color: $button-default-color;
+      border-bottom-right-radius: $border-radius;
+      border-top-right-radius: $border-radius;
+      color: $icon-color-info;
       font-size: 1.4em;
 
-      &.is-hovering-container {
-        color: $border-hover-color;
-      }
-
-      &:hover,
-      &.is-focused-container {
-        color: $row-highlight-background-color;
+      &:hover {
+        background-color: $button-highlight-default-color;
       }
     }
   }

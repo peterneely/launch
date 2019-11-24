@@ -9,7 +9,7 @@ const Button = ({ className, disabled, icon, label, onClick, primary }) => {
     className,
     primary ? 'mod-primary' : null,
     !label ? 'mod-icon-only' : null,
-    disabled ? 'mod-disabled' : null
+    disabled ? 'is-disabled' : null
   );
   return (
     <button className={classNames} onClick={onClick} disabled={disabled}>

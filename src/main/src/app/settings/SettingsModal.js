@@ -108,8 +108,8 @@ class SettingsModal extends Component {
     });
   };
 
-  handleChangeInput = ({ name, prevValue, value, defaultValue = null, clear, toggle }) => event => {
-    this.setState({ dirty: true, [name]: toggle ? !prevValue : clear ? defaultValue : value || event.target.value });
+  handleChangeInput = ({ name, prevValue, value, defaultValue = null, clear, toggle, dirty = true }) => event => {
+    this.setState({ dirty, [name]: toggle ? !prevValue : clear ? defaultValue : value || event.target.value });
   };
 
   handleChangeJson = event => {

@@ -3,6 +3,10 @@
 $list-height: calc(#{$settings-tab-height} - #{$row-height});
 
 .general-container {
+  .general-folder {
+    margin-bottom: 15px;
+  }
+
   pre {
     background-color: darken($background-color, 5%);
     border-radius: $border-radius;

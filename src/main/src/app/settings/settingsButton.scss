@@ -17,7 +17,7 @@
     opacity: 1;
   }
 
-  &.mod-disabled {
+  &.is-disabled {
     filter: $util-blur;
   }
 }

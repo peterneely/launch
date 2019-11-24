@@ -12,6 +12,7 @@ class Dropdown extends Component {
   }
 
   handleClickInput = () => event => {
+    console.log('handleClickInput');
     this.handleToggleMenu(event);
   };
 
@@ -21,28 +22,22 @@ class Dropdown extends Component {
     onChange({ name, value: itemValue })(event);
   };
 
-  handleToggleMenu = () => {
+  handleToggleMenu = event => {
+    // event.stopPropagation();
     const { expanded } = this.state;
     this.setState({ expanded: !expanded });
   };
 
-  renderToggleButton = ({ focused, hovering }) => {
-    const className = toClassNames(
-      'input-command-icon',
-      'mod-dropdown',
-      'fas',
-      'fa-caret-down',
-      focused ? 'is-focused-container' : null,
-      hovering ? 'is-hovering-container' : null
-    );
-    return <i className={className} onClick={() => {}} />;
+  renderToggleButton = stateClasses => {
+    const className = toClassNames('input-command-icon', 'mod-dropdown', 'fas', 'fa-caret-down', stateClasses);
+    return <i className={className} onClick={this.handleToggleMenu} />;
   };
 
   render() {
-    const { name, onChange, options, title, value } = this.props;
+    const { className, name, onChange, options, title, value } = this.props;
     const { expanded } = this.state;
     return (
-      <div className="dropdown-container">
+      <div className={toClassNames('dropdown-container', className)}>
         <Input name={name} onChange={onChange} onClick={this.handleClickInput} renderCommands={this.renderToggleButton} value={value} />
         {expanded && (
           <ClickAway onClick={this.handleToggleMenu}>
@@ -68,6 +63,7 @@ class Dropdown extends Component {
 }
 
 Dropdown.propTypes = {
+  className: PropTypes.string,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(

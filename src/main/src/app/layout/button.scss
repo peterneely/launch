@@ -3,7 +3,6 @@
 .button {
   -webkit-appearance: button;
   -webkit-writing-mode: horizontal-tb !important;
-  // padding: 10px;
   align-items: center;
   background-color: $button-default-color;
   border-image: initial;
@@ -26,19 +25,20 @@
   text-rendering: auto;
   text-shadow: none;
   text-transform: none;
+  transition: $util-transition;
   word-spacing: normal;
 
   &:focus {
     outline: none;
   }
 
-  &:not(.mod-disabled) {
+  &:not(.is-disabled) {
     &:hover {
-      background-color: darken($button-default-color, 5%);
+      background-color: $button-highlight-default-color;
     }
   }
 
-  &.mod-disabled {
+  &.is-disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
@@ -54,7 +54,7 @@
     background-color: $button-primary-color;
     border: $border-width solid $button-primary-border-color;
 
-    &:not(.mod-disabled) {
+    &:not(.is-disabled) {
       &:hover {
         background-color: darken($button-primary-color, 5%);
       }
