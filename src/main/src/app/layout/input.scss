@@ -96,7 +96,7 @@ $input-height: calc(#{$row-height} - #{2 * $border-width});
     top: 1px;
   }
 
-  .input-command-icon {
+  .input-command-button {
     align-items: center;
     cursor: pointer;
     display: flex;
@@ -122,7 +122,7 @@ $input-height: calc(#{$row-height} - #{2 * $border-width});
   &.is-focused-container,
   &.is-hovering-container {
     &:not(.is-empty) {
-      .input-command-icon {
+      .input-command-button {
 
         &.mod-clear {
           display: flex;

@@ -75,7 +75,11 @@
     }
   }
 
-  .input-command-icon {
+  .input {
+    cursor: default;
+  }
+
+  .input-command-button {
     &:not(.mod-clear) {
       border-left: $border-default;
     }
@@ -88,6 +92,14 @@
 
       &:hover {
         background-color: $button-highlight-default-color;
+      }
+
+      .input-command-icon {
+        transition: $util-transition;
+
+        &.is-expanded {
+          transform: rotate(180deg);
+        }
       }
     }
   }

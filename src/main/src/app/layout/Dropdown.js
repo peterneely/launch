@@ -18,7 +18,7 @@ class Dropdown extends Component {
 
   handleCloseMenu = () => {
     this.setState({ expanded: false });
-  }
+  };
 
   handleSelectListItem = itemValue => event => {
     const { name, onChange } = this.props;
@@ -32,8 +32,14 @@ class Dropdown extends Component {
   };
 
   renderToggleButton = stateClasses => {
-    const className = toClassNames('input-command-icon', 'mod-dropdown', 'fas', 'fa-chevron-down', stateClasses);
-    return <i className={className} onClick={this.handleToggleMenu} />;
+    const { expanded } = this.state;
+    const iconContainerClass = toClassNames('input-command-button', 'mod-dropdown', stateClasses);
+    const iconClass = toClassNames('input-command-icon', 'fas', 'fa-chevron-down', expanded ? 'is-expanded' : null);
+    return (
+      <span className={iconContainerClass} onClick={this.handleToggleMenu}>
+        <i className={iconClass} />
+      </span>
+    );
   };
 
   render() {
