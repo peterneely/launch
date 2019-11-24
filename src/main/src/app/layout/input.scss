@@ -71,7 +71,7 @@ $input-height: calc(#{$row-height} - #{2 * $border-width});
     align-items: center;
     color: $border-color;
     display: flex;
-    font-size: $icon-size;
+    font-size: 1.5em;
     height: $row-height;
     justify-content: center;
 
@@ -108,6 +108,7 @@ $input-height: calc(#{$row-height} - #{2 * $border-width});
     &.mod-clear {
       color: $icon-color-disabled;
       display: none;
+      font-size: $icon-size;
 
       &:hover {
         color: $icon-color-danger;

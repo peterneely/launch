@@ -16,20 +16,23 @@ class Dropdown extends Component {
     this.handleToggleMenu(event);
   };
 
+  handleCloseMenu = () => {
+    this.setState({ expanded: false });
+  }
+
   handleSelectListItem = itemValue => event => {
     const { name, onChange } = this.props;
     this.handleToggleMenu(event);
     onChange({ name, value: itemValue })(event);
   };
 
-  handleToggleMenu = event => {
-    // event.stopPropagation();
+  handleToggleMenu = () => {
     const { expanded } = this.state;
     this.setState({ expanded: !expanded });
   };
 
   renderToggleButton = stateClasses => {
-    const className = toClassNames('input-command-icon', 'mod-dropdown', 'fas', 'fa-caret-down', stateClasses);
+    const className = toClassNames('input-command-icon', 'mod-dropdown', 'fas', 'fa-chevron-down', stateClasses);
     return <i className={className} onClick={this.handleToggleMenu} />;
   };
 
@@ -37,14 +40,14 @@ class Dropdown extends Component {
     const { className, name, onChange, options, title, value } = this.props;
     const { expanded } = this.state;
     return (
-      <div className={toClassNames('dropdown-container', className)}>
-        <Input name={name} onChange={onChange} onClick={this.handleClickInput} renderCommands={this.renderToggleButton} value={value} />
-        {expanded && (
-          <ClickAway onClick={this.handleToggleMenu}>
-            {setRef => (
+      <ClickAway onClick={this.handleCloseMenu}>
+        {setTarget => (
+          <div className={toClassNames('dropdown-container', className)} ref={setTarget}>
+            <Input name={name} onChange={onChange} onClick={this.handleClickInput} renderCommands={this.renderToggleButton} value={value} />
+            {expanded && (
               <div className="dropdown-menu">
                 {/* <div className="dropdown-header label mod-sub">{title}</div> */}
-                <ul className="dropdown-list" ref={setRef}>
+                <ul className="dropdown-list">
                   {options.map(({ primaryLabel, value: itemValue }) => {
                     return (
                       <li key={itemValue} className="dropdown-list-item" onClick={this.handleSelectListItem(itemValue)}>
@@ -55,9 +58,9 @@ class Dropdown extends Component {
                 </ul>
               </div>
             )}
-          </ClickAway>
+          </div>
         )}
-      </div>
+      </ClickAway>
     );
   }
 }

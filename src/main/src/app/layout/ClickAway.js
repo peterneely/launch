@@ -2,6 +2,11 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 class ClickAway extends Component {
+  constructor(props) {
+    super(props);
+    this.targets = [];
+  }
+
   componentDidMount() {
     document.addEventListener('mouseup', this.handleClickAway);
   }
@@ -11,18 +16,18 @@ class ClickAway extends Component {
   }
 
   handleClickAway = event => {
-    if (this.ref && !this.ref.contains(event.target)) {
-      // this.props.onClick(event);
+    if (this.targets.length && this.targets.every(ref => !ref.contains(event.target))) {
+      this.props.onClick(event);
     }
   };
 
-  setRef = ref => {
-    this.ref = ref;
+  setTarget = ref => {
+    this.targets.push(ref);
   };
 
   render() {
     const { children } = this.props;
-    return <Fragment>{children(this.setRef)}</Fragment>;
+    return <Fragment>{children(this.setTarget)}</Fragment>;
   }
 }
 

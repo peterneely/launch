@@ -76,14 +76,15 @@
   }
 
   .input-command-icon {
-    border-left: $border-default;
+    &:not(.mod-clear) {
+      border-left: $border-default;
+    }
 
     &.mod-dropdown {
       background-color: $button-default-color;
       border-bottom-right-radius: $border-radius;
       border-top-right-radius: $border-radius;
-      color: $icon-color-info;
-      font-size: 1.4em;
+      font-size: $icon-size;
 
       &:hover {
         background-color: $button-highlight-default-color;
