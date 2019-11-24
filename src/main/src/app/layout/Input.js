@@ -65,7 +65,11 @@ class Input extends Component {
     const { className, label, name, type, value } = this.props;
     const { focused, hovering } = this.state;
     const containerClasses = toClassNames(className, 'input-container', `mod-${type}`, `mod-${name}`);
-    const stateClasses = toClassNames(focused ? 'is-focused' : null, hovering ? 'is-hovering' : null, !value ? 'is-empty' : null);
+    const stateClasses = toClassNames(
+      focused ? 'is-focused-container' : null,
+      hovering ? 'is-hovering-container' : null,
+      !value ? 'is-empty' : null
+    );
     return label ? (
       <label className={toClassNames(containerClasses, stateClasses)} {...this.eventProps}>
         <span className="label mod-input">{label}</span>

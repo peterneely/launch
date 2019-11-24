@@ -17,11 +17,11 @@ $input-height: calc(#{$row-height} - #{2 * $border-width});
     padding: 0 10px;
   }
 
-  &.is-hovering {
+  &.is-hovering-container {
     border-color: $border-hover-color;
   }
 
-  &.is-focused {
+  &.is-focused-container {
     border-color: $border-focus-color;
     outline: none;
   }
@@ -43,14 +43,14 @@ $input-height: calc(#{$row-height} - #{2 * $border-width});
   position: relative;
   width: 100%;
 
-  &.is-focused {
+  &.is-focused-container {
     outline: none;
   }
 
   &.mod-checkbox {
     cursor: pointer;
 
-    &.is-hovering {
+    &.is-hovering-container {
       .checked-icon {
         &.is-unchecked {
           border-color: $border-hover-color;
@@ -119,8 +119,8 @@ $input-height: calc(#{$row-height} - #{2 * $border-width});
 
 .input-wrapper {
 
-  &.is-focused,
-  &.is-hovering {
+  &.is-focused-container,
+  &.is-hovering-container {
     &:not(.is-empty) {
       .input-command-icon {
 

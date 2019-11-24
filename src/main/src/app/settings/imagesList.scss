@@ -120,7 +120,7 @@ $list-height: calc(#{$settings-tab-height} - #{$row-height} - 20px);
       background-color: $row-even-color;
 
       .input-container {
-        &.is-focused {
+        &.is-focused-container {
           .input-icon {
             background-color: white;
           }

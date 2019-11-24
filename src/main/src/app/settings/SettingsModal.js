@@ -129,7 +129,7 @@ class SettingsModal extends Component {
     } catch (error) {}
   };
 
-  handleChangeListFilterEmptyImages = ({ value: prevChecked }) => () => {
+  handleChangeListFilterEmptyImages = ({ prevValue: prevChecked }) => () => {
     this.setState({
       filterEmptyImages: !prevChecked,
       prevEmptyImageTilesByUrl: (() => {
