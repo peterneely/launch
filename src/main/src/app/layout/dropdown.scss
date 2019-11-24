@@ -105,10 +105,13 @@ $menu-z-index: 1050;
   }
 
   .input-command-icon {
-    transition: $util-transition;
+    transition: transform 0.3s ease;
 
-    &.is-expanded {
-      transform: rotate(-180deg);
+    &.mod-dropdown {
+      &.is-expanded {
+        margin-top: -1px;
+        transform: rotate(-180deg);
+      }
     }
   }
 }

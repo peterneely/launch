@@ -55,7 +55,6 @@ class Input extends Component {
         ) : (
           <div className={toClassNames('input-commands', stateClasses)}>
             <div className={toClassNames('input-command-button', 'mod-clear', stateClasses)} onClick={this.handleClear}>
-              <div className={toClassNames('input-command-background', 'mod-clear', stateClasses)} />
               <i className={toClassNames('input-command-icon', 'mod-clear', 'fas', 'fa-times', stateClasses)} />
             </div>
             {renderCommands(stateClasses)}
