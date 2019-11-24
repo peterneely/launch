@@ -38,7 +38,7 @@ class ImagesList extends Component {
         destroyDeselectTimer();
         const { classesByUrl: { [scrollUrl]: urlToRemove, ...restClassesByUrl } = {} } = this.state;
         this.setState({ classesByUrl: restClassesByUrl });
-      }, 1500);
+      }, 500);
     };
 
     const select = ({ rowElement, scrollUrl }) => {

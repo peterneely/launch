@@ -17,9 +17,10 @@ $list-height: calc(#{$settings-tab-height} - #{$row-height} - 20px);
     .input,
     .input:focus {
       background-color: $row-highlight-background-color;
+      color: $row-highlight-color;
     }
 
-    .input-icon {
+    .input-command-icon {
       background-color: $row-highlight-background-color;
     }
   }
@@ -121,12 +122,12 @@ $list-height: calc(#{$settings-tab-height} - #{$row-height} - 20px);
 
       .input-container {
         &.is-focused-container {
-          .input-icon {
+          .input-command-icon {
             background-color: white;
           }
         }
 
-        .input-icon {
+        .input-command-icon {
           background-color: $row-even-color;
         }
       }
@@ -135,9 +136,20 @@ $list-height: calc(#{$settings-tab-height} - #{$row-height} - 20px);
 
   &.mod-scroll {
     background-color: $row-highlight-background-color;
+    color: $row-highlight-color;
+
+    .cell-text {
+      &.mod-subtext {
+        color: $row-highlight-color;
+      }
+    }
+
+    .input-command-button {
+      color: $row-highlight-color;
+    }
   }
 
-  .input-icon {
+  .input-command-icon {
     background-color: white;
     transition: $util-transition;
   }

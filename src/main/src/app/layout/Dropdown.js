@@ -11,6 +11,14 @@ class Dropdown extends Component {
     this.state = { expanded: false };
   }
 
+  handleChange = props => event => {
+    const { onChange } = this.props;
+    if (props.clear) {
+      this.setState({ expanded: true });
+    }
+    onChange({ ...props, clear: true })(event);
+  }
+
   handleClickInput = () => event => {
     this.handleToggleMenu(event);
   };
@@ -59,12 +67,12 @@ class Dropdown extends Component {
   };
 
   render() {
-    const { className, name, onChange, value } = this.props;
+    const { className, name, value } = this.props;
     return (
       <ClickAway onClick={this.handleCloseMenu}>
         {setTarget => (
           <div className={toClassNames('dropdown-container', className)} ref={setTarget}>
-            <Input name={name} onChange={onChange} onClick={this.handleClickInput} renderCommands={this.renderToggleButton} value={value} />
+            <Input name={name} onChange={this.handleChange} onClick={this.handleClickInput} renderCommands={this.renderToggleButton} value={value} />
           </div>
         )}
       </ClickAway>
