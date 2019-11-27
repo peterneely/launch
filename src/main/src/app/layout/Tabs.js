@@ -26,11 +26,11 @@ class Tabs extends Component {
     return (
       <div className="tabs-container">
         <div className="tabs">
-          {tabConfigs.map(({ renderTitle }, index) => (
+          {tabConfigs.map(({ disabled, renderTitle }, index) => (
             <div
-              className={toClassNames('tab', index === activeIndex ? 'mod-active' : null)}
+              className={toClassNames('tab', index === activeIndex ? 'mod-active' : null, disabled ? 'is-disabled' : null)}
               key={index}
-              onClick={this.handleClickTab(index)}
+              onClick={disabled ? undefined : this.handleClickTab(index)}
             >
               {renderTitle()}
             </div>

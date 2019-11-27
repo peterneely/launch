@@ -6,7 +6,7 @@ export const buildFolderPaths = ({ nodes, foldersById, prevFolderPaths = [] }) =
     if (!url) {
       const folderPaths = title ? [...prevFolderPaths, title] : prevFolderPaths;
       if (folderPaths.length) {
-        foldersById[id] = folderPaths.join(' > ');
+        foldersById[id] = folderPaths.join('.');
       }
       if (children) {
         buildFolderPaths({ nodes: children, foldersById, prevFolderPaths: folderPaths });
@@ -15,6 +15,8 @@ export const buildFolderPaths = ({ nodes, foldersById, prevFolderPaths = [] }) =
   });
   return foldersById;
 };
+
+export const formatFolderPath = path => (path || '').replace(/\./g, ' > ');
 
 export const getFolders = async () => {
   const nodes = await getBookmarkTree();

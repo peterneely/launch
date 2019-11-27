@@ -26,6 +26,7 @@ class SettingsModal extends Component {
       filter: null,
       filterEmptyImages: false,
       folderId,
+      prevFolderId: folderId,
       prevEmptyImageTilesByUrl: {},
       sorted,
       theme,
@@ -33,9 +34,16 @@ class SettingsModal extends Component {
     };
   }
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   const { folderId } = this.state;
+  //   if (folderId !== prevState.folderId) {
+  //     this.setState({ prevFolderId: folderId });
+  //   }
+  // }
+
   createTabConfigs = (tiles, hasTiles) => {
     const { actions: { loadFolders } = {}, foldersById, scrollUrl } = this.props;
-    const { filter, filterEmptyImages, folderId, prevEmptyImageTilesByUrl } = this.state;
+    const { filter, filterEmptyImages, folderId, prevFolderId, prevEmptyImageTilesByUrl } = this.state;
     const hasEmptyImages = !!tiles.filter(({ image }) => !image).length || !!Object.keys(prevEmptyImageTilesByUrl).length;
     const tabConfigs = [
       {
@@ -44,9 +52,12 @@ class SettingsModal extends Component {
       },
     ];
     if (hasTiles) {
+      const disabled = folderId !== prevFolderId;
+      const titleClassName = toClassNames('label', 'mod-tab', disabled ? 'is-disabled' : null);
       const tileTabConfigs = [
         {
-          renderTitle: () => <label className="label mod-tab">Bookmark Images</label>,
+          disabled,
+          renderTitle: () => <label className={titleClassName}>Bookmark Images</label>,
           renderBody: () => (
             <ImagesList
               filter={filter}
@@ -61,7 +72,8 @@ class SettingsModal extends Component {
           ),
         },
         {
-          renderTitle: () => <label className="label mod-tab">Bookmark Images JSON</label>,
+          disabled,
+          renderTitle: () => <label className={titleClassName}>Bookmark Images JSON</label>,
           renderBody: () => <ImagesJson imagesByUrl={this.getImagesByUrl()} onChange={this.handleChangeJson} />,
         },
       ];

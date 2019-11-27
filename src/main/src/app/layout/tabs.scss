@@ -21,6 +21,10 @@
   height: $row-height;
   justify-content: center;
 
+  &.is-disabled {
+    cursor: not-allowed;
+  }
+
   &.mod-active {
     border: $border-default;
     border-bottom: 3px solid white;

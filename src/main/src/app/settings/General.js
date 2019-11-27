@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import sortBy from 'lodash/sortBy';
 import { Dropdown } from '../layout/Dropdown';
+import { formatFolderPath } from '../folders/factory';
 import './general.scss';
 
 class General extends Component {
@@ -26,7 +27,7 @@ class General extends Component {
 
   setFolderOptions = () => {
     const { foldersById } = this.props;
-    const unorderedFolderOptions = Object.entries(foldersById).map(([id, path]) => ({ value: id, primaryLabel: path }));
+    const unorderedFolderOptions = Object.entries(foldersById).map(([id, path]) => ({ value: id, primaryLabel: formatFolderPath(path) }));
     const folderOptions = sortBy(unorderedFolderOptions, 'primaryLabel');
     this.setState({ folderOptions });
   };
@@ -42,9 +43,10 @@ class General extends Component {
   render() {
     const { folderId, foldersById, onChange } = this.props;
     const { folderOptions } = this.state;
+    const text = formatFolderPath(foldersById[folderId]);
     return (
       <div className="general-container">
-        <Dropdown className="general-folder" name="folderId" onChange={onChange} options={folderOptions} text={foldersById[folderId]} value={folderId} />
+        <Dropdown className="general-folder" name="folderId" onChange={onChange} options={folderOptions} text={text} value={folderId} />
         <pre>{JSON.stringify(folderOptions, null, 2)}</pre>
       </div>
     );

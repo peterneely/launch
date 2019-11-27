@@ -5,6 +5,8 @@ import { getCachedSettings, setCachedSettings } from './localStorage';
 
 const { runtime, storage } = window.chrome;
 
+const hasUrl = ({ url }) => url;
+
 export const getBookmarkTree = () =>
   new Promise((resolve, reject) => {
     try {
@@ -29,7 +31,7 @@ export const getBookmarks = folderId =>
           runtime.sendMessage({ type: 'GET_BOOKMARKS', payload: { folderId } }, response => {
             const { bookmarks } = response || {};
             if (bookmarks) {
-              const uniqueBookmarks = uniqBy(bookmarks.filter(({ url }) => url), ({ url }) => url);
+              const uniqueBookmarks = uniqBy(bookmarks.filter(hasUrl), hasUrl);
               resolve(uniqueBookmarks);
             } else {
               reject(new Error('Could not get Chrome bookmarks'));

@@ -36,6 +36,11 @@ html {
   font-weight: bold;
   white-space: nowrap;
 
+  &.is-disabled {
+    color: $label-disabled-color;
+    cursor: not-allowed;
+  }
+
   &.mod-sub {
     color: $label-subtext-color;
   }
