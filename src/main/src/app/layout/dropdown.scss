@@ -44,7 +44,8 @@ $menu-z-index: 1050;
       background-color: $row-even-color;
     }
 
-    &:hover {
+    &:hover,
+    &.is-selected {
       background-color: $row-highlight-background-color;
       color: white;
     }

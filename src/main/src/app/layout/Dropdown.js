@@ -8,7 +8,12 @@ import { toClassNames } from '../strings';
 class Dropdown extends Component {
   constructor(props) {
     super(props);
+    this.selectedOptionElement = null;
     this.state = { expanded: false };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.tryScrollToOption(prevState);
   }
 
   handleChange = props => event => {
@@ -17,7 +22,7 @@ class Dropdown extends Component {
       this.setState({ expanded: true });
     }
     onChange({ ...props, clear: true })(event);
-  }
+  };
 
   handleClickInput = () => event => {
     this.handleToggleMenu(event);
@@ -39,7 +44,7 @@ class Dropdown extends Component {
   };
 
   renderToggleButton = stateClasses => {
-    const { options } = this.props;
+    const { options, value } = this.props;
     const { expanded } = this.state;
     const dropdownStateClasses = toClassNames(stateClasses, expanded ? 'is-expanded' : null);
     const iconContainerClass = toClassNames('input-command-button', 'mod-dropdown', dropdownStateClasses);
@@ -52,9 +57,16 @@ class Dropdown extends Component {
         {expanded && (
           <div className="dropdown-menu">
             <ul className="dropdown-list">
-              {options.map(({ primaryLabel, value: itemValue }) => {
+              {options.map(({ value: itemValue, primaryLabel }) => {
+                const selected = itemValue === value;
+                const className = toClassNames('dropdown-list-item', selected ? 'is-selected' : null);
                 return (
-                  <li key={itemValue} className="dropdown-list-item" onClick={this.handleSelectListItem(itemValue)}>
+                  <li
+                    key={itemValue}
+                    className={className}
+                    onClick={this.handleSelectListItem(itemValue)}
+                    ref={this.setOptionRef(selected)}
+                  >
                     {primaryLabel}
                   </li>
                 );
@@ -66,13 +78,33 @@ class Dropdown extends Component {
     );
   };
 
+  setOptionRef = selected => ref => {
+    if (selected) {
+      this.selectedOptionElement = ref;
+    }
+  };
+
+  tryScrollToOption = prevState => {
+    const { expanded } = this.state;
+    const { expanded: prevExpanded } = prevState;
+    if (this.selectedOptionElement && expanded && !prevExpanded) {
+      this.selectedOptionElement.scrollIntoView({ block: 'center' });
+    }
+  };
+
   render() {
-    const { className, name, value } = this.props;
+    const { className, name, text } = this.props;
     return (
       <ClickAway onClick={this.handleCloseMenu}>
         {setTarget => (
           <div className={toClassNames('dropdown-container', className)} ref={setTarget}>
-            <Input name={name} onChange={this.handleChange} onClick={this.handleClickInput} renderCommands={this.renderToggleButton} value={value} />
+            <Input
+              name={name}
+              onChange={this.handleChange}
+              onClick={this.handleClickInput}
+              renderCommands={this.renderToggleButton}
+              value={text}
+            />
           </div>
         )}
       </ClickAway>
@@ -90,7 +122,8 @@ Dropdown.propTypes = {
       primaryLabel: PropTypes.string,
     })
   ).isRequired,
-  value: PropTypes.string,
+  text: PropTypes.string, // text to show in the dropdown
+  value: PropTypes.string, // value of selected dropdown item
 };
 
 export { Dropdown };

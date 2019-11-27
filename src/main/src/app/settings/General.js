@@ -12,30 +12,39 @@ class General extends Component {
   }
 
   componentDidMount() {
-    const { loadFolders } = this.props;
-    loadFolders();
+    const { foldersById, loadFolders } = this.props;
+    if (isEmpty(foldersById)) {
+      loadFolders();
+    } else {
+      this.setFolderOptions();
+    }
   }
 
   componentDidUpdate(prevProps) {
     this.trySetFolderOptions(prevProps);
   }
 
+  setFolderOptions = () => {
+    const { foldersById } = this.props;
+    const unorderedFolderOptions = Object.entries(foldersById).map(([id, path]) => ({ value: id, primaryLabel: path }));
+    const folderOptions = sortBy(unorderedFolderOptions, 'primaryLabel');
+    this.setState({ folderOptions });
+  };
+
   trySetFolderOptions = prevProps => {
     const { foldersById } = this.props;
     const { folderOptions } = this.state;
-    if (isEmpty(folderOptions) && !isEmpty(foldersById)) {
-      const unorderedFolderOptions = Object.entries(foldersById).map(([id, path]) => ({ value: id, primaryLabel: path }));
-      const folderOptions = sortBy(unorderedFolderOptions, 'primaryLabel');
-      this.setState({ folderOptions });
+    if (!folderOptions.length && !isEmpty(foldersById)) {
+      this.setFolderOptions();
     }
-  }
+  };
 
   render() {
     const { folderId, foldersById, onChange } = this.props;
     const { folderOptions } = this.state;
     return (
       <div className="general-container">
-        <Dropdown className="general-folder" name="folderId" onChange={onChange} options={folderOptions} value={foldersById[folderId]} />
+        <Dropdown className="general-folder" name="folderId" onChange={onChange} options={folderOptions} text={foldersById[folderId]} value={folderId} />
         <pre>{JSON.stringify(folderOptions, null, 2)}</pre>
       </div>
     );

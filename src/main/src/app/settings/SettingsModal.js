@@ -65,7 +65,7 @@ class SettingsModal extends Component {
           renderBody: () => <ImagesJson imagesByUrl={this.getImagesByUrl()} onChange={this.handleChangeJson} />,
         },
       ];
-      tabConfigs.push(...tileTabConfigs);
+      tabConfigs.unshift(...tileTabConfigs);
     }
     return tabConfigs;
   };
@@ -151,9 +151,9 @@ class SettingsModal extends Component {
 
   handleSave = event => {
     const { actions: { saveSettings } = {}, onClose } = this.props;
-    const { sorted, theme } = this.state;
+    const { folderId, sorted, theme } = this.state;
     const imagesByUrl = this.getImagesByUrl();
-    saveSettings({ imagesByUrl, sorted, theme });
+    saveSettings({ folderId, imagesByUrl, sorted, theme });
     onClose(event);
   };
 

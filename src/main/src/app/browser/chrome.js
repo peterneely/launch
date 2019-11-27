@@ -22,21 +22,23 @@ export const getBookmarkTree = () =>
   });
 
 export const getBookmarks = folderId =>
-  new Promise((resolve, reject) => {
-    try {
-      runtime.sendMessage({ type: 'GET_BOOKMARKS', payload: { folderId } }, response => {
-        const { bookmarks } = response || {};
-        if (bookmarks) {
-          const uniqueBookmarks = uniqBy(bookmarks, ({ url }) => url);
-          resolve(uniqueBookmarks);
-        } else {
-          reject(new Error('Could not get Chrome bookmarks'));
+  !folderId
+    ? Promise.resolve([])
+    : new Promise((resolve, reject) => {
+        try {
+          runtime.sendMessage({ type: 'GET_BOOKMARKS', payload: { folderId } }, response => {
+            const { bookmarks } = response || {};
+            if (bookmarks) {
+              const uniqueBookmarks = uniqBy(bookmarks.filter(({ url }) => url), ({ url }) => url);
+              resolve(uniqueBookmarks);
+            } else {
+              reject(new Error('Could not get Chrome bookmarks'));
+            }
+          });
+        } catch (error) {
+          reject(error);
         }
       });
-    } catch (error) {
-      reject(error);
-    }
-  });
 
 export const getSettings = () =>
   new Promise((resolve, reject) => {
