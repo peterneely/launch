@@ -16,37 +16,41 @@ export const buildFolderPaths = ({ nodes, foldersById = {}, prevFolderPaths = []
   return foldersById;
 };
 
-const flattenTree = ({ nodes, prevLevel = 0, prevLineage = [], bookmarksById = {} }) => {
-  const level = prevLevel + 1;
+const flattenTree = ({ nodes, prevParents = [], bookmarksById = {}, parentTitlesByIds = {} }) => {
   nodes.forEach(node => {
-    const { children, id, title, url } = node;
-    const { lineageIds, lineageTitles } = prevLineage.reduce(
-      (info, lineageItem) => {
-        const { id: lineageId, title: lineageTitle } = lineageItem;
-        info.lineageIds = info.lineageIds ? `${info.lineageIds}|${lineageId}` : lineageId;
-        info.lineageTitles = info.lineageTitles ? `${info.lineageTitles}|${lineageTitle}` : lineageTitle;
+    const { children, id, parentId, url } = node;
+    const title = node.title || 'All Bookmarks';
+    const { parentIds, parentTitles } = prevParents.reduce(
+      (info, parent) => {
+        const { parentIds, parentTitles } = info;
+        const { id: parentId, title: parentTitle } = parent;
+        info.parentIds = parentIds ? `${parentIds}|${parentId}` : parentId;
+        info.parentTitles = parentTitles ? `${parentTitles}|${parentTitle}` : parentTitle;
         return info;
       },
-      { lineageIds: '', lineageTitles: '' }
+      { parentIds: '', parentTitles: '' }
     );
-    bookmarksById[id] = { id, level, lineage: prevLineage, lineageIds, lineageTitles, title, url };
+    bookmarksById[id] = { id, parentId, parentIds, title, url };
+    if (parentIds) {
+      parentTitlesByIds[parentIds] = parentTitles;
+    }
     if (children) {
       flattenTree({
         nodes: children,
-        prevLevel: level,
-        prevLineage: [...prevLineage, { id, title: title || 'All Bookmarks' }],
+        prevParents: [...prevParents, { id, title }],
         bookmarksById,
+        parentTitlesByIds,
       });
     }
   });
-  return bookmarksById;
+  return { bookmarksById, parentTitlesByIds };
 };
 
 export const formatFolderPath = path => (path || '').replace(/\./g, ' > ');
 
 export const getFolders = async () => {
   const nodes = await getBookmarkTree();
-  const flatTree = flattenTree({ nodes });
-  console.log(flatTree);
+  const { bookmarksById, parentTitlesByIds } = flattenTree({ nodes });
+  console.log({ bookmarksById, parentTitlesByIds });
   return buildFolderPaths({ nodes });
 };
