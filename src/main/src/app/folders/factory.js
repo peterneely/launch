@@ -20,12 +20,21 @@ const flattenTree = ({ nodes, prevLevel = 0, prevLineage = [], bookmarksById = {
   const level = prevLevel + 1;
   nodes.forEach(node => {
     const { children, id, title, url } = node;
-    bookmarksById[id] = { id, level, lineage: prevLineage, title, url };
+    const { lineageIds, lineageTitles } = prevLineage.reduce(
+      (info, lineageItem) => {
+        const { id: lineageId, title: lineageTitle } = lineageItem;
+        info.lineageIds = info.lineageIds ? `${info.lineageIds}|${lineageId}` : lineageId;
+        info.lineageTitles = info.lineageTitles ? `${info.lineageTitles}|${lineageTitle}` : lineageTitle;
+        return info;
+      },
+      { lineageIds: '', lineageTitles: '' }
+    );
+    bookmarksById[id] = { id, level, lineage: prevLineage, lineageIds, lineageTitles, title, url };
     if (children) {
       flattenTree({
         nodes: children,
         prevLevel: level,
-        prevLineage: [...prevLineage, { id, title }],
+        prevLineage: [...prevLineage, { id, title: title || 'All Bookmarks' }],
         bookmarksById,
       });
     }
