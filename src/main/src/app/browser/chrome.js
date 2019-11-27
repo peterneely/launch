@@ -13,6 +13,7 @@ export const getBookmarkTree = () =>
       runtime.sendMessage({ type: 'GET_BOOKMARK_TREE' }, response => {
         const { bookmarkTree } = response || {};
         if (bookmarkTree) {
+          console.log(bookmarkTree);
           resolve(bookmarkTree);
         } else {
           reject(new Error('Could not get Chrome bookmark tree'));
