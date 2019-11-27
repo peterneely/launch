@@ -16,11 +16,11 @@ export const buildFolderPaths = ({ nodes, foldersById = {}, prevFolderPaths = []
   return foldersById;
 };
 
-const flattenTree = ({ nodes, prevParents = [], bookmarksById = {}, parentTitlesByIds = {} }) => {
+const flattenTree = ({ nodes, bookmarksById = {}, parents = [], parentTitlesByIds = {} }) => {
   nodes.forEach(node => {
     const { children, id, parentId, url } = node;
     const title = node.title || 'All Bookmarks';
-    const { parentIds, parentTitles } = prevParents.reduce(
+    const { parentIds, parentTitles } = parents.reduce(
       (info, parent) => {
         const { parentIds, parentTitles } = info;
         const { id: parentId, title: parentTitle } = parent;
@@ -37,8 +37,8 @@ const flattenTree = ({ nodes, prevParents = [], bookmarksById = {}, parentTitles
     if (children) {
       flattenTree({
         nodes: children,
-        prevParents: [...prevParents, { id, title }],
         bookmarksById,
+        parents: [...parents, { id, title }],
         parentTitlesByIds,
       });
     }
