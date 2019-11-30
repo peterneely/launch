@@ -16,7 +16,8 @@ export const buildFolderPaths = ({ nodes, foldersById = {}, prevFolderPaths = []
   return foldersById;
 };
 
-const flattenTree = ({ nodes, bookmarksById = {}, parents = [], parentTitlesByIds = {} }) => {
+const flattenTree = ({ nodes, bookmarksById = {}, parents = [], folderPathsByIds = {} }) => {
+  const concatItems = (items, item) => items ? `${items}|${item}` : item;
   nodes.forEach(node => {
     const { children, id, parentId, url } = node;
     const title = node.title || 'All Bookmarks';
@@ -24,33 +25,33 @@ const flattenTree = ({ nodes, bookmarksById = {}, parents = [], parentTitlesById
       (info, parent) => {
         const { parentIds, parentTitles } = info;
         const { id: parentId, title: parentTitle } = parent;
-        info.parentIds = parentIds ? `${parentIds}|${parentId}` : parentId;
-        info.parentTitles = parentTitles ? `${parentTitles}|${parentTitle}` : parentTitle;
+        info.parentIds = concatItems(parentIds, parentId);
+        info.parentTitles = concatItems(parentTitles, parentTitle);
         return info;
       },
       { parentIds: '', parentTitles: '' }
     );
     bookmarksById[id] = { id, parentId, parentIds, title, url };
     if (parentIds) {
-      parentTitlesByIds[parentIds] = parentTitles;
+      folderPathsByIds[parentIds] = parentTitles;
     }
     if (children) {
       flattenTree({
         nodes: children,
         bookmarksById,
         parents: [...parents, { id, title }],
-        parentTitlesByIds,
+        folderPathsByIds,
       });
     }
   });
-  return { bookmarksById, parentTitlesByIds };
+  return { bookmarksById, folderPathsByIds };
 };
 
 export const formatFolderPath = path => (path || '').replace(/\./g, ' > ');
 
 export const getFolders = async () => {
   const nodes = await getBookmarkTree();
-  const { bookmarksById, parentTitlesByIds } = flattenTree({ nodes });
-  console.log({ bookmarksById, parentTitlesByIds });
+  const { bookmarksById, folderPathsByIds } = flattenTree({ nodes });
+  console.log({ bookmarksById, folderPathsByIds });
   return buildFolderPaths({ nodes });
 };
