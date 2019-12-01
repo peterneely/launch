@@ -2,8 +2,8 @@ import * as types from './types';
 import { clearErrors, setError } from '../reducerUtils';
 
 const initialState = {
-  errors: {}, // errors keyed by domain (folder) name, like 'tiles' and 'settings'
-  tiles: [], // bookmark tiles
+  errorsByKey: {},
+  tiles: [],
 };
 
 const handleLoadTilesSuccess = (state, payload) => {
@@ -15,7 +15,7 @@ const handleLoadTilesSuccess = (state, payload) => {
       ...bookmarksByFolderId,
       [folder.id]: bookmarks,
     },
-    errors: clearErrors({ key: 'tiles', state }),
+    errorsByKey: clearErrors({ key: 'load', state }),
     showSettings: !tiles.length,
     tiles
   };
@@ -25,7 +25,7 @@ export const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case types.TILES_LOAD_TILES_ERROR:
-      return { ...state, errors: setError({ key: 'tiles', state, payload }) };
+      return { ...state, errorsByKey: setError({ key: 'load', state, payload }) };
     case types.TILES_LOAD_TILES_SUCCESS:
       return handleLoadTilesSuccess(state, payload);
     default:

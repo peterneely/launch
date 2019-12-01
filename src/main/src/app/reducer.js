@@ -1,9 +1,7 @@
 import * as types from './types';
-// import { clearErrors, setError } from './reducerUtils';
 
 const initialState = {
   appReady: false,
-  errors: {}, // errors keyed by domain (folder) name, like 'tiles' and 'settings'
 };
 
 export const reducer = (state = initialState, action) => {
