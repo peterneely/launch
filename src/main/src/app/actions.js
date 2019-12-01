@@ -15,8 +15,3 @@ export const loadTiles = ({ bookmarksByFolderId, settings, folderId: selectedFol
 };
 
 export const setAppReady = () => ({ type: types.APP_SET_APP_READY });
-
-export const setFolder = ({ folder, initialFolder = null }) => ({
-  type: types.APP_SET_FOLDER,
-  payload: { folder: initialFolder || folder },
-});

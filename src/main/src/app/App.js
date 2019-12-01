@@ -104,7 +104,8 @@ App.propTypes = {
 
 const mapStateToProps = state => {
   const {
-    app: { bookmarksByFolderId, folder, appReady },
+    app: { appReady },
+    bookmarks: { bookmarksByFolderId, folder },
     settings: { settings, showSettings },
   } = state;
   return { bookmarksByFolderId, folder, settings, showSettings, appReady };

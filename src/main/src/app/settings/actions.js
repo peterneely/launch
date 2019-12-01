@@ -1,15 +1,5 @@
 import * as types from './types';
-import { getFolders } from '../bookmarks/factory';
 import { getSettings, setSettings } from '../browser';
-
-export const loadFolders = () => async dispatch => {
-  try {
-    const foldersById = await getFolders();
-    dispatch({ type: types.SETTINGS_LOAD_FOLDERS_SUCCESS, payload: { foldersById } });
-  } catch (error) {
-    dispatch({ type: types.SETTINGS_LOAD_FOLDERS_ERROR, payload: { error } });
-  }
-};
 
 export const loadSettings = () => async dispatch => {
   try {

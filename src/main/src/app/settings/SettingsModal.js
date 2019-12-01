@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import cloneDeep from 'lodash/cloneDeep';
 import keyBy from 'lodash/keyBy';
+import * as bookmarksActions from '../bookmarks/actions';
 import * as settingsActions from './actions';
 import { Button } from '../layout/Button';
 import { Checkbox } from '../layout/Checkbox';
@@ -43,7 +44,7 @@ class SettingsModal extends Component {
   // }
 
   createTabConfigs = (tiles, hasTiles) => {
-    const { actions: { settings: { loadFolders } = {} } = {}, foldersById, scrollToUrl } = this.props;
+    const { actions: { bookmarks: { loadFolders } = {} } = {}, foldersById, scrollToUrl } = this.props;
     const { filter, filterEmptyImages, folderId, prevFolderId, prevEmptyImageTilesByUrl } = this.state;
     const hasEmptyImages = !!tiles.filter(({ image }) => !image).length || !!Object.keys(prevEmptyImageTilesByUrl).length;
     const tabConfigs = [
@@ -219,13 +220,15 @@ SettingsModal.propTypes = {
 const mapStateToProps = state => {
   const {
     app: { tiles },
-    settings: { foldersById, settings, scrollToUrl },
+    bookmarks: { foldersById },
+    settings: { settings, scrollToUrl },
   } = state;
   return { foldersById, settings, scrollToUrl, tiles };
 };
 
 const mapDispatchToProps = dispatch => ({
   actions: {
+    bookmarks: bindActionCreators(bookmarksActions, dispatch),
     settings: bindActionCreators(settingsActions, dispatch),
   },
 });
