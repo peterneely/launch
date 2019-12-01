@@ -10,21 +10,25 @@ import { SettingsModal } from './settings/SettingsModal';
 import { Tiles } from './tiles/Tiles';
 import { isValidColor } from './strings';
 import { settingsPropType } from './settings/propTypes';
+import { bookmarkPropType, folderPropType } from './bookmarks/propTypes';
 import './app.scss';
 
 class App extends Component {
   componentDidMount() {
-    const { actions } = this.props;
-    actions.loadTiles();
+    const { actions: { loadSettings } = {}, } = this.props;
+    loadSettings();
   }
 
   componentDidUpdate(prevProps) {
+    this.trySetFolder(prevProps);
+    this.tryLoadTiles(prevProps);
     this.trySetRootStyle(prevProps);
+    this.tryShowSettingsModal(prevProps);
   }
 
   handleToggleSettings = () => {
-    const { actions } = this.props;
-    actions.toggleSettings();
+    const { actions: { toggleSettings } = {} } = this.props;
+    toggleSettings();
   }
 
   styles = {
@@ -40,20 +44,46 @@ class App extends Component {
     }
   }
 
+  tryLoadTiles = prevProps => {
+    const { actions: { loadTiles, setAppReady } = {}, appReady, bookmarksByFolderId, folder, settings, tiles } = this.props;
+    if (folder.id && !prevProps.folder.id && !tiles.length) {
+      loadTiles({ bookmarksByFolderId, settings });
+    } else if (!appReady && !prevProps.appReady) {
+      setAppReady();
+    }
+  };
+
+  trySetFolder = prevProps => {
+    const { actions: { setFolder } = {}, folder, settings } = this.props;
+    const { folder: { id: settingsFolderId } = {} } = settings;
+    const { settings: { folder: { id: prevSettingsFolderId } = {} } = {} } = prevProps;
+    if (!folder.id && settingsFolderId && !prevSettingsFolderId) {
+      setFolder(settings);
+    }
+  }
+
   trySetRootStyle = prevProps => {
-    const { tilesLoaded, settings } = this.props;
-    const { tilesLoaded: prevTilesLoaded, settings: prevSettings } = prevProps;
-    const tilesReady = tilesLoaded && !prevTilesLoaded;
+    const { appReady, settings } = this.props;
+    const { appReady: prevAppReady, settings: prevSettings } = prevProps;
+    const ready = appReady && !prevAppReady;
     const themeChanged = !isEqual(settings.theme, prevSettings.theme);
-    if (tilesReady || themeChanged) {
+    if (ready || themeChanged) {
       this.styles.setRootStyle(settings.theme);
     }
   };
 
+  tryShowSettingsModal = prevProps => {
+    const { actions: { toggleSettings } = {}, settings, showSettings } = this.props;
+    const { folder: { id: settingsFolderId } = {} } = settings;
+    if (!settingsFolderId && !showSettings && !prevProps.showSettings) {
+      toggleSettings();
+    }
+  }
+
   render() {
-    const { tilesLoaded, showSettings } = this.props;
+    const { appReady, showSettings } = this.props;
     return (
-      <Fade show={tilesLoaded} className="app" style={this.styles.createAppStyle()}>
+      <Fade show={appReady} className="app" style={this.styles.createAppStyle()}>
         <SettingsButton disabled={showSettings} onClick={this.handleToggleSettings} />
         <Tiles disabled={showSettings} />
         {showSettings && <SettingsModal onClose={this.handleToggleSettings} />}
@@ -64,13 +94,16 @@ class App extends Component {
 
 App.propTypes = {
   actions: PropTypes.object.isRequired,
-  tilesLoaded: PropTypes.bool,
-  settings: settingsPropType.isRequired
+  bookmarksByFolderId: PropTypes.objectOf(bookmarkPropType).isRequired,
+  folder: folderPropType.isRequired,
+  appReady: PropTypes.bool,
+  settings: settingsPropType.isRequired,
+  showSettings: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
-  const { app: { tilesLoaded, settings, showSettings } = {} } = state;
-  return { tilesLoaded, settings, showSettings };
+  const { app: { bookmarksByFolderId, folder, settings, showSettings, appReady } = {} } = state;
+  return { bookmarksByFolderId, folder, settings, showSettings, appReady };
 }
 
 const mapDispatchToProps = dispatch => {

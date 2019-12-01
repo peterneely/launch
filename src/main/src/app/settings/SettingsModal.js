@@ -42,7 +42,7 @@ class SettingsModal extends Component {
   // }
 
   createTabConfigs = (tiles, hasTiles) => {
-    const { actions: { loadFolders } = {}, foldersById, scrollUrl } = this.props;
+    const { actions: { loadFolders } = {}, foldersById, scrollToUrl } = this.props;
     const { filter, filterEmptyImages, folderId, prevFolderId, prevEmptyImageTilesByUrl } = this.state;
     const hasEmptyImages = !!tiles.filter(({ image }) => !image).length || !!Object.keys(prevEmptyImageTilesByUrl).length;
     const tabConfigs = [
@@ -67,7 +67,7 @@ class SettingsModal extends Component {
               onChange={this.handleChangeImage}
               onFilter={this.handleChangeInput}
               onFilterEmptyImages={this.handleChangeListFilterEmptyImages}
-              scrollUrl={scrollUrl}
+              scrollToUrl={scrollToUrl}
             />
           ),
         },
@@ -208,14 +208,14 @@ SettingsModal.propTypes = {
   actions: PropTypes.object.isRequired,
   foldersById: PropTypes.objectOf(PropTypes.string).isRequired,
   onClose: PropTypes.func.isRequired,
-  scrollUrl: PropTypes.string,
+  scrollToUrl: PropTypes.string,
   settings: settingsPropType.isRequired,
   tiles: PropTypes.arrayOf(tilePropType).isRequired,
 };
 
 const mapStateToProps = state => {
-  const { app: { foldersById, settings, scrollUrl, tiles } = {} } = state;
-  return { foldersById, settings, scrollUrl, tiles };
+  const { app: { foldersById, settings, scrollToUrl, tiles } = {} } = state;
+  return { foldersById, settings, scrollToUrl, tiles };
 };
 
 const mapDispatchToProps = dispatch => {

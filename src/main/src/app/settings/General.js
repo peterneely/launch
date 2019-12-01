@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import sortBy from 'lodash/sortBy';
 import { Dropdown } from '../layout/Dropdown';
-import { formatFolderPath } from '../folders/factory';
+import { folderPropType } from '../bookmarks/propTypes';
+import { formatFolderPath } from '../bookmarks/factory';
 import './general.scss';
 
 class General extends Component {
@@ -41,7 +42,7 @@ class General extends Component {
   };
 
   render() {
-    const { folderId, foldersById, onChange } = this.props;
+    const { folder: { id: folderId } = {}, foldersById, onChange } = this.props;
     const { folderOptions } = this.state;
     const text = formatFolderPath(foldersById[folderId]);
     return (
@@ -54,7 +55,7 @@ class General extends Component {
 }
 
 General.propTypes = {
-  folderId: PropTypes.string,
+  folder: folderPropType,
   foldersById: PropTypes.objectOf(PropTypes.string).isRequired,
   loadFolders: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

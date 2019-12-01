@@ -1,11 +1,8 @@
 import isEmpty from 'lodash/isEmpty';
-import uniqBy from 'lodash/uniqBy';
 import { SETTINGS_KEY } from './types';
 import { getCachedSettings, setCachedSettings } from './localStorage';
 
 const { runtime, storage } = window.chrome;
-
-const hasUrl = ({ url }) => url;
 
 export const getBookmarkTree = () =>
   new Promise((resolve, reject) => {
@@ -13,7 +10,6 @@ export const getBookmarkTree = () =>
       runtime.sendMessage({ type: 'GET_BOOKMARK_TREE' }, response => {
         const { bookmarkTree } = response || {};
         if (bookmarkTree) {
-          console.log(bookmarkTree);
           resolve(bookmarkTree);
         } else {
           reject(new Error('Could not get Chrome bookmark tree'));
@@ -24,16 +20,20 @@ export const getBookmarkTree = () =>
     }
   });
 
-export const getBookmarks = folderId =>
+export const getBookmarks = ({ folderId, excludeFolderIds = [], includeFolders = true }) =>
   !folderId
     ? Promise.resolve([])
     : new Promise((resolve, reject) => {
         try {
           runtime.sendMessage({ type: 'GET_BOOKMARKS', payload: { folderId } }, response => {
-            const { bookmarks } = response || {};
-            if (bookmarks) {
-              const uniqueBookmarks = uniqBy(bookmarks.filter(hasUrl), hasUrl);
-              resolve(uniqueBookmarks);
+            const { rootFolder, bookmarks } = response || {};
+            if (rootFolder) {
+              const filteredBookmarks = includeFolders
+                ? excludeFolderIds.length
+                  ? bookmarks.filter(({ id }) => !excludeFolderIds.includes(id))
+                  : bookmarks
+                : bookmarks.filter(({ url }) => url);
+              resolve({ rootFolder, bookmarks: filteredBookmarks });
             } else {
               reject(new Error('Could not get Chrome bookmarks'));
             }

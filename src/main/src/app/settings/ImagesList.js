@@ -24,28 +24,28 @@ class ImagesList extends Component {
     let deselectTimer = null;
     const rowElementsByUrl = {};
 
-    const createClasses = ({ index, scroll, scrollUrl }) => {
+    const createClasses = ({ index, scroll, scrollToUrl }) => {
       const { classesByUrl } = this.state;
       const even = index % 2 === 0;
       return {
-        cellInputClasses: toClassNames('cell', 'mod-image', scroll ? classesByUrl[scrollUrl] : null),
-        rowClasses: toClassNames('images-row', even ? 'mod-even' : null, scroll ? classesByUrl[scrollUrl] : null),
+        cellInputClasses: toClassNames('cell', 'mod-image', scroll ? classesByUrl[scrollToUrl] : null),
+        rowClasses: toClassNames('images-row', even ? 'mod-even' : null, scroll ? classesByUrl[scrollToUrl] : null),
       };
     };
 
-    const delayDeselect = scrollUrl => {
+    const delayDeselect = scrollToUrl => {
       deselectTimer = setTimeout(() => {
         destroyDeselectTimer();
-        const { classesByUrl: { [scrollUrl]: urlToRemove, ...restClassesByUrl } = {} } = this.state;
+        const { classesByUrl: { [scrollToUrl]: urlToRemove, ...restClassesByUrl } = {} } = this.state;
         this.setState({ classesByUrl: restClassesByUrl });
       }, 750);
     };
 
-    const select = ({ rowElement, scrollUrl }) => {
+    const select = ({ rowElement, scrollToUrl }) => {
       const { classesByUrl } = this.state;
       rowElement.scrollIntoView({ block: 'center' });
-      this.setState({ classesByUrl: { ...classesByUrl, [scrollUrl]: 'mod-scroll' } });
-      delayDeselect(scrollUrl);
+      this.setState({ classesByUrl: { ...classesByUrl, [scrollToUrl]: 'mod-scroll' } });
+      delayDeselect(scrollToUrl);
     };
 
     const setRef = url => ref => {
@@ -59,10 +59,10 @@ class ImagesList extends Component {
 
     return {
       render: (tile, index) => {
-        const { onChange, scrollUrl } = this.props;
+        const { onChange, scrollToUrl } = this.props;
         const { title, url, image } = tile;
-        const scroll = url === scrollUrl;
-        const { cellInputClasses, rowClasses } = createClasses({ index, scroll, scrollUrl });
+        const scroll = url === scrollToUrl;
+        const { cellInputClasses, rowClasses } = createClasses({ index, scroll, scrollToUrl });
         return (
           <div className={rowClasses} key={index} ref={setRef(url)}>
             <div className="cell mod-title">
@@ -79,17 +79,17 @@ class ImagesList extends Component {
         }
       },
       trySelect: () => {
-        const { scrollUrl } = this.props;
-        const rowElement = rowElementsByUrl[scrollUrl];
+        const { scrollToUrl } = this.props;
+        const rowElement = rowElementsByUrl[scrollToUrl];
         if (rowElement) {
-          select({ rowElement, scrollUrl });
+          select({ rowElement, scrollToUrl });
         }
       },
     };
   })();
 
   render() {
-    const { filter, filterEmptyImages, hasEmptyImages, onFilter, onFilterEmptyImages, scrollUrl, tiles } = this.props;
+    const { filter, filterEmptyImages, hasEmptyImages, onFilter, onFilterEmptyImages, scrollToUrl, tiles } = this.props;
     const { length: tileCount } = tiles;
     const hasTiles = !!tileCount;
     const bookmarkHeaderLabel = toClassNames('Bookmarks', hasTiles ? `(${tileCount})` : null);
@@ -99,7 +99,7 @@ class ImagesList extends Component {
           <Fragment>
             <div className="images-list-filters">
               <Input
-                autoFocus={!scrollUrl}
+                autoFocus={!scrollToUrl}
                 className="images-list-filter"
                 name="filter"
                 onChange={onFilter}
@@ -139,7 +139,7 @@ ImagesList.propTypes = {
   onChange: PropTypes.func.isRequired,
   onFilter: PropTypes.func.isRequired,
   onFilterEmptyImages: PropTypes.func.isRequired,
-  scrollUrl: PropTypes.string,
+  scrollToUrl: PropTypes.string,
   tiles: PropTypes.arrayOf(tilePropType).isRequired,
 };
 
