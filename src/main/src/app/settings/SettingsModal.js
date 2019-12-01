@@ -219,9 +219,9 @@ SettingsModal.propTypes = {
 
 const mapStateToProps = state => {
   const {
-    app: { tiles },
     bookmarks: { foldersById },
     settings: { settings, scrollToUrl },
+    tiles: { tiles },
   } = state;
   return { foldersById, settings, scrollToUrl, tiles };
 };

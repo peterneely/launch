@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as appActions from '../actions';
+import * as settingsActions from '../settings/actions';
 import { Tile, tilePropType } from './Tile';
 import { settingsPropType } from '../settings/propTypes';
 import { toClassNames } from '../strings';
@@ -15,8 +15,8 @@ class Tiles extends Component {
   }
 
   handleEditTile = url => () => {
-    const { actions } = this.props;
-    actions.toggleSettings(url);
+    const { actions: { settings: { toggleSettings } = {} } = {} } = this.props;
+    toggleSettings(url);
   };
 
   render() {
@@ -40,15 +40,17 @@ Tiles.propTypes = {
 
 const mapStateToProps = state => {
   const {
-    app: { tiles },
     settings: { settings },
+    tiles: { tiles },
   } = state;
   return { settings, tiles };
 };
 
-const mapDispatchToProps = dispatch => {
-  return { actions: bindActionCreators(appActions, dispatch) };
-};
+const mapDispatchToProps = dispatch => ({
+  actions: {
+    settings: bindActionCreators(settingsActions, dispatch),
+  },
+});
 
 const component = connect(mapStateToProps, mapDispatchToProps)(Tiles);
 
