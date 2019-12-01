@@ -5,7 +5,7 @@ const initialState = {
   bookmarksByFolderId: {},
   errors: {}, // errors keyed by domain (folder) name, like 'tiles' and 'settings'
   folder: {},
-  foldersById: {}, // bookmark folders, keyed by their IDs, from which to choose a folder to create bookmark tiles
+  foldersById: {}, // bookmark folders from which to choose a folder to create bookmark tiles
   foldersLoaded: false, // whether folders have been loaded
   parentFolders: [],
   scrollToUrl: null, // bookmark URL to scroll to in SettingsModal.ImagesList

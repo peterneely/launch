@@ -20,20 +20,21 @@ export const getBookmarkTree = () =>
     }
   });
 
-export const getBookmarks = ({ folderId, excludeFolderIds = [], includeFolders = true }) =>
-  !folderId
+export const getBookmarks = (folderId = null, options = {}) => {
+  const { excludeFolderIds = [], includeFolders = true } = options;
+  return !folderId
     ? Promise.resolve([])
     : new Promise((resolve, reject) => {
         try {
           runtime.sendMessage({ type: 'GET_BOOKMARKS', payload: { folderId } }, response => {
-            const { rootFolder, bookmarks } = response || {};
-            if (rootFolder) {
+            const { bookmarks } = response || {};
+            if (bookmarks) {
               const filteredBookmarks = includeFolders
                 ? excludeFolderIds.length
                   ? bookmarks.filter(({ id }) => !excludeFolderIds.includes(id))
                   : bookmarks
                 : bookmarks.filter(({ url }) => url);
-              resolve({ rootFolder, bookmarks: filteredBookmarks });
+              resolve(filteredBookmarks);
             } else {
               reject(new Error('Could not get Chrome bookmarks'));
             }
@@ -42,6 +43,7 @@ export const getBookmarks = ({ folderId, excludeFolderIds = [], includeFolders =
           reject(error);
         }
       });
+};
 
 export const getSettings = () =>
   new Promise((resolve, reject) => {

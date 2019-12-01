@@ -9,13 +9,8 @@ const handleGetBookmarkTree = sendResponse => {
 
 const handleGetBookmarks = (payload, sendResponse) => {
   const { folderId } = payload;
-  chrome.bookmarks.get(folderId, (parentNodes = []) => {
-    chrome.bookmarks.getChildren(folderId, (childNodes = []) => {
-      sendResponse({
-        rootFolder: parentNodes[0] || null,
-        bookmarks: childNodes,
-      });
-    });
+  chrome.bookmarks.getChildren(folderId, (nodes = []) => {
+    sendResponse({ bookmarks: nodes });
   });
   return true; // marks this method as asynchronous so that it doesn't terminate before 'sendResponse' is called
 };

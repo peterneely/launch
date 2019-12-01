@@ -13,6 +13,7 @@ import { ImagesList } from './ImagesList';
 import { Input } from '../layout/Input';
 import { Tabs } from '../layout/Tabs';
 import { cleanJson, toClassNames } from '../strings';
+import { folderPropType } from '../bookmarks/propTypes';
 import { settingsPropType } from './propTypes';
 import { tilePropType } from '../tiles/Tile';
 import './settingsModal.scss';
@@ -206,7 +207,7 @@ class SettingsModal extends Component {
 
 SettingsModal.propTypes = {
   actions: PropTypes.object.isRequired,
-  foldersById: PropTypes.objectOf(PropTypes.string).isRequired,
+  foldersById: PropTypes.objectOf(PropTypes.arrayOf(folderPropType)).isRequired,
   onClose: PropTypes.func.isRequired,
   scrollToUrl: PropTypes.string,
   settings: settingsPropType.isRequired,

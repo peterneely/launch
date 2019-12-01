@@ -56,7 +56,7 @@ class General extends Component {
 
 General.propTypes = {
   folder: folderPropType,
-  foldersById: PropTypes.objectOf(PropTypes.string).isRequired,
+  foldersById: PropTypes.objectOf(PropTypes.arrayOf(folderPropType)).isRequired,
   loadFolders: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 };

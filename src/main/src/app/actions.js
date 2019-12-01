@@ -24,7 +24,7 @@ export const loadSettings = () => async dispatch => {
 export const loadTiles = ({ bookmarksByFolderId, settings, folderId: selectedFolderId = null }) => async dispatch => {
   try {
     const folderId = selectedFolderId || settings.folder.id;
-    const bookmarks = bookmarksByFolderId[folderId] || (await getBookmarks(folderId));
+    const bookmarks = bookmarksByFolderId[folderId] || (await getBookmarks(folderId, settings));
     const tiles = createTiles(bookmarks, settings);
     dispatch({ type: types.APP_LOAD_TILES_SUCCESS, payload: { bookmarks, tiles } });
     dispatch(setAppReady());
