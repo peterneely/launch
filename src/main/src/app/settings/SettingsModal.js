@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import cloneDeep from 'lodash/cloneDeep';
 import keyBy from 'lodash/keyBy';
-import * as appActions from '../actions';
+import * as settingsActions from './actions';
 import { Button } from '../layout/Button';
 import { Checkbox } from '../layout/Checkbox';
 import { General } from './General';
@@ -43,13 +43,15 @@ class SettingsModal extends Component {
   // }
 
   createTabConfigs = (tiles, hasTiles) => {
-    const { actions: { loadFolders } = {}, foldersById, scrollToUrl } = this.props;
+    const { actions: { settings: { loadFolders } = {} } = {}, foldersById, scrollToUrl } = this.props;
     const { filter, filterEmptyImages, folderId, prevFolderId, prevEmptyImageTilesByUrl } = this.state;
     const hasEmptyImages = !!tiles.filter(({ image }) => !image).length || !!Object.keys(prevEmptyImageTilesByUrl).length;
     const tabConfigs = [
       {
         renderTitle: () => <label className="label mod-tab">General</label>,
-        renderBody: () => <General folderId={folderId} foldersById={foldersById} loadFolders={loadFolders} onChange={this.handleChangeInput} />,
+        renderBody: () => (
+          <General folderId={folderId} foldersById={foldersById} loadFolders={loadFolders} onChange={this.handleChangeInput} />
+        ),
       },
     ];
     if (hasTiles) {
@@ -163,7 +165,7 @@ class SettingsModal extends Component {
   };
 
   handleSave = event => {
-    const { actions: { saveSettings } = {}, onClose } = this.props;
+    const { actions: { settings: { saveSettings } = {} } = {}, onClose } = this.props;
     const { folderId, sorted, theme } = this.state;
     const imagesByUrl = this.getImagesByUrl();
     saveSettings({ folderId, imagesByUrl, sorted, theme });
@@ -215,13 +217,18 @@ SettingsModal.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { app: { foldersById, settings, scrollToUrl, tiles } = {} } = state;
+  const {
+    app: { tiles },
+    settings: { foldersById, settings, scrollToUrl },
+  } = state;
   return { foldersById, settings, scrollToUrl, tiles };
 };
 
-const mapDispatchToProps = dispatch => {
-  return { actions: bindActionCreators(appActions, dispatch) };
-};
+const mapDispatchToProps = dispatch => ({
+  actions: {
+    settings: bindActionCreators(settingsActions, dispatch),
+  },
+});
 
 const component = connect(mapStateToProps, mapDispatchToProps)(SettingsModal);
 

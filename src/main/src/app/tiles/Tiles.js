@@ -39,7 +39,10 @@ Tiles.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { app: { settings, tiles } = {} } = state;
+  const {
+    app: { tiles },
+    settings: { settings },
+  } = state;
   return { settings, tiles };
 };
 
@@ -47,9 +50,6 @@ const mapDispatchToProps = dispatch => {
   return { actions: bindActionCreators(appActions, dispatch) };
 };
 
-const component = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Tiles);
+const component = connect(mapStateToProps, mapDispatchToProps)(Tiles);
 
 export { component as Tiles };
