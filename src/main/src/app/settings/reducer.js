@@ -1,5 +1,5 @@
 import * as types from './types';
-import { clearErrors, setError } from '../utils/objects';
+import { assignPath, removePath } from '../utils/objects';
 
 const initialState = {
   errorsByKey: {},
@@ -12,13 +12,13 @@ export const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case types.SETTINGS_LOAD_SETTINGS_ERROR:
-      return { ...state, errorsByKey: setError({ key: 'load', state, payload }) };
+      return { ...state, errorsByKey: assignPath({ object: state.errorsByKey, path: 'load', value: payload.error }) };
     case types.SETTINGS_LOAD_SETTINGS_SUCCESS:
-      return { ...state, ...payload, errorsByKey: clearErrors({ key: 'load', state }) };
+      return { ...state, ...payload, errorsByKey: removePath({ object: state.errorsByKey, path: 'load' }) };
     case types.SETTINGS_SAVE_SETTINGS_ERROR:
-      return { ...state, errorsByKey: setError({ key: 'save', state, payload }) };
+      return { ...state, errorsByKey: assignPath({ object: state.errorsByKey, path: 'save', value: payload.error }) };
     case types.SETTINGS_SAVE_SETTINGS_SUCCESS:
-      return { ...state, errorsByKey: clearErrors({ key: 'save', state }) };
+      return { ...state, errorsByKey: removePath({ object: state.errorsByKey, path: 'save' }) };
     case types.SETTINGS_TOGGLE_SETTINGS:
       return { ...state, scrollToUrl: payload.scrollToUrl, showSettings: !state.showSettings };
     default:

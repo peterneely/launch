@@ -1,11 +1,16 @@
-export const clearErrors = ({ key, state }) => {
-  const { errors: { [key]: errorsToRemove, ...restErrors } = {} } = state;
-  return restErrors;
+import cloneDeep from 'lodash/cloneDeep';
+import set from 'lodash/set';
+import unset from 'lodash/unset';
+
+export const assignPath = ({ object, path, value }) => {
+  const clonedObject = cloneDeep(object);
+  set(clonedObject, path, value);
+  return clonedObject;
 };
 
-export const setError = ({ key, state, payload }) => {
-  const { errors } = state;
-  const { error } = payload;
-  return { ...errors, [key]: [...(errors[key] || {}), error] };
-};
+export const removePath = ({ object, path }) => {
+  const clonedObject = cloneDeep(object);
+  unset(clonedObject, path);
+  return clonedObject;
+}
 

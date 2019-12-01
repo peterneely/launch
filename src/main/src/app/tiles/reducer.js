@@ -1,5 +1,5 @@
 import * as types from './types';
-import { clearErrors, setError } from '../utils/objects';
+import { assignPath, removePath } from '../utils/objects';
 
 const initialState = {
   errorsByKey: {},
@@ -15,7 +15,7 @@ const handleLoadTilesSuccess = (state, payload) => {
       ...bookmarksByFolderId,
       [folder.id]: bookmarks,
     },
-    errorsByKey: clearErrors({ key: 'load', state }),
+    errorsByKey: removePath({ object: state.errorsByKey, path: 'load' }),
     showSettings: !tiles.length,
     tiles
   };
@@ -25,7 +25,7 @@ export const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case types.TILES_LOAD_TILES_ERROR:
-      return { ...state, errorsByKey: setError({ key: 'load', state, payload }) };
+      return { ...state, errorsByKey: assignPath({ object: state.errorsByKey, path: 'load', value: payload.error }) };
     case types.TILES_LOAD_TILES_SUCCESS:
       return handleLoadTilesSuccess(state, payload);
     default:

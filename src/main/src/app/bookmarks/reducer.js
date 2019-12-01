@@ -1,5 +1,5 @@
 import * as types from './types';
-import { clearErrors, setError } from '../utils/objects';
+import { assignPath, removePath } from '../utils/objects';
 
 const initialState = {
   errorsByKey: {},
@@ -13,9 +13,9 @@ export const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case types.BOOKMARKS_LOAD_FOLDERS_ERROR:
-      return { ...state, errorsByKey: setError({ key: 'load', state, payload }) };
+      return { ...state, errorsByKey: assignPath({ object: state.errorsByKey, path: 'load', value: payload.error }) };
     case types.BOOKMARKS_LOAD_FOLDERS_SUCCESS:
-      return { ...state, ...payload, errorsByKey: clearErrors({ key: 'load', state }), foldersLoaded: true };
+      return { ...state, ...payload, errorsByKey: removePath({ object: state.errorsByKey, path: 'load' }), foldersLoaded: true };
     case types.BOOKMARKS_SET_FOLDER:
         return { ...state, folder: payload.folder };
     default:
