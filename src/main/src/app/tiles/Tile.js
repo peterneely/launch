@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { isValidColor } from '../strings';
+import { isValidColor } from '../utils/strings';
 import { themePropType } from '../settings/propTypes';
 
 class Tile extends Component {

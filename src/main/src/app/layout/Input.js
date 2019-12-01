@@ -1,6 +1,6 @@
 import React, { createRef, Component } from 'react';
 import PropTypes from 'prop-types';
-import { toClassNames } from '../strings';
+import { toClassNames } from '../utils/strings';
 import './input.scss';
 
 class Input extends Component {

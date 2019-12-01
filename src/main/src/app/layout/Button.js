@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { toClassNames } from '../strings';
+import { toClassNames } from '../utils/strings';
 import './button.scss';
 
 const Button = ({ className, disabled, icon, label, onClick, primary }) => {

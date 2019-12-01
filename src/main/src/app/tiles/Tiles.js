@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as settingsActions from '../settings/actions';
 import { Tile, tilePropType } from './Tile';
 import { settingsPropType } from '../settings/propTypes';
-import { toClassNames } from '../strings';
+import { toClassNames } from '../utils/strings';
 import './tiles.scss';
 
 class Tiles extends Component {

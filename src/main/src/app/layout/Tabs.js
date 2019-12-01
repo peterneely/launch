@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { toClassNames } from '../strings';
+import { toClassNames } from '../utils/strings';
 import './tabs.scss';
 
 class Tabs extends Component {

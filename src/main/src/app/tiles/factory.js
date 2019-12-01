@@ -1,5 +1,5 @@
 import sortBy from 'lodash/sortBy';
-import { getDomain } from '../strings';
+import { getDomain } from '../utils/strings';
 
 export const createTiles = (bookmarks = [], settings) => {
   const { imagesByUrl = {}, sorted = true } = settings || {};

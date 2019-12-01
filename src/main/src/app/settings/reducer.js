@@ -1,5 +1,5 @@
 import * as types from './types';
-import { clearErrors, setError } from '../reducerUtils';
+import { clearErrors, setError } from '../utils/objects';
 
 const initialState = {
   errorsByKey: {},

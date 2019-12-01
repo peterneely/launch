@@ -13,7 +13,7 @@ import { ImagesJson } from './ImagesJson';
 import { ImagesList } from './ImagesList';
 import { Input } from '../layout/Input';
 import { Tabs } from '../layout/Tabs';
-import { cleanJson, toClassNames } from '../strings';
+import { cleanJson, toClassNames } from '../utils/strings';
 import { folderPropType } from '../bookmarks/propTypes';
 import { settingsPropType } from './propTypes';
 import { tilePropType } from '../tiles/Tile';

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Input } from './Input';
 import { ClickAway } from './ClickAway';
 import './dropdown.scss';
-import { toClassNames } from '../strings';
+import { toClassNames } from '../utils/strings';
 
 class Dropdown extends Component {
   constructor(props) {

@@ -9,7 +9,7 @@ import { Fade } from './layout/Fade';
 import { SettingsButton } from './settings/SettingsButton';
 import { SettingsModal } from './settings/SettingsModal';
 import { Tiles } from './tiles/Tiles';
-import { isValidColor } from './strings';
+import { isValidColor } from './utils/strings';
 import { settingsPropType } from './settings/propTypes';
 import { bookmarkPropType, folderPropType } from './bookmarks/propTypes';
 import './app.scss';

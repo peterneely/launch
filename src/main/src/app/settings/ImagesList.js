@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Checkbox } from '../layout/Checkbox';
 import { Input } from '../layout/Input';
 import { tilePropType } from '../tiles/Tile';
-import { toClassNames } from '../strings';
+import { toClassNames } from '../utils/strings';
 import './imagesList.scss';
 
 class ImagesList extends Component {

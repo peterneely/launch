@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { toClassNames } from '../strings';
+import { toClassNames } from '../utils/strings';
 import './settingsButton.scss';
 
 const SettingsButton = ({ disabled, onClick }) => {
