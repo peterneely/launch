@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import isEqual from 'lodash/isEqual';
 import * as appActions from './actions';
+import * as bookmarksActions from './bookmarks/actions';
 import * as settingsActions from './settings/actions';
+import * as tilesActions from './tiles/actions';
 import { Fade } from './layout/Fade';
 import { SettingsButton } from './settings/SettingsButton';
 import { SettingsModal } from './settings/SettingsModal';
@@ -46,7 +48,14 @@ class App extends Component {
   };
 
   tryLoadTiles = prevProps => {
-    const { actions: { app: { loadTiles, setAppReady } = {} } = {}, appReady, bookmarksByFolderId, folder, settings, tiles } = this.props;
+    const {
+      actions: { app: { setAppReady } = {}, tiles: { loadTiles } = {} } = {},
+      appReady,
+      bookmarksByFolderId,
+      folder,
+      settings,
+      tiles,
+    } = this.props;
     if (folder.id && !prevProps.folder.id && !tiles.length) {
       loadTiles({ bookmarksByFolderId, settings });
     } else if (!appReady && !prevProps.appReady) {
@@ -55,7 +64,7 @@ class App extends Component {
   };
 
   trySetFolder = prevProps => {
-    const { actions: { app: { setFolder } = {} } = {}, folder, settings } = this.props;
+    const { actions: { bookmarks: { setFolder } = {} } = {}, folder, settings } = this.props;
     const { folder: { id: settingsFolderId } = {} } = settings;
     const { settings: { folder: { id: prevSettingsFolderId } = {} } = {} } = prevProps;
     if (!folder.id && settingsFolderId && !prevSettingsFolderId) {
@@ -114,7 +123,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   actions: {
     app: bindActionCreators(appActions, dispatch),
+    bookmarks: bindActionCreators(bookmarksActions, dispatch),
     settings: bindActionCreators(settingsActions, dispatch),
+    tiles: bindActionCreators(tilesActions, dispatch),
   },
 });
 

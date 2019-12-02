@@ -31,7 +31,10 @@ class FolderPicker extends Component {
 
   setFolderOptions = () => {
     const { foldersById } = this.props;
-    const unorderedFolderOptions = Object.entries(foldersById).map(([value, folders]) => ({ value, primaryLabel: formatFolderPath(folders) }));
+    const unorderedFolderOptions = Object.entries(foldersById).map(([value, folders]) => ({
+      value,
+      primaryLabel: formatFolderPath(folders),
+    }));
     const folderOptions = sortBy(unorderedFolderOptions, 'primaryLabel');
     this.setState({ folderOptions });
   };
@@ -57,7 +60,14 @@ class FolderPicker extends Component {
     const text = formatFolderPath(foldersById[folderId]);
     console.log({ text });
     return (
-      <Dropdown className={className} name="folder" onChange={this.handleChangeFolder} options={folderOptions} text={text} value={folderId} />
+      <Dropdown
+        className={className}
+        name="folder"
+        onChange={this.handleChangeFolder}
+        options={folderOptions}
+        text={text}
+        value={folderId}
+      />
     );
   }
 }
