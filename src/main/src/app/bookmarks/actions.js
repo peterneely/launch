@@ -1,5 +1,5 @@
 import * as types from './types';
-import { getFolders } from '../bookmarks/factory';
+import { getFolders } from './actionUtils';
 
 export const loadFolders = () => async dispatch => {
   try {
@@ -10,7 +10,4 @@ export const loadFolders = () => async dispatch => {
   }
 };
 
-export const setFolder = ({ folder, initialFolder = null }) => ({
-  type: types.BOOKMARKS_SET_FOLDER,
-  payload: { folder: initialFolder || folder },
-});
+export const setFolder = folder => ({ type: types.BOOKMARKS_SET_FOLDER, payload: { folder } });

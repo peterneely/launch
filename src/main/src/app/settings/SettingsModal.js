@@ -22,13 +22,13 @@ import './settingsModal.scss';
 class SettingsModal extends Component {
   constructor(props) {
     super(props);
-    const { settings: { folderId, sorted, theme } = {}, tiles } = props;
+    const { settings: { folder, sorted, theme } = {}, tiles } = props;
     this.state = {
       dirty: false,
       filter: null,
       filterEmptyImages: false,
-      folderId,
-      prevFolderId: folderId,
+      folder,
+      prevFolder: folder,
       prevEmptyImageTilesByUrl: {},
       sorted,
       theme,
@@ -36,27 +36,20 @@ class SettingsModal extends Component {
     };
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { folderId } = this.state;
-  //   if (folderId !== prevState.folderId) {
-  //     this.setState({ prevFolderId: folderId });
-  //   }
-  // }
-
   createTabConfigs = (tiles, hasTiles) => {
     const { actions: { bookmarks: { loadFolders } = {} } = {}, foldersById, scrollToUrl } = this.props;
-    const { filter, filterEmptyImages, folderId, prevFolderId, prevEmptyImageTilesByUrl } = this.state;
+    const { filter, filterEmptyImages, folder, prevFolder, prevEmptyImageTilesByUrl } = this.state;
     const hasEmptyImages = !!tiles.filter(({ image }) => !image).length || !!Object.keys(prevEmptyImageTilesByUrl).length;
     const tabConfigs = [
       {
         renderTitle: () => <label className="label mod-tab">General</label>,
         renderBody: () => (
-          <General folderId={folderId} foldersById={foldersById} loadFolders={loadFolders} onChange={this.handleChangeInput} />
+          <General folder={folder} foldersById={foldersById} loadFolders={loadFolders} onChange={this.handleChangeInput} />
         ),
       },
     ];
     if (hasTiles) {
-      const disabled = folderId !== prevFolderId;
+      const disabled = folder.id !== prevFolder.id;
       const titleClassName = toClassNames('label', 'mod-tab', disabled ? 'is-disabled' : null);
       const tileTabConfigs = [
         {
@@ -125,6 +118,7 @@ class SettingsModal extends Component {
   };
 
   handleChangeInput = ({ name, prevValue, value, defaultValue = null, clear, toggle, dirty = true }) => event => {
+    // console.log({ name, prevValue, value, defaultValue, clear, toggle, dirty });
     this.setState({ dirty, [name]: toggle ? !prevValue : clear ? defaultValue : value || event.target.value });
   };
 
@@ -167,9 +161,9 @@ class SettingsModal extends Component {
 
   handleSave = event => {
     const { actions: { settings: { saveSettings } = {} } = {}, onClose } = this.props;
-    const { folderId, sorted, theme } = this.state;
+    const { folder, sorted, theme } = this.state;
     const imagesByUrl = this.getImagesByUrl();
-    saveSettings({ folderId, imagesByUrl, sorted, theme });
+    saveSettings({ folder, imagesByUrl, sorted, theme });
     onClose(event);
   };
 
