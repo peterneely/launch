@@ -3,7 +3,7 @@ import { assignPath, removePath } from '../utils/objects';
 
 const initialState = {
   errorsByKey: {},
-  scrollToUrl: null, // bookmark URL to scroll to in SettingsModal.ImagesList
+  scrollToUrl: null, // bookmark URL to scroll to in SettingsDialog.ImagesList
   savedSettings: {},
   showSettingsDialog: false,
 }

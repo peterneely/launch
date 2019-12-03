@@ -56,39 +56,3 @@
     cursor: pointer;
   }
 }
-
-.settings-group {
-  display: flex;
-  flex: 1;
-
-  &:not(:last-child) {
-    margin-bottom: 20px;
-  }
-
-  &.mod-other {
-    flex-direction: column;
-    margin-top: 10px;
-
-    .input-container {
-      &.mod-sorted {
-        width: 250px;
-      }
-    }
-  }
-
-  .label {
-
-    &.mod-input {
-      min-width: $label-width;
-      padding: 10px 0;
-      white-space: normal;
-      width: $label-width;
-    }
-  }
-
-  .tabs-container {
-    .tab-body {
-      height: $settings-tab-height;
-    }
-  }
-}

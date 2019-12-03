@@ -9,7 +9,7 @@ import * as settingsActions from './settings/actions';
 import * as tileActions from './tiles/actions';
 import { Fade } from './layout/Fade';
 import { SettingsButton } from './settings/SettingsButton';
-import { SettingsModal } from './settings/SettingsModal';
+import { SettingsDialog } from './settings/SettingsDialog';
 import { Tiles } from './tiles/Tiles';
 import { bookmarkPropType, folderPropType } from './bookmarks/propTypes';
 import { isValidColor } from './utils/strings';
@@ -27,7 +27,7 @@ class App extends Component {
     this.trySetFolder(prevProps);
     this.tryLoadTiles(prevProps);
     this.trySetRootStyle(prevProps);
-    this.tryShowSettingsModal(prevProps);
+    this.tryShowSettingsDialog(prevProps);
   }
 
   handleToggleSettings = () => {
@@ -84,7 +84,7 @@ class App extends Component {
     }
   };
 
-  tryShowSettingsModal = prevProps => {
+  tryShowSettingsDialog = prevProps => {
     const { actions: { settings: { toggleSettings } = {} } = {}, savedSettings, showSettingsDialog } = this.props;
     const { folder: { id: settingsFolderId } = {} } = savedSettings;
     if (!settingsFolderId && !showSettingsDialog && !prevProps.showSettingsDialog) {
@@ -98,7 +98,7 @@ class App extends Component {
       <Fade show={appReady} className="app" style={this.styles.createAppStyle()}>
         <SettingsButton disabled={showSettingsDialog} onClick={this.handleToggleSettings} />
         <Tiles disabled={showSettingsDialog} />
-        {showSettingsDialog && <SettingsModal onClose={this.handleToggleSettings} />}
+        {showSettingsDialog && <SettingsDialog onClose={this.handleToggleSettings} />}
       </Fade>
     );
   }

@@ -6,20 +6,20 @@ import cloneDeep from 'lodash/cloneDeep';
 import keyBy from 'lodash/keyBy';
 import * as bookmarkActions from '../bookmarks/actions';
 import * as settingsActions from './actions';
-import { Button } from '../layout/Button';
 import { Checkbox } from '../layout/Checkbox';
 import { General } from './General';
 import { ImagesJson } from './ImagesJson';
 import { ImagesList } from './ImagesList';
 import { Input } from '../layout/Input';
+import { Modal } from '../layout/Modal';
 import { Tabs } from '../layout/Tabs';
 import { cleanJson, toClassNames } from '../utils/strings';
 import { folderPropType } from '../bookmarks/propTypes';
 import { settingsPropType } from './propTypes';
 import { tilePropType } from '../tiles/propTypes';
-import './settingsModal.scss';
+import './settingsDialog.scss';
 
-class SettingsModal extends Component {
+class SettingsDialog extends Component {
   constructor(props) {
     super(props);
     const { savedSettings: { folder, sorted, theme } = {}, tiles } = props;
@@ -43,9 +43,7 @@ class SettingsModal extends Component {
     const tabConfigs = [
       {
         renderTitle: () => <label className="label mod-tab">General</label>,
-        renderBody: () => (
-          <General folder={folder} foldersById={foldersById} loadFolders={loadFolders} onChange={this.handleChangeInput} />
-        ),
+        renderBody: () => <General folder={folder} foldersById={foldersById} loadFolders={loadFolders} onChange={this.handleChangeInput} />,
       },
     ];
     if (hasTiles) {
@@ -93,14 +91,6 @@ class SettingsModal extends Component {
       imagesByUrl[url] = image;
       return imagesByUrl;
     }, {});
-  };
-
-  handleBlurModal = event => {
-    const { onClose } = this.props;
-    const { dirty } = this.state;
-    if (!dirty) {
-      onClose(event);
-    }
   };
 
   handleChangeImage = url => ({ clear }) => event => {
@@ -159,50 +149,38 @@ class SettingsModal extends Component {
     this.setState({ dirty: true, theme: { ...prevTheme, [name]: event.target.value } });
   };
 
-  handleSave = event => {
-    const { actions: { settings: { saveSettings } = {} } = {}, onClose } = this.props;
+  handleSave = () => {
+    const { actions: { settings: { saveSettings } = {} } = {} } = this.props;
     const { folder, sorted, theme } = this.state;
     const imagesByUrl = this.getImagesByUrl();
     saveSettings({ folder, imagesByUrl, sorted, theme });
-    onClose(event);
   };
 
-  render() {
-    const { onClose } = this.props;
-    const { dirty, filter, sorted, theme: { backgroundColor } = {} } = this.state;
-    const overlayClasses = toClassNames('modal-overlay', !dirty ? 'mod-clickable' : null);
+  renderBody = () => {
+    const { filter, sorted, theme: { backgroundColor } = {} } = this.state;
     const tiles = this.getFilteredTiles();
     const hasTiles = !!tiles.length || !!filter;
     return (
       <Fragment>
-        <div className="modal">
-          <div>
-            <div className="modal-header">
-              <h1 className="label label-title">Launch Settings</h1>
-              <Button className="button-close" icon={<i className="fas fa-times icon-close" />} onClick={onClose} />
-            </div>
-            <div className="modal-body">
-              <div className="settings-group mod-tabs">
-                <Tabs tabConfigs={this.createTabConfigs(tiles, hasTiles)} />
-              </div>
-              <div className="settings-group mod-other">
-                {hasTiles ? <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeInput} /> : null}
-                <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeTheme} value={backgroundColor} />
-              </div>
-            </div>
-          </div>
-          <div className="modal-footer">
-            <Button className="button-cancel" label="Cancel" onClick={onClose} />
-            <Button className="button-save" label="Save" onClick={this.handleSave} primary disabled={!dirty} />
-          </div>
+        <div className="settings-body-section mod-tabs">
+          <Tabs tabConfigs={this.createTabConfigs(tiles, hasTiles)} />
         </div>
-        <div className={overlayClasses} onClick={this.handleBlurModal} />
+        <div className="settings-body-section mod-other">
+          {hasTiles ? <Checkbox name="sorted" label="Sorted" checked={sorted} onChange={this.handleChangeInput} /> : null}
+          <Input name="backgroundColor" label="Background Color" onChange={this.handleChangeTheme} value={backgroundColor} />
+        </div>
       </Fragment>
     );
+  };
+
+  render() {
+    const { onClose } = this.props;
+    const { dirty } = this.state;
+    return <Modal dirty={dirty} title="Launch Settings" body={this.renderBody()} onClose={onClose} onSubmit={this.handleSave} />;
   }
 }
 
-SettingsModal.propTypes = {
+SettingsDialog.propTypes = {
   actions: PropTypes.object.isRequired,
   foldersById: PropTypes.objectOf(PropTypes.arrayOf(folderPropType)).isRequired,
   onClose: PropTypes.func.isRequired,
@@ -227,6 +205,6 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-const component = connect(mapStateToProps, mapDispatchToProps)(SettingsModal);
+const component = connect(mapStateToProps, mapDispatchToProps)(SettingsDialog);
 
-export { component as SettingsModal };
+export { component as SettingsDialog };
