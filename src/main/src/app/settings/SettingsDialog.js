@@ -156,6 +156,11 @@ class SettingsDialog extends Component {
     saveSettings({ folder, imagesByUrl, sorted, theme });
   };
 
+  handleToggleSettings = () => {
+    const { actions: { settings: { toggleSettings } = {} } = {} } = this.props;
+    toggleSettings();
+  };
+
   renderBody = () => {
     const { filter, sorted, theme: { backgroundColor } = {} } = this.state;
     const tiles = this.getFilteredTiles();
@@ -174,18 +179,24 @@ class SettingsDialog extends Component {
   };
 
   render() {
-    const { onClose } = this.props;
     const { dirty } = this.state;
-    return <Modal dirty={dirty} title="Launch Settings" body={this.renderBody()} onClose={onClose} onSubmit={this.handleSave} />;
+    return (
+      <Modal
+        body={this.renderBody()}
+        dirty={dirty}
+        onClose={this.handleToggleSettings}
+        onSubmit={this.handleSave}
+        title="Launch Settings"
+      />
+    );
   }
 }
 
 SettingsDialog.propTypes = {
   actions: PropTypes.object.isRequired,
   foldersById: PropTypes.objectOf(PropTypes.arrayOf(folderPropType)).isRequired,
-  onClose: PropTypes.func.isRequired,
-  scrollToUrl: PropTypes.string,
   savedSettings: settingsPropType.isRequired,
+  scrollToUrl: PropTypes.string,
   tiles: PropTypes.arrayOf(tilePropType).isRequired,
 };
 

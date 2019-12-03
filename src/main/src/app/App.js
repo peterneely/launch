@@ -98,7 +98,7 @@ class App extends Component {
       <Fade show={appReady} className="app" style={this.styles.createAppStyle()}>
         <SettingsButton disabled={showSettingsDialog} onClick={this.handleToggleSettings} />
         <Tiles disabled={showSettingsDialog} />
-        {showSettingsDialog && <SettingsDialog onClose={this.handleToggleSettings} />}
+        {showSettingsDialog && <SettingsDialog />}
       </Fade>
     );
   }
