@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FolderPicker } from '../bookmarks/FolderPicker';
 import { folderPropType } from '../bookmarks/propTypes';
-import './general.scss';
+import './tabGeneral.scss';
 
-class General extends Component {
+class TabGeneral extends Component {
   render() {
     const { folder, onChange } = this.props;
     return (
@@ -15,9 +15,9 @@ class General extends Component {
   }
 }
 
-General.propTypes = {
+TabGeneral.propTypes = {
   folder: folderPropType,
   onChange: PropTypes.func.isRequired,
 };
 
-export { General };
+export { TabGeneral };

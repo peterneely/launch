@@ -7,9 +7,9 @@ import keyBy from 'lodash/keyBy';
 import * as bookmarkActions from '../bookmarks/actions';
 import * as settingsActions from './actions';
 import { Checkbox } from '../layout/Checkbox';
-import { General } from './General';
-import { ImagesJson } from './ImagesJson';
-import { ImagesList } from './ImagesList';
+import { TabGeneral } from './TabGeneral';
+import { TabImagesJson } from './TabImagesJson';
+import { TabImagesList } from './TabImagesList';
 import { Input } from '../layout/Input';
 import { Modal } from '../layout/Modal';
 import { Tabs } from '../layout/Tabs';
@@ -44,7 +44,7 @@ class SettingsDialog extends Component {
     const tabConfigs = [
       {
         renderTitle: () => <label className="label mod-tab">General</label>,
-        renderBody: () => <General folder={folder} foldersById={foldersById} loadFolders={loadFolders} onChange={this.handleChangeInput} />,
+        renderBody: () => <TabGeneral folder={folder} foldersById={foldersById} loadFolders={loadFolders} onChange={this.handleChangeInput} />,
       },
     ];
     if (hasTiles) {
@@ -55,7 +55,7 @@ class SettingsDialog extends Component {
           disabled,
           renderTitle: () => <label className={titleClassName}>Bookmark Images</label>,
           renderBody: () => (
-            <ImagesList
+            <TabImagesList
               filter={filter}
               filterEmptyImages={filterEmptyImages}
               hasEmptyImages={hasEmptyImages}
@@ -70,7 +70,7 @@ class SettingsDialog extends Component {
         {
           disabled,
           renderTitle: () => <label className={titleClassName}>Bookmark Images JSON</label>,
-          renderBody: () => <ImagesJson imagesByUrl={this.getImagesByUrl()} onChange={this.handleChangeJson} />,
+          renderBody: () => <TabImagesJson imagesByUrl={this.getImagesByUrl()} onChange={this.handleChangeJson} />,
         },
       ];
       tabConfigs.unshift(...tileTabConfigs);

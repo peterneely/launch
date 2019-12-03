@@ -4,9 +4,9 @@ import { Checkbox } from '../layout/Checkbox';
 import { Input } from '../layout/Input';
 import { tilePropType } from '../tiles/propTypes';
 import { toClassNames } from '../utils/strings';
-import './imagesList.scss';
+import './tabImagesList.scss';
 
-class ImagesList extends Component {
+class TabImagesList extends Component {
   constructor(props) {
     super(props);
     this.state = { classesByUrl: {} };
@@ -132,7 +132,7 @@ class ImagesList extends Component {
   }
 }
 
-ImagesList.propTypes = {
+TabImagesList.propTypes = {
   filter: PropTypes.string,
   filterEmptyImages: PropTypes.bool,
   hasEmptyImages: PropTypes.bool,
@@ -143,4 +143,4 @@ ImagesList.propTypes = {
   tiles: PropTypes.arrayOf(tilePropType).isRequired,
 };
 
-export { ImagesList };
+export { TabImagesList };

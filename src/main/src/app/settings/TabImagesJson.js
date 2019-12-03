@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './imagesJson.scss';
+import './tabImagesJson.scss';
 
-const ImagesJson = ({ imagesByUrl, onChange }) => {
+const TabImagesJson = ({ imagesByUrl, onChange }) => {
   const imagesJson = JSON.stringify(imagesByUrl, null, 2, true);
   return (
     <div>
@@ -12,9 +12,9 @@ const ImagesJson = ({ imagesByUrl, onChange }) => {
   );
 };
 
-ImagesJson.propTypes = {
+TabImagesJson.propTypes = {
   imagesByUrl: PropTypes.objectOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
 };
 
-export { ImagesJson };
+export { TabImagesJson };

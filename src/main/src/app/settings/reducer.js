@@ -4,7 +4,7 @@ import { assignPath, removePath } from '../utils/objects';
 const initialState = {
   errorsByKey: {},
   formSettings: {},
-  scrollToUrl: null, // bookmark URL to scroll to in SettingsDialog.ImagesList
+  scrollToUrl: null, // bookmark URL to scroll to in SettingsDialog.TabImagesList
   savedSettings: {},
   showSettings: false,
 }
