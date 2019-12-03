@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import isEqual from 'lodash/isEqual';
 import * as appActions from './actions';
-import * as bookmarksActions from './bookmarks/actions';
+import * as bookmarkActions from './bookmarks/actions';
 import * as settingsActions from './settings/actions';
-import * as tilesActions from './tiles/actions';
+import * as tileActions from './tiles/actions';
 import { Fade } from './layout/Fade';
 import { SettingsButton } from './settings/SettingsButton';
 import { SettingsModal } from './settings/SettingsModal';
@@ -127,9 +127,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   actions: {
     app: bindActionCreators(appActions, dispatch),
-    bookmarks: bindActionCreators(bookmarksActions, dispatch),
+    bookmarks: bindActionCreators(bookmarkActions, dispatch),
     settings: bindActionCreators(settingsActions, dispatch),
-    tiles: bindActionCreators(tilesActions, dispatch),
+    tiles: bindActionCreators(tileActions, dispatch),
   },
 });
 

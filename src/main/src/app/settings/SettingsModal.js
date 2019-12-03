@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import cloneDeep from 'lodash/cloneDeep';
 import keyBy from 'lodash/keyBy';
-import * as bookmarksActions from '../bookmarks/actions';
+import * as bookmarkActions from '../bookmarks/actions';
 import * as settingsActions from './actions';
 import { Button } from '../layout/Button';
 import { Checkbox } from '../layout/Checkbox';
@@ -222,7 +222,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   actions: {
-    bookmarks: bindActionCreators(bookmarksActions, dispatch),
+    bookmarks: bindActionCreators(bookmarkActions, dispatch),
     settings: bindActionCreators(settingsActions, dispatch),
   },
 });

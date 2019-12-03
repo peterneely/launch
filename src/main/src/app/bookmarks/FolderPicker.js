@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import isEmpty from 'lodash/isEmpty';
 import last from 'lodash/last';
 import sortBy from 'lodash/sortBy';
-import * as bookmarksActions from './actions';
+import * as bookmarkActions from './actions';
 import { Dropdown } from '../layout/Dropdown';
 import { folderPropType } from '../bookmarks/propTypes';
 import { formatFolderPath } from './actionUtils';
@@ -87,7 +87,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   actions: {
-    bookmarks: bindActionCreators(bookmarksActions, dispatch),
+    bookmarks: bindActionCreators(bookmarkActions, dispatch),
   },
 });
 
