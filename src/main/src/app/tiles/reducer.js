@@ -3,15 +3,19 @@ import { assignPath, removePath } from '../utils/objects';
 
 const initialState = {
   errorsByKey: {},
-  tiles: [],
+  tilesByFolderId: {},
 };
 
 const handleLoadTilesSuccess = (state, payload) => {
-  const { tiles } = payload;
+  const { tilesByFolderId } = state;
+  const { folderId, tiles } = payload;
   return {
     ...state,
     errorsByKey: removePath({ object: state.errorsByKey, path: 'load' }),
-    tiles
+    tilesByFolderId: {
+      ...tilesByFolderId,
+      [folderId]: tiles
+    }
   };
 };
 

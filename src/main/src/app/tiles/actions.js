@@ -7,7 +7,7 @@ export const loadTiles = ({ bookmarksByFolderId, folderId, savedSettings }) => a
   try {
     const bookmarks = bookmarksByFolderId[folderId] || (await dispatch(bookmarkActions.loadBookmarks(folderId, savedSettings)));
     const tiles = createTiles(bookmarks, savedSettings);
-    dispatch({ type: types.TILES_LOAD_TILES_SUCCESS, payload: { tiles } });
+    dispatch({ type: types.TILES_LOAD_TILES_SUCCESS, payload: { folderId, tiles } });
     dispatch(appActions.setAppReady());
   } catch (error) {
     dispatch({ type: types.TILES_LOAD_TILES_ERROR, payload: { error } });

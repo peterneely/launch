@@ -22,7 +22,8 @@ import './settingsDialog.scss';
 class SettingsDialog extends Component {
   constructor(props) {
     super(props);
-    const { savedSettings: { folder, sorted, theme } = {}, tiles } = props;
+    const { savedSettings: { folder, sorted, theme } = {}, tilesByFolderId } = props;
+    const tiles = tilesByFolderId[folder.id] || [];
     this.state = {
       dirty: false,
       filter: null,
@@ -197,16 +198,16 @@ SettingsDialog.propTypes = {
   foldersById: PropTypes.objectOf(PropTypes.arrayOf(folderPropType)).isRequired,
   savedSettings: settingsPropType.isRequired,
   scrollToUrl: PropTypes.string,
-  tiles: PropTypes.arrayOf(tilePropType).isRequired,
+  tilesByFolderId: PropTypes.objectOf(PropTypes.arrayOf(tilePropType)).isRequired,
 };
 
 const mapStateToProps = state => {
   const {
     bookmarks: { foldersById },
     settings: { savedSettings, scrollToUrl },
-    tiles: { tiles },
+    tiles: { tilesByFolderId },
   } = state;
-  return { foldersById, savedSettings, scrollToUrl, tiles };
+  return { foldersById, savedSettings, scrollToUrl, tilesByFolderId };
 };
 
 const mapDispatchToProps = dispatch => ({

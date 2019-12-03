@@ -27,7 +27,7 @@ class App extends Component {
     this.trySetFolder(prevProps);
     this.tryLoadTiles(prevProps);
     this.trySetRootStyle(prevProps);
-    this.tryShowSettingsDialog(prevProps);
+    this.tryshowSettings(prevProps);
   }
 
   handleToggleSettings = () => {
@@ -55,9 +55,10 @@ class App extends Component {
       bookmarksByFolderId,
       folder: { id: folderId } = {},
       savedSettings,
-      tiles,
+      tilesByFolderId,
     } = this.props;
     const { folder: { id: prevFolderId } = {} } = prevProps;
+    const tiles = tilesByFolderId[folderId] || [];
     if (folderId && !prevFolderId && !tiles.length) {
       loadTiles({ bookmarksByFolderId, folderId, savedSettings });
     } else if (!appReady && !prevProps.appReady) {
@@ -84,21 +85,21 @@ class App extends Component {
     }
   };
 
-  tryShowSettingsDialog = prevProps => {
-    const { actions: { settings: { toggleSettings } = {} } = {}, savedSettings, showSettingsDialog } = this.props;
+  tryshowSettings = prevProps => {
+    const { actions: { settings: { toggleSettings } = {} } = {}, savedSettings, showSettings } = this.props;
     const { folder: { id: settingsFolderId } = {} } = savedSettings;
-    if (!settingsFolderId && !showSettingsDialog && !prevProps.showSettingsDialog) {
+    if (!settingsFolderId && !showSettings && !prevProps.showSettings) {
       toggleSettings();
     }
   };
 
   render() {
-    const { appReady, showSettingsDialog } = this.props;
+    const { appReady, showSettings } = this.props;
     return (
       <Fade show={appReady} className="app" style={this.styles.createAppStyle()}>
-        <SettingsButton disabled={showSettingsDialog} onClick={this.handleToggleSettings} />
-        <Tiles disabled={showSettingsDialog} />
-        {showSettingsDialog && <SettingsDialog />}
+        <SettingsButton disabled={showSettings} onClick={this.handleToggleSettings} />
+        <Tiles disabled={showSettings} />
+        {showSettings && <SettingsDialog />}
       </Fade>
     );
   }
@@ -110,18 +111,18 @@ App.propTypes = {
   folder: folderPropType.isRequired,
   appReady: PropTypes.bool,
   savedSettings: settingsPropType.isRequired,
-  showSettingsDialog: PropTypes.bool,
-  tiles: PropTypes.arrayOf(tilePropType).isRequired,
+  showSettings: PropTypes.bool,
+  tilesByFolderId: PropTypes.objectOf(PropTypes.arrayOf(tilePropType)).isRequired,
 };
 
 const mapStateToProps = state => {
   const {
     app: { appReady },
     bookmarks: { bookmarksByFolderId, folder },
-    settings: { savedSettings, showSettingsDialog },
-    tiles: { tiles },
+    settings: { savedSettings, showSettings },
+    tiles: { tilesByFolderId },
   } = state;
-  return { appReady, bookmarksByFolderId, folder, savedSettings, showSettingsDialog, tiles };
+  return { appReady, bookmarksByFolderId, folder, savedSettings, showSettings, tilesByFolderId };
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as settingsActions from '../settings/actions';
 import { Tile } from './Tile';
+import { folderPropType } from '../bookmarks/propTypes'
 import { settingsPropType } from '../settings/propTypes';
 import { tilePropType } from './propTypes';
 import { toClassNames } from '../utils/strings';
@@ -21,7 +22,8 @@ class Tiles extends Component {
   };
 
   render() {
-    const { disabled, savedSettings: { theme } = {}, tiles } = this.props;
+    const { disabled, folder, savedSettings: { theme } = {}, tilesByFolderId } = this.props;
+    const tiles = tilesByFolderId[folder.id] || [];
     return (
       <main className={toClassNames('tiles', disabled ? 'is-disabled' : null)}>
         {tiles.map((tile, index) => (
@@ -35,16 +37,18 @@ class Tiles extends Component {
 Tiles.propTypes = {
   actions: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
+  folder: folderPropType.isRequired,
   savedSettings: settingsPropType.isRequired,
-  tiles: PropTypes.arrayOf(tilePropType),
+  tilesByFolderId: PropTypes.objectOf(PropTypes.arrayOf(tilePropType)),
 };
 
 const mapStateToProps = state => {
   const {
+    bookmarks: { folder },
     settings: { savedSettings },
-    tiles: { tiles },
+    tiles: { tilesByFolderId },
   } = state;
-  return { savedSettings, tiles };
+  return { folder, savedSettings, tilesByFolderId };
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -3,9 +3,10 @@ import { assignPath, removePath } from '../utils/objects';
 
 const initialState = {
   errorsByKey: {},
+  formSettings: {},
   scrollToUrl: null, // bookmark URL to scroll to in SettingsDialog.ImagesList
   savedSettings: {},
-  showSettingsDialog: false,
+  showSettings: false,
 }
 
 export const reducer = (state = initialState, action) => {
@@ -20,7 +21,7 @@ export const reducer = (state = initialState, action) => {
     case types.SETTINGS_SAVE_SETTINGS_SUCCESS:
       return { ...state, errorsByKey: removePath({ object: state.errorsByKey, path: 'save' }) };
     case types.SETTINGS_TOGGLE_SETTINGS:
-      return { ...state, scrollToUrl: payload.scrollToUrl, showSettingsDialog: !state.showSettingsDialog };
+      return { ...state, scrollToUrl: payload.scrollToUrl, showSettings: !state.showSettings };
     default:
       return state;
   }
