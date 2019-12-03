@@ -58,7 +58,6 @@ class FolderPicker extends Component {
     const { className, folder: { id: folderId } = {}, foldersById } = this.props;
     const { folderOptions } = this.state;
     const text = formatFolderPath(foldersById[folderId]);
-    console.log({ text });
     return (
       <Dropdown
         className={className}

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox } from '../layout/Checkbox';
 import { Input } from '../layout/Input';
-import { tilePropType } from '../tiles/Tile';
+import { tilePropType } from '../tiles/propTypes';
 import { toClassNames } from '../utils/strings';
 import './imagesList.scss';
 

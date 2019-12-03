@@ -4,9 +4,9 @@ import { assignPath, removePath } from '../utils/objects';
 const initialState = {
   errorsByKey: {},
   scrollToUrl: null, // bookmark URL to scroll to in SettingsModal.ImagesList
-  settings: {}, // user settings, synced via Chrome sync or cached in local storage
-  showSettings: false, // whether to show the settings modal
-};
+  savedSettings: {},
+  showSettingsDialog: false,
+}
 
 export const reducer = (state = initialState, action) => {
   const { type, payload } = action;
@@ -20,7 +20,7 @@ export const reducer = (state = initialState, action) => {
     case types.SETTINGS_SAVE_SETTINGS_SUCCESS:
       return { ...state, errorsByKey: removePath({ object: state.errorsByKey, path: 'save' }) };
     case types.SETTINGS_TOGGLE_SETTINGS:
-      return { ...state, scrollToUrl: payload.scrollToUrl, showSettings: !state.showSettings };
+      return { ...state, scrollToUrl: payload.scrollToUrl, showSettingsDialog: !state.showSettingsDialog };
     default:
       return state;
   }

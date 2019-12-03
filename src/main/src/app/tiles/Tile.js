@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { isValidColor } from '../utils/strings';
 import { themePropType } from '../settings/propTypes';
+import { tilePropType } from './propTypes';
 
 class Tile extends Component {
   constructor(props) {
@@ -40,13 +41,6 @@ class Tile extends Component {
     );
   }
 }
-
-export const tilePropType = PropTypes.shape({
-  title: PropTypes.string.isRequired, // tile title
-  url: PropTypes.string.isRequired, // tile URL to launch
-  domain: PropTypes.string.isRequired, // tile URL domain
-  image: PropTypes.string, // tile image URL
-});
 
 Tile.propTypes = {
   onEdit: PropTypes.func.isRequired,

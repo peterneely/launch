@@ -16,13 +16,13 @@ import { Tabs } from '../layout/Tabs';
 import { cleanJson, toClassNames } from '../utils/strings';
 import { folderPropType } from '../bookmarks/propTypes';
 import { settingsPropType } from './propTypes';
-import { tilePropType } from '../tiles/Tile';
+import { tilePropType } from '../tiles/propTypes';
 import './settingsModal.scss';
 
 class SettingsModal extends Component {
   constructor(props) {
     super(props);
-    const { settings: { folder, sorted, theme } = {}, tiles } = props;
+    const { savedSettings: { folder, sorted, theme } = {}, tiles } = props;
     this.state = {
       dirty: false,
       filter: null,
@@ -207,17 +207,17 @@ SettingsModal.propTypes = {
   foldersById: PropTypes.objectOf(PropTypes.arrayOf(folderPropType)).isRequired,
   onClose: PropTypes.func.isRequired,
   scrollToUrl: PropTypes.string,
-  settings: settingsPropType.isRequired,
+  savedSettings: settingsPropType.isRequired,
   tiles: PropTypes.arrayOf(tilePropType).isRequired,
 };
 
 const mapStateToProps = state => {
   const {
     bookmarks: { foldersById },
-    settings: { settings, scrollToUrl },
+    settings: { savedSettings, scrollToUrl },
     tiles: { tiles },
   } = state;
-  return { foldersById, settings, scrollToUrl, tiles };
+  return { foldersById, savedSettings, scrollToUrl, tiles };
 };
 
 const mapDispatchToProps = dispatch => ({

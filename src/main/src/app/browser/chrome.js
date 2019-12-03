@@ -51,20 +51,20 @@ export const getSettings = () =>
       storage.sync.get(SETTINGS_KEY, async syncData => {
         const { [SETTINGS_KEY]: synchedSettings } = syncData || {};
         console.log({ synchedSettings });
-        const settings = await (runtime.lastError || isEmpty(synchedSettings) ? getCachedSettings() : Promise.resolve(synchedSettings));
-        resolve(settings);
+        const savedSettings = await (runtime.lastError || isEmpty(synchedSettings) ? getCachedSettings() : Promise.resolve(synchedSettings));
+        resolve(savedSettings);
       });
     } catch (error) {
       reject(error);
     }
   });
 
-export const setSettings = settings =>
+export const setSettings = savedSettings =>
   new Promise((resolve, reject) => {
     try {
-      storage.sync.set({ [SETTINGS_KEY]: settings }, async () => {
+      storage.sync.set({ [SETTINGS_KEY]: savedSettings }, async () => {
         if (runtime.lastError) {
-          await setCachedSettings(settings);
+          await setCachedSettings(savedSettings);
         }
         resolve();
       });

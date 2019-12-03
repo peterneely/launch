@@ -7,16 +7,10 @@ const initialState = {
 };
 
 const handleLoadTilesSuccess = (state, payload) => {
-  const { bookmarksByFolderId, folder } = state;
-  const { bookmarks, tiles } = payload;
+  const { tiles } = payload;
   return {
     ...state,
-    bookmarksByFolderId: {
-      ...bookmarksByFolderId,
-      [folder.id]: bookmarks,
-    },
     errorsByKey: removePath({ object: state.errorsByKey, path: 'load' }),
-    showSettings: !tiles.length,
     tiles
   };
 };

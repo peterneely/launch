@@ -1,5 +1,12 @@
 import * as types from './types';
+import { getBookmarks } from '../browser';
 import { getFolders } from './actionUtils';
+
+export const loadBookmarks = (folderId, savedSettings) => async dispatch => {
+  const bookmarks = await getBookmarks(folderId, savedSettings);
+  dispatch({ type: types.BOOKMARKS_LOAD_BOOKMARKS_SUCCESS, payload: { bookmarks, folderId } });
+  return bookmarks;
+};
 
 export const loadFolders = () => async dispatch => {
   try {
@@ -10,4 +17,4 @@ export const loadFolders = () => async dispatch => {
   }
 };
 
-export const setFolder = folder => ({ type: types.BOOKMARKS_SET_FOLDER, payload: { folder } });
+export const setFolder = ({ folder }) => ({ type: types.BOOKMARKS_SET_FOLDER, payload: { folder } });

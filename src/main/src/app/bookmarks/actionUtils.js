@@ -46,7 +46,7 @@ export const flattenFolders = ({ bookmarks, folders = [], foldersById = {} }) =>
 
 export const formatFolderPath = (folders = []) => folders.map(({ title }) => title).join(' > ');
 
-export const getFolders = async (folderId = null, settings = {}) => {
-  const bookmarks = await (folderId ? getBookmarks(folderId, settings) : getBookmarkTree());
+export const getFolders = async (folderId = null, savedSettings = {}) => {
+  const bookmarks = await (folderId ? getBookmarks(folderId, savedSettings) : getBookmarkTree());
   return flattenFolders({ bookmarks });
 };

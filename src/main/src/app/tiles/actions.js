@@ -1,14 +1,14 @@
+import * as appActions from '../actions';
+import * as bookmarksActions from '../bookmarks/actions';
 import * as types from './types';
 import { createTiles } from './factory';
-import { getBookmarks } from '../browser';
 
-export const loadTiles = ({ bookmarksByFolderId, settings, folderId: selectedFolderId = null }) => async dispatch => {
+export const loadTiles = ({ bookmarksByFolderId, folderId, savedSettings }) => async dispatch => {
   try {
-    const folderId = selectedFolderId || settings.folder.id;
-    const bookmarks = bookmarksByFolderId[folderId] || (await getBookmarks(folderId, settings));
-    const tiles = createTiles(bookmarks, settings);
-    dispatch({ type: types.TILES_LOAD_TILES_SUCCESS, payload: { bookmarks, tiles } });
-    // dispatch(setAppReady());
+    const bookmarks = bookmarksByFolderId[folderId] || (await dispatch(bookmarksActions.loadBookmarks(folderId, savedSettings)));
+    const tiles = createTiles(bookmarks, savedSettings);
+    dispatch({ type: types.TILES_LOAD_TILES_SUCCESS, payload: { tiles } });
+    dispatch(appActions.setAppReady());
   } catch (error) {
     dispatch({ type: types.TILES_LOAD_TILES_ERROR, payload: { error } });
   }
