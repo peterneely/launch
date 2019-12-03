@@ -1,8 +1,10 @@
 @import './variables.scss';
 
+$transition: all .7s ease;
+
 html {
   background-color: $background-loading-color;
-  transition: $util-transition;
+  transition: $transition;
 
   &.is-disabled {
     overflow: hidden;
@@ -17,13 +19,13 @@ html {
   position: relative;
   background-color: $background-loading-color;
   opacity: 0;
-  transition: $util-transition;
+  transition: $transition;
 
   &.mod-enter-active,
   &.mod-enter-done {
     background-color: $background-color;
     opacity: 1;
-    transition: $util-transition;
+    transition: $transition;
   }
 }
 
