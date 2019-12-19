@@ -22,7 +22,7 @@ import './settingsDialog.scss';
 class SettingsDialog extends Component {
   constructor(props) {
     super(props);
-    const { savedSettings: { folder, sorted, theme } = {}, tilesByFolderId } = props;
+    const { savedSettings: { folder = {}, sorted, theme } = {}, tilesByFolderId } = props;
     const tiles = tilesByFolderId[folder.id] || [];
     this.state = {
       dirty: false,
@@ -39,7 +39,7 @@ class SettingsDialog extends Component {
 
   createTabConfigs = (tiles, hasTiles) => {
     const { actions: { bookmarks: { loadFolders } = {} } = {}, foldersById, scrollToUrl } = this.props;
-    const { filter, filterEmptyImages, folder, prevFolder, prevEmptyImageTilesByUrl } = this.state;
+    const { filter, filterEmptyImages, folder, prevEmptyImageTilesByUrl } = this.state;
     const hasEmptyImages = !!tiles.filter(({ image }) => !image).length || !!Object.keys(prevEmptyImageTilesByUrl).length;
     const tabConfigs = [
       {
@@ -48,7 +48,7 @@ class SettingsDialog extends Component {
       },
     ];
     if (hasTiles) {
-      const disabled = folder.id !== prevFolder.id;
+      const disabled = false; // folder.id !== prevFolder.id;
       const titleClassName = toClassNames('label', 'mod-tab', disabled ? 'is-disabled' : null);
       const tileTabConfigs = [
         {
