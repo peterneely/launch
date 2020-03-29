@@ -1,9 +1,7 @@
-import isEmpty from 'lodash/isEmpty';
 import uniqBy from 'lodash/uniqBy';
-import { SETTINGS_KEY } from './types';
 import { getCachedSettings, setCachedSettings } from './localStorage';
 
-const { runtime, storage } = window.chrome;
+const { runtime } = window.chrome;
 
 export const getBookmarks = () =>
   new Promise((resolve, reject) => {
@@ -22,30 +20,6 @@ export const getBookmarks = () =>
     }
   });
 
-export const getSettings = () =>
-  new Promise((resolve, reject) => {
-    try {
-      storage.sync.get(SETTINGS_KEY, async syncData => {
-        const { [SETTINGS_KEY]: synchedSettings } = syncData || {};
-        console.log({ synchedSettings });
-        const settings = await (runtime.lastError || isEmpty(synchedSettings) ? getCachedSettings() : Promise.resolve(synchedSettings));
-        resolve(settings);
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
+export const getSettings = getCachedSettings;
 
-export const setSettings = settings =>
-  new Promise((resolve, reject) => {
-    try {
-      storage.sync.set({ [SETTINGS_KEY]: settings }, async () => {
-        if (runtime.lastError) {
-          await setCachedSettings(settings);
-        }
-        resolve();
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
+export const setSettings = setCachedSettings;
